@@ -1,0 +1,97 @@
+﻿@model IEnumerable<HOTP.Models.EvalViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using HOTPHelpers.Helpers
+
+<style>
+</style>
+
+<h2>90-Day Plans</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "filterForm" }))
+{
+    <p>
+        @Html.DropDownList("SelectedEmp", "Select an employee")
+        &nbsp;&nbsp;
+        @Html.DropDownList("YearEnding")
+    </p>
+}
+<div id="theRest">
+    <p>
+        @Html.ActionLink("Edit Plans for All Goals", "All") |
+    </p>
+    @{ int totalWeight = 0;
+     decimal totalItemScore = 0;
+    }
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>
+                Goal
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Goal.GoalType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemScore)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            totalWeight += item.Weight;
+            totalItemScore += Convert.ToDecimal(item.ItemScore);
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit Plan for This Goal", "Edit", new { id = item.EmployeeGoalID })
+                    @Html.Raw(" | ")
+                    @Html.ActionLink("Details", "Details", new { id = item.EmployeeGoalID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Goal.PillarGoalName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Goal.GoalType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemScore)
+                </td>
+            </tr>
+        }
+        <tr style="font-weight:bold">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @totalWeight%
+            </td>
+            <td>
+                @totalItemScore
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+<script>
+    document.getElementById("SelectedEmp").onchange = function () {
+        document.getElementById("filterForm").submit();
+    };
+    document.getElementById("YearEnding").onchange = function () {
+        document.getElementById("filterForm").submit();
+    };
+    $(document).ready(function () {
+        if ($('#SelectedEmp').val() == "") $("#theRest").hide();
+        else $("#theRest").show();
+    });
+</script>

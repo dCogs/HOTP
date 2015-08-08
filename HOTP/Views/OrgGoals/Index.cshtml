@@ -1,0 +1,73 @@
+﻿@model IEnumerable<HOTP.Models.tblHOTP_Goals>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    select {
+        font-size: medium;
+    }
+</style>
+<h2>Organizational Goals</h2>
+<p>
+    @Html.ActionLink("Create New Organizational Goal", "Create")
+    @if (Model.Count() > 0)
+    {
+        <span>
+            &nbsp; | &nbsp;
+            @Html.ActionLink("Assign to Employees", "Cascade")
+            &nbsp;|&nbsp;
+            @Html.ActionLink("Enter Scores (Single-entry report cards)", "Scores", new { year = Model.First().YearEnding })
+        </span>
+    }
+</p>
+@using (Html.BeginForm(null, null, FormMethod.Get, new { id = "filterForm" }))
+{
+    <p>
+        @Html.DropDownList("SelectedKey", "Select a year")
+        &nbsp;&nbsp;
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearEnding)
+        </th>
+        <th>
+            Organizational Goal Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.GoalID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.GoalID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.GoalID })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearEnding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PillarGoalName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        </tr>
+}
+
+</table>
+
+<script>
+    document.getElementById("SelectedKey").onchange = function () {
+        document.getElementById("filterForm").submit();
+    };
+</script>

@@ -1,0 +1,274 @@
+﻿@model HOTP.Models.tblHOTP_Goals
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Organizational Goals</h2>
+<h4>Delete</h4>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tblHOTP_Goals</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.YearEnding)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YearEnding)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pillar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pillar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GoalName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GoalName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PillarGoalName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PillarGoalName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultsMeasured)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultsMeasured)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BestRating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BestRating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.YearEndCalculation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YearEndCalculation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitsMeasuredIn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitsMeasuredIn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumDecimals)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumDecimals)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResultsEntered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultsEntered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnteredBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnteredBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NonEditableByLeader)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NonEditableByLeader)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Jan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Jan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Feb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Feb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.May)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.May)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Jun)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Jun)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Jul)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Jul)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aug)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aug)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Oct)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Oct)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nov)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nov)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dec)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dec)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List (don't save)", "Index", new { year = Html.DisplayFor(modelItem => Model.YearEnding) })
+        </div>
+    }
+</div>

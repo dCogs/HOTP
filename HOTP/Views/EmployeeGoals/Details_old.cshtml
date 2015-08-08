@@ -1,0 +1,135 @@
+﻿@model HOTP.Models.EvalViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblHOTP_EmployeeGoals</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Weight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Jan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Jan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Feb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Feb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Mar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Mar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Apr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Apr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.May)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.May)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Jun)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Jun)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Jul)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Jul)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Aug)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Aug)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Sep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Sep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Oct)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Oct)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Nov)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Nov)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.Dec)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.Dec)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </dt>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.YearEnding)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.YearEnding)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeGoalID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,68 @@
+﻿@model HOTP.Models.EvalViewModel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Remove Goal</h2>
+<div class="lead">
+    Org goals are removed only for this employee.
+    Individual goals are deleted.
+</div>
+<h3>Are you sure you want to remove/delete this goal?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Weight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.PillarGoalName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.PillarGoalName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.YearEnding)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.YearEnding)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Goal.YearEnding)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Goal.YearEnding)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Remove" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List (don't remove)", "Index")
+        </div>
+    }
+</div>

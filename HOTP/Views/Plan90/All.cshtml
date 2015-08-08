@@ -1,0 +1,363 @@
+﻿@model List<HOTP.Models.GoalFull>
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    textarea {
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        padding: 4px 4px 4px 4px;
+        margin-right: 12px;
+        margin-bottom: 4px;
+    }
+
+    .noBoxStop {
+        border: none;
+    }
+
+    .noShow {
+        display: none;
+    }
+
+    .nav-tabs > li > a {
+        font-size: 18px;
+    }
+
+    #fixedLeft {
+        color: #C97C35;
+        float: left;
+        position: fixed;
+        top: 300px;
+        left: -10px;
+        font-size: 18px;
+        font-weight: bold;
+        transform: rotate(270deg);
+    }
+
+    .highlightScore {
+        background-color: yellow;
+    }
+
+</style>
+
+<h3>90-Day Action Plan for @Model[0].EmployeeName</h3>
+
+@using (Html.BeginForm(null, null, FormMethod.Get, new { id = "filterForm" }))
+{
+    @*<p>
+            @Html.DropDownList("SelectedEmp", "Select an employee")
+            &nbsp;&nbsp;
+            @Html.DropDownList("YearEnding")
+        </p>*@
+}
+
+
+<div id="theRest">
+
+    <div id="fixedLeft">Quarter 1</div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#quarter1" class="quarterTabs">Quarter 1</a></li>
+            <li class="quarterTabs"><a data-toggle="tab" href="#quarter2" class="quarterTabs">Quarter 2</a></li>
+            <li class="quarterTabs"><a data-toggle="tab" href="#quarter3" class="quarterTabs">Quarter 3</a></li>
+            <li class="quarterTabs"><a data-toggle="tab" href="#quarter4" class="quarterTabs">Quarter 4</a></li>
+        </ul>
+
+        <div class="tab-content" style="border:1px solid lightgray; border-top:none; padding:8px 12px 8px 12px; ">
+
+            @for (int q = 1; q < 5; q++)
+            {
+                string quarterID = "quarter" + q;
+                string quarterClass = "tab-pane fade";
+                if (q == 1) { quarterClass += " in active"; };
+
+                <div id="@quarterID" class="@quarterClass">
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        if (q == 1)
+                        {
+                            @Html.TextBox("GoalFull[" + (@i) + "].EmployeeGoal.EmployeeGoalID", Model[i].EmployeeGoal.EmployeeGoalID, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].EmployeeGoal.EmployeeID", Model[i].EmployeeGoal.EmployeeID, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].EmployeeGoal.GoalID", Model[i].EmployeeGoal.GoalID, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].EmployeeGoal.Weight", Model[i].EmployeeGoal.Weight, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].EmployeeGoal.ItemScore", Model[i].EmployeeGoal.ItemScore, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.PillarGoalName", Model[i].Goal.PillarGoalName, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Pillar", Model[i].Goal.Pillar, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.GoalType", Model[i].Goal.GoalType, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.GoalName", Model[i].Goal.GoalName, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Status", Model[i].Goal.Status, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.YearEnding", Model[i].Goal.YearEnding, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Goal", Model[i].Goal.Goal, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.ResultsMeasured", Model[i].Goal.ResultsMeasured, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.BestRating", Model[i].Goal.BestRating, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Rating1Suffix", Model[i].Goal.Rating1Suffix, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Rating5Suffix", Model[i].Goal.Rating5Suffix, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.YearEndCalculation", Model[i].Goal.YearEndCalculation, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.UnitsMeasuredIn", Model[i].Goal.UnitsMeasuredIn, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.ResultsMeasured", Model[i].Goal.ResultsMeasured, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.OrgNotes", Model[i].Goal.OrgNotes, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Rating1", Model[i].Goal.Rating1, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Rating2", Model[i].Goal.Rating2, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Rating3", Model[i].Goal.Rating3, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Rating4", Model[i].Goal.Rating4, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Rating5", Model[i].Goal.Rating5, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.NumDecimals", Model[i].Goal.NumDecimals, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.ResultsEntered", Model[i].Goal.ResultsEntered, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Jan", Model[i].Goal.Jan, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Feb", Model[i].Goal.Feb, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Mar", Model[i].Goal.Mar, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Apr", Model[i].Goal.Apr, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.May", Model[i].Goal.May, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Jun", Model[i].Goal.Jun, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Jul", Model[i].Goal.Jul, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Aug", Model[i].Goal.Aug, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Sep", Model[i].Goal.Sep, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Oct", Model[i].Goal.Oct, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Nov", Model[i].Goal.Nov, new { @class = "noShow" })
+                            @Html.TextBox("GoalFull[" + (@i) + "].Goal.Dec", Model[i].Goal.Dec, new { @class = "noShow" })
+                        }
+                        bool pillarDisplayed = false;
+                        int p = 0;
+                        foreach (HOTP.Models.Plan90Full plan in Model[i].Plans)
+                        {
+                            if (plan.Plan.Quarter == q)
+                            {
+                                if (!pillarDisplayed)
+                                {
+                                    pillarDisplayed = true;
+
+                                    <div class="row" style="margin-bottom:8px;">
+                                        <div class="col-md-12">
+                                            <div class="img-rounded" style="font-size:large;background-color:#267e8a; color:white; font-weight:bolder; text-align:left; padding:4px 4px 4px 8px;">
+                                                @Html.DisplayFor(model => model[i].Goal.PillarGoalName)
+                                                &nbsp;|&nbsp;
+                                                @Html.DisplayFor(model => model[i].EmployeeGoal.Weight)%
+                                                <div style="font-size:medium; ">
+                                                    @Html.DisplayFor(model => model[i].Goal.Goal)
+                                                </div>
+                                            </div>
+                                            <div class="" style="padding:4px 4px 4px 8px; margin-top:4px;background-color:silver">
+                                                @if (Model[i].Goal.Score == 5)
+                                                {
+                                                    <span class="highlightScore">5</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>5</span>
+                                                }
+                                                =@Html.DisplayFor(model => model[i].Goal.Rating5) to @Html.DisplayFor(model => model[i].Goal.Rating5Suffix)
+                                                &nbsp;&nbsp;&nbsp;
+                                                @if (Model[i].Goal.Score == 4)
+                                                {
+                                                    <span class="highlightScore">4</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>4</span>
+                                                }
+                                                = @Html.DisplayFor(model => model[i].Goal.Rating4) to @Html.DisplayFor(model => model[i].Goal.Rating4End)
+                                                &nbsp;&nbsp;&nbsp;
+                                                @if (Model[i].Goal.Score == 3)
+                                                {
+                                                    <span class="highlightScore">3</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>3</span>
+                                                }
+                                                = @Html.DisplayFor(model => model[i].Goal.Rating3) to @Html.DisplayFor(model => model[i].Goal.Rating3End)
+                                                &nbsp;&nbsp;&nbsp;
+                                                @if (Model[i].Goal.Score == 2)
+                                                {
+                                                    <span class="highlightScore">2</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>2</span>
+                                                }
+                                                = @Html.DisplayFor(model => model[i].Goal.Rating2) to @Html.DisplayFor(model => model[i].Goal.Rating2End)
+                                                &nbsp;&nbsp;&nbsp;
+                                                @if (Model[i].Goal.Score == 1)
+                                                {
+                                                    <span class="highlightScore">1</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>1</span>
+                                                }
+                                                = @Html.DisplayFor(model => model[i].Goal.Rating1) to @Html.DisplayFor(model => model[i].Goal.Rating1Suffix)
+                                                &nbsp;&nbsp;&nbsp;
+                                                Result is @Html.DisplayFor(model => model[i].Goal.Result) using scoring method: @Html.DisplayFor(model => model[i].Goal.YearEndCalculation)
+                                                <br />
+                                                @if (Model[i].Goal.JanScore != null)
+                                                {
+                                                    @:Jan:@Html.DisplayFor(model => model[i].Goal.JanScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.FebScore != null)
+                                                {
+                                                    @:Feb:@Html.DisplayFor(model => model[i].Goal.FebScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.MarScore != null)
+                                                {
+                                                    @:Mar:@Html.DisplayFor(model => model[i].Goal.MarScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.AprScore != null)
+                                                {
+                                                    @:Apr:@Html.DisplayFor(model => model[i].Goal.AprScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.MayScore != null)
+                                                {
+                                                    @:May:@Html.DisplayFor(model => model[i].Goal.MayScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.JunScore != null)
+                                                {
+                                                    @:Jun:@Html.DisplayFor(model => model[i].Goal.JunScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.JulScore != null)
+                                                {
+                                                    @:Jul:@Html.DisplayFor(model => model[i].Goal.JulScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.AugScore != null)
+                                                {
+                                                    @:Aug:@Html.DisplayFor(model => model[i].Goal.AugScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.SepScore != null)
+                                                {
+                                                    @:Sep:@Html.DisplayFor(model => model[i].Goal.SepScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.OctScore != null)
+                                                {
+                                                    @:Oct:@Html.DisplayFor(model => model[i].Goal.OctScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.NovScore != null)
+                                                {
+                                                    @:Nov:@Html.DisplayFor(model => model[i].Goal.NovScore)&nbsp;&nbsp;&nbsp;
+                                            }
+                                                @if (Model[i].Goal.DecScore != null)
+                                                {
+                                                    @:Dec:@Html.DisplayFor(model => model[i].Goal.DecScore)
+                                            }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                string planID = plan.Plan.PlanID.ToString();
+                                string tableID = "actionSteps_" + i + "_p" + p;
+                                string addActionID = "addAction_" + i + "_p" + p + "__" + planID;
+                                string nextActionID = "nextAction_" + i + "_p" + p;
+
+                                <div>
+                                    @Html.TextBox("GoalFull[" + (@i) + "].Plans[" + (@p) + "].Plan.PlanID", plan.Plan.PlanID, new { @class = "noShow" })
+                                    @Html.TextBox("GoalFull[" + (@i) + "].Plans[" + (@p) + "].Plan.Quarter", plan.Plan.Quarter, new { @class = "noShow" })
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            @Html.LabelFor(model => plan.Plan.Goal, htmlAttributes: new { @class = "control-label " })
+                                        </div>
+                                        <div class="col-md-10">
+                                            @Html.TextArea("GoalFull[" + (@i) + "].Plans[" + (@p) + "].Plan.Goal", plan.Plan.Goal, new { rows = 2, cols = 150 })
+                                            @Html.ValidationMessageFor(model => plan.Plan.Goal, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top:12px;">
+                                    <table id="@tableID" name="@tableID">
+                                        <thead>
+                                            <tr>
+                                                <th width="40%">Action Step</th>
+                                                <th width="40%">Result</th>
+                                                <th width="15%">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{int actionNum = 0;}
+                                            @foreach (HOTP.Models.tblHOTP_ActionSteps actionStep in plan.ActionSteps)
+                                            {
+                                                <tr>
+                                                    <td class="">
+                                                        @Html.TextBox("GoalFull[" + (@i) + "].Plans[" + (@p) + "].ActionSteps[" + actionNum + "].PlanID", actionStep.PlanID, new { @class = "noShow" })
+                                                        @Html.TextBox("GoalFull[" + (@i) + "].Plans[" + (@p) + "].ActionSteps[" + actionNum + "].ActionId", actionStep.ActionID, new { @class = "noShow" })
+                                                        @Html.TextArea("GoalFull[" + (@i) + "].Plans[" + (@p) + "].ActionSteps[" + actionNum + "].ActionStep", actionStep.ActionStep, new { rows = 2, cols = 65 })
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextArea("GoalFull[" + (@i) + "].Plans[" + (@p) + "].ActionSteps[" + actionNum + "].Result", actionStep.Result, new { rows = 2, cols = 65 })
+                                                    </td>
+                                                    <td valign="top">
+                                                        @Html.DropDownList("GoalFull[" + (@i) + "].Plans[" + (@p) + "].ActionSteps[" + actionNum + "].Status", new SelectList(ViewBag.PlanStatus, "Value", "Text", actionStep.Status))
+                                                        @{actionNum += 1;}
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <input type="hidden" id="@nextActionID" value="@actionNum" />
+                                    <a id="@addActionID" class="addAction" href="#" style="margin-top:8px;margin-bottom:16px;">New action</a>
+                                </div>
+
+                            }
+                            p += 1;
+                        }
+                    }
+                </div>
+            }
+        </div>
+        <div style="margin-top:12px;">
+            <button type="submit" value="Save" name="save" class="btn btn-primary">
+                Save
+            </button>&nbsp;&nbsp;@Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".quarterTabs").click(function () {
+            $("#fixedLeft").text(this.text);
+        });
+        $(".noBoxStop").attr('tabindex', -1);
+        $(".addAction").click(function () {
+
+            var gf = this.id.substring(this.id.indexOf("_") + 1, this.id.indexOf("_p"));
+            var p = this.id.substring(this.id.indexOf("_p") + 2, this.id.indexOf("_p") + 3);
+            var planID = this.id.substring(this.id.indexOf("__") + 2, this.id.length);
+            var tableID = this.id.substring(0, this.id.indexOf("__")).replace("addAction", "actionSteps"); // + i + "_q" + quarter;
+            var nextActionID = this.id.substring(0, this.id.indexOf("__")).replace("add", "next");
+            var newActionNum = $('#' + nextActionID).val();
+            var insert = '<tr><td class="">' +
+                '<input class="noShow" id="GoalFull_' + gf + '__Plans_' + p + '__ActionSteps_' + newActionNum + '__PlanID" name="GoalFull[' + gf + '].Plans[' + p + '].ActionSteps[' + newActionNum + '].PlanID" type="text" value="' + planID + '" />' +
+                '<input class="noShow" id="GoalFull_' + gf + '__Plans_' + p + '__ActionSteps_' + newActionNum + '__ActionId" name="GoalFull[' + gf + '].Plans[' + p + '].ActionSteps[' + newActionNum + '].ActionId" type="text" value="99999" />' +
+                '<textarea cols="65" id="GoalFull_' + gf + '__Plans_' + p + '__ActionSteps_' + newActionNum + '__ActionStep" name="GoalFull[' + gf + '].Plans[' + p + '].ActionSteps[' + newActionNum + '].ActionStep" rows="2"></textarea>' +
+                '</td><td><textarea cols="65" id="GoalFull_' + gf + '__Plans_' + p + '__ActionSteps_' + newActionNum + '__Result" name="GoalFull[' + gf + '].Plans[' + p + '].ActionSteps[' + newActionNum + '].Result" rows="2"></textarea>' +
+                '</td><td valign="top"><select id="GoalFull_' + gf + '__Plans_' + p + '__ActionSteps_' + newActionNum + '__Status" name="GoalFull[' + gf + '].Plans[' + p + '].ActionSteps[' + newActionNum + '].Status"><option value="In progress">In progress</option>' +
+                '<option value="On track">On track</option><option value="Behind">Behind</option><option value="Remove">Remove</option></select></td></tr>';
+            //'<td valign="top"><a id="delete_5_p3__0" class="deleteAction" href="#">&nbsp;Delete</a><input type="hidden" id="nextActionID_5_p3_q4" value="1" />' +
+            //'</td></tr><tr>';
+            $('#' + tableID).find('tbody:last').append(insert);
+            $('#' + nextActionID).val(Number(newActionNum) + 1);
+        });
+    });
+
+</script>
+
+<script>
+    //document.getElementById("SelectedEmp").onchange = function () {
+    //    document.getElementById("filterForm").submit();
+    //};
+    //document.getElementById("YearEnding").onchange = function () {
+    //    document.getElementById("filterForm").submit();
+    //};
+
+    //$(document).ready(function () {
+    //    if ($('#SelectedEmp').val() == "") $("#theRest").hide();
+    //    else $("#theRest").show();
+    //});
+</script>
+

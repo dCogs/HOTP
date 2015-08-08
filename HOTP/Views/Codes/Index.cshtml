@@ -1,0 +1,61 @@
+﻿@model IEnumerable<HOTP.Models.tblHOTP_Codes>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Codes</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "filterForm" }))
+{
+    <p>
+        Select Key: @Html.DropDownList("SelectedKey")
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CodeKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sequence)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sequence)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CodeId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CodeId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CodeId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script>
+    document.getElementById("SelectedKey").onchange = function () {
+        document.getElementById("filterForm").submit();
+    };
+</script>

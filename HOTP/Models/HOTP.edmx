@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HOTP_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblHOTP_ActionSteps">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlanID" Type="int" Nullable="false" />
+          <Property Name="ActionStep" Type="text" />
+          <Property Name="Result" Type="text" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblHOTP_Codes">
+          <Key>
+            <PropertyRef Name="CodeId" />
+          </Key>
+          <Property Name="CodeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodeKey" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sequence" Type="int" />
+        </EntityType>
+        <EntityType Name="tblHOTP_EmployeeGoals">
+          <Key>
+            <PropertyRef Name="EmployeeGoalID" />
+          </Key>
+          <Property Name="EmployeeGoalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="GoalID" Type="int" Nullable="false" />
+          <Property Name="Weight" Type="int" Nullable="false" />
+          <Property Name="IndNotes" Type="text" />
+          <Property Name="ItemScore" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblHOTP_Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SupervisorID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Department" Type="nvarchar" MaxLength="50" />
+          <Property Name="Division" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmpStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Admin" Type="bit" Nullable="false" />
+          <Property Name="Evaluations" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblHOTP_Goals">
+          <Key>
+            <PropertyRef Name="GoalID" />
+          </Key>
+          <Property Name="GoalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GoalType" Type="nvarchar" MaxLength="50" />
+          <Property Name="YearEnding" Type="char" MaxLength="4" Nullable="false" />
+          <Property Name="Pillar" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GoalName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PillarGoalName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Goal" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="ResultsMeasured" Type="nvarchar" MaxLength="50" />
+          <Property Name="BestRating" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rating1" Type="real" />
+          <Property Name="Rating2" Type="real" />
+          <Property Name="Rating3" Type="real" />
+          <Property Name="Rating4" Type="real" />
+          <Property Name="Rating5" Type="real" />
+          <Property Name="Rating1Suffix" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rating5Suffix" Type="nvarchar" MaxLength="50" />
+          <Property Name="Rating2End" Type="real" />
+          <Property Name="Rating3End" Type="real" />
+          <Property Name="Rating4End" Type="real" />
+          <Property Name="YearEndCalculation" Type="nvarchar" MaxLength="50" />
+          <Property Name="UnitsMeasuredIn" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumDecimals" Type="int" />
+          <Property Name="ResultsEntered" Type="nvarchar" MaxLength="50" />
+          <Property Name="EnteredBy" Type="int" />
+          <Property Name="NonEditableByLeader" Type="bit" />
+          <Property Name="Jan" Type="bit" Nullable="false" />
+          <Property Name="Feb" Type="bit" Nullable="false" />
+          <Property Name="Mar" Type="bit" Nullable="false" />
+          <Property Name="Apr" Type="bit" Nullable="false" />
+          <Property Name="May" Type="bit" Nullable="false" />
+          <Property Name="Jun" Type="bit" Nullable="false" />
+          <Property Name="Jul" Type="bit" Nullable="false" />
+          <Property Name="Aug" Type="bit" Nullable="false" />
+          <Property Name="Sep" Type="bit" Nullable="false" />
+          <Property Name="Oct" Type="bit" Nullable="false" />
+          <Property Name="Nov" Type="bit" Nullable="false" />
+          <Property Name="Dec" Type="bit" Nullable="false" />
+          <Property Name="JanScore" Type="real" />
+          <Property Name="FebScore" Type="real" />
+          <Property Name="MarScore" Type="real" />
+          <Property Name="AprScore" Type="real" />
+          <Property Name="MayScore" Type="real" />
+          <Property Name="JunScore" Type="real" />
+          <Property Name="JulScore" Type="real" />
+          <Property Name="AugScore" Type="real" />
+          <Property Name="SepScore" Type="real" />
+          <Property Name="OctScore" Type="real" />
+          <Property Name="NovScore" Type="real" />
+          <Property Name="DecScore" Type="real" />
+          <Property Name="OrgNotes" Type="text" />
+          <Property Name="Result" Type="real" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <EntityType Name="tblHOTP_Plan90">
+          <Key>
+            <PropertyRef Name="PlanID" />
+          </Key>
+          <Property Name="PlanID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeGoalID" Type="int" Nullable="false" />
+          <Property Name="Quarter" Type="int" Nullable="false" />
+          <Property Name="Goal" Type="text" />
+        </EntityType>
+        <Association Name="FK_tblHOTP_ActionSteps_tblHOTP_Plan90">
+          <End Role="tblHOTP_Plan90" Type="Self.tblHOTP_Plan90" Multiplicity="1" />
+          <End Role="tblHOTP_ActionSteps" Type="Self.tblHOTP_ActionSteps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblHOTP_Plan90">
+              <PropertyRef Name="PlanID" />
+            </Principal>
+            <Dependent Role="tblHOTP_ActionSteps">
+              <PropertyRef Name="PlanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals">
+          <End Role="tblHOTP_Employees" Type="Self.tblHOTP_Employees" Multiplicity="1" />
+          <End Role="tblHOTP_EmployeeGoals" Type="Self.tblHOTP_EmployeeGoals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblHOTP_Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="tblHOTP_EmployeeGoals">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblHOTP_EmployeeGoals_tblHOTP_Goals">
+          <End Role="tblHOTP_Goals" Type="Self.tblHOTP_Goals" Multiplicity="1" />
+          <End Role="tblHOTP_EmployeeGoals" Type="Self.tblHOTP_EmployeeGoals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblHOTP_Goals">
+              <PropertyRef Name="GoalID" />
+            </Principal>
+            <Dependent Role="tblHOTP_EmployeeGoals">
+              <PropertyRef Name="GoalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals">
+          <End Role="tblHOTP_EmployeeGoals" Type="Self.tblHOTP_EmployeeGoals" Multiplicity="1" />
+          <End Role="tblHOTP_Plan90" Type="Self.tblHOTP_Plan90" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblHOTP_EmployeeGoals">
+              <PropertyRef Name="EmployeeGoalID" />
+            </Principal>
+            <Dependent Role="tblHOTP_Plan90">
+              <PropertyRef Name="EmployeeGoalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HOTP_ModelStoreContainer">
+          <EntitySet Name="tblHOTP_ActionSteps" EntityType="Self.tblHOTP_ActionSteps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblHOTP_Codes" EntityType="Self.tblHOTP_Codes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblHOTP_EmployeeGoals" EntityType="Self.tblHOTP_EmployeeGoals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblHOTP_Employees" EntityType="Self.tblHOTP_Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblHOTP_Goals" EntityType="Self.tblHOTP_Goals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblHOTP_Plan90" EntityType="Self.tblHOTP_Plan90" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblHOTP_ActionSteps_tblHOTP_Plan90" Association="Self.FK_tblHOTP_ActionSteps_tblHOTP_Plan90">
+            <End Role="tblHOTP_Plan90" EntitySet="tblHOTP_Plan90" />
+            <End Role="tblHOTP_ActionSteps" EntitySet="tblHOTP_ActionSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals" Association="Self.FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals">
+            <End Role="tblHOTP_Employees" EntitySet="tblHOTP_Employees" />
+            <End Role="tblHOTP_EmployeeGoals" EntitySet="tblHOTP_EmployeeGoals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblHOTP_EmployeeGoals_tblHOTP_Goals" Association="Self.FK_tblHOTP_EmployeeGoals_tblHOTP_Goals">
+            <End Role="tblHOTP_Goals" EntitySet="tblHOTP_Goals" />
+            <End Role="tblHOTP_EmployeeGoals" EntitySet="tblHOTP_EmployeeGoals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals" Association="Self.FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals">
+            <End Role="tblHOTP_EmployeeGoals" EntitySet="tblHOTP_EmployeeGoals" />
+            <End Role="tblHOTP_Plan90" EntitySet="tblHOTP_Plan90" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HOTP_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HOTP_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblHOTP_Codes" EntityType="HOTP_Model.tblHOTP_Codes" />
+          <EntitySet Name="tblHOTP_Goals" EntityType="HOTP_Model.tblHOTP_Goals" />
+          <EntitySet Name="tblHOTP_Employees" EntityType="HOTP_Model.tblHOTP_Employees" />
+          <EntitySet Name="tblHOTP_ActionSteps" EntityType="HOTP_Model.tblHOTP_ActionSteps" />
+          <EntitySet Name="tblHOTP_EmployeeGoals" EntityType="HOTP_Model.tblHOTP_EmployeeGoals" />
+          <EntitySet Name="tblHOTP_Plan90" EntityType="HOTP_Model.tblHOTP_Plan90" />
+          <AssociationSet Name="FK_tblHOTP_ActionSteps_tblHOTP_Plan90" Association="HOTP_Model.FK_tblHOTP_ActionSteps_tblHOTP_Plan90">
+            <End Role="tblHOTP_Plan90" EntitySet="tblHOTP_Plan90" />
+            <End Role="tblHOTP_ActionSteps" EntitySet="tblHOTP_ActionSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals" Association="HOTP_Model.FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals">
+            <End Role="tblHOTP_Employees" EntitySet="tblHOTP_Employees" />
+            <End Role="tblHOTP_EmployeeGoals" EntitySet="tblHOTP_EmployeeGoals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblHOTP_EmployeeGoals_tblHOTP_Goals" Association="HOTP_Model.FK_tblHOTP_EmployeeGoals_tblHOTP_Goals">
+            <End Role="tblHOTP_Goals" EntitySet="tblHOTP_Goals" />
+            <End Role="tblHOTP_EmployeeGoals" EntitySet="tblHOTP_EmployeeGoals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals" Association="HOTP_Model.FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals">
+            <End Role="tblHOTP_EmployeeGoals" EntitySet="tblHOTP_EmployeeGoals" />
+            <End Role="tblHOTP_Plan90" EntitySet="tblHOTP_Plan90" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="tblHOTP_Codes">
+          <Key>
+            <PropertyRef Name="CodeId" />
+          </Key>
+          <Property Name="CodeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodeKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sequence" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblHOTP_Goals">
+          <Key>
+            <PropertyRef Name="GoalID" />
+          </Key>
+          <Property Name="GoalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GoalType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="YearEnding" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="Pillar" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GoalName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PillarGoalName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Goal" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ResultsMeasured" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BestRating" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rating1" Type="Single" />
+          <Property Name="Rating2" Type="Single" />
+          <Property Name="Rating3" Type="Single" />
+          <Property Name="Rating4" Type="Single" />
+          <Property Name="Rating5" Type="Single" />
+          <Property Name="Rating1Suffix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rating5Suffix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Rating2End" Type="Single" />
+          <Property Name="Rating3End" Type="Single" />
+          <Property Name="Rating4End" Type="Single" />
+          <Property Name="YearEndCalculation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnitsMeasuredIn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumDecimals" Type="Int32" />
+          <Property Name="ResultsEntered" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EnteredBy" Type="Int32" />
+          <Property Name="NonEditableByLeader" Type="Boolean" />
+          <Property Name="Jan" Type="Boolean" Nullable="false" />
+          <Property Name="Feb" Type="Boolean" Nullable="false" />
+          <Property Name="Mar" Type="Boolean" Nullable="false" />
+          <Property Name="Apr" Type="Boolean" Nullable="false" />
+          <Property Name="May" Type="Boolean" Nullable="false" />
+          <Property Name="Jun" Type="Boolean" Nullable="false" />
+          <Property Name="Jul" Type="Boolean" Nullable="false" />
+          <Property Name="Aug" Type="Boolean" Nullable="false" />
+          <Property Name="Sep" Type="Boolean" Nullable="false" />
+          <Property Name="Oct" Type="Boolean" Nullable="false" />
+          <Property Name="Nov" Type="Boolean" Nullable="false" />
+          <Property Name="Dec" Type="Boolean" Nullable="false" />
+          <Property Name="JanScore" Type="Single" />
+          <Property Name="FebScore" Type="Single" />
+          <Property Name="MarScore" Type="Single" />
+          <Property Name="AprScore" Type="Single" />
+          <Property Name="MayScore" Type="Single" />
+          <Property Name="JunScore" Type="Single" />
+          <Property Name="JulScore" Type="Single" />
+          <Property Name="AugScore" Type="Single" />
+          <Property Name="SepScore" Type="Single" />
+          <Property Name="OctScore" Type="Single" />
+          <Property Name="NovScore" Type="Single" />
+          <Property Name="DecScore" Type="Single" />
+          <Property Name="OrgNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Result" Type="Single" />
+          <Property Name="Score" Type="Int32" />
+          <NavigationProperty Name="tblHOTP_EmployeeGoals" Relationship="HOTP_Model.FK_tblHOTP_EmployeeGoals_tblHOTP_Goals" FromRole="tblHOTP_Goals" ToRole="tblHOTP_EmployeeGoals" />
+        </EntityType>
+        <EntityType Name="tblHOTP_Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupervisorID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Division" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmpStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Admin" Type="Boolean" Nullable="false" />
+          <Property Name="Evaluations" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblHOTP_EmployeeGoals" Relationship="HOTP_Model.FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals" FromRole="tblHOTP_Employees" ToRole="tblHOTP_EmployeeGoals" />
+        </EntityType>
+        <EntityType Name="tblHOTP_ActionSteps">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlanID" Type="Int32" Nullable="false" />
+          <Property Name="ActionStep" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Result" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblHOTP_Plan90" Relationship="HOTP_Model.FK_tblHOTP_ActionSteps_tblHOTP_Plan90" FromRole="tblHOTP_ActionSteps" ToRole="tblHOTP_Plan90" />
+        </EntityType>
+        <EntityType Name="tblHOTP_EmployeeGoals">
+          <Key>
+            <PropertyRef Name="EmployeeGoalID" />
+          </Key>
+          <Property Name="EmployeeGoalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="GoalID" Type="Int32" Nullable="false" />
+          <Property Name="Weight" Type="Int32" Nullable="false" />
+          <Property Name="IndNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ItemScore" Type="Decimal" Precision="16" Scale="2" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblHOTP_Employees" Relationship="HOTP_Model.FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals" FromRole="tblHOTP_EmployeeGoals" ToRole="tblHOTP_Employees" />
+          <NavigationProperty Name="tblHOTP_Goals" Relationship="HOTP_Model.FK_tblHOTP_EmployeeGoals_tblHOTP_Goals" FromRole="tblHOTP_EmployeeGoals" ToRole="tblHOTP_Goals" />
+          <NavigationProperty Name="tblHOTP_Plan90" Relationship="HOTP_Model.FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals" FromRole="tblHOTP_EmployeeGoals" ToRole="tblHOTP_Plan90" />
+        </EntityType>
+        <EntityType Name="tblHOTP_Plan90">
+          <Key>
+            <PropertyRef Name="PlanID" />
+          </Key>
+          <Property Name="PlanID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeGoalID" Type="Int32" Nullable="false" />
+          <Property Name="Quarter" Type="Int32" Nullable="false" />
+          <Property Name="Goal" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblHOTP_ActionSteps" Relationship="HOTP_Model.FK_tblHOTP_ActionSteps_tblHOTP_Plan90" FromRole="tblHOTP_Plan90" ToRole="tblHOTP_ActionSteps" />
+          <NavigationProperty Name="tblHOTP_EmployeeGoals" Relationship="HOTP_Model.FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals" FromRole="tblHOTP_Plan90" ToRole="tblHOTP_EmployeeGoals" />
+        </EntityType>
+        <Association Name="FK_tblHOTP_ActionSteps_tblHOTP_Plan90">
+          <End Type="HOTP_Model.tblHOTP_Plan90" Role="tblHOTP_Plan90" Multiplicity="1" />
+          <End Type="HOTP_Model.tblHOTP_ActionSteps" Role="tblHOTP_ActionSteps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblHOTP_Plan90">
+              <PropertyRef Name="PlanID" />
+            </Principal>
+            <Dependent Role="tblHOTP_ActionSteps">
+              <PropertyRef Name="PlanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals">
+          <End Type="HOTP_Model.tblHOTP_Employees" Role="tblHOTP_Employees" Multiplicity="1" />
+          <End Type="HOTP_Model.tblHOTP_EmployeeGoals" Role="tblHOTP_EmployeeGoals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblHOTP_Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="tblHOTP_EmployeeGoals">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblHOTP_EmployeeGoals_tblHOTP_Goals">
+          <End Type="HOTP_Model.tblHOTP_Goals" Role="tblHOTP_Goals" Multiplicity="1" />
+          <End Type="HOTP_Model.tblHOTP_EmployeeGoals" Role="tblHOTP_EmployeeGoals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblHOTP_Goals">
+              <PropertyRef Name="GoalID" />
+            </Principal>
+            <Dependent Role="tblHOTP_EmployeeGoals">
+              <PropertyRef Name="GoalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals">
+          <End Type="HOTP_Model.tblHOTP_EmployeeGoals" Role="tblHOTP_EmployeeGoals" Multiplicity="1" />
+          <End Type="HOTP_Model.tblHOTP_Plan90" Role="tblHOTP_Plan90" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblHOTP_EmployeeGoals">
+              <PropertyRef Name="EmployeeGoalID" />
+            </Principal>
+            <Dependent Role="tblHOTP_Plan90">
+              <PropertyRef Name="EmployeeGoalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HOTP_ModelStoreContainer" CdmEntityContainer="HOTP_Entities">
+          <EntitySetMapping Name="tblHOTP_Codes">
+            <EntityTypeMapping TypeName="HOTP_Model.tblHOTP_Codes">
+              <MappingFragment StoreEntitySet="tblHOTP_Codes">
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CodeKey" ColumnName="CodeKey" />
+                <ScalarProperty Name="CodeId" ColumnName="CodeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblHOTP_Goals">
+            <EntityTypeMapping TypeName="HOTP_Model.tblHOTP_Goals">
+              <MappingFragment StoreEntitySet="tblHOTP_Goals">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="OrgNotes" ColumnName="OrgNotes" />
+                <ScalarProperty Name="DecScore" ColumnName="DecScore" />
+                <ScalarProperty Name="NovScore" ColumnName="NovScore" />
+                <ScalarProperty Name="OctScore" ColumnName="OctScore" />
+                <ScalarProperty Name="SepScore" ColumnName="SepScore" />
+                <ScalarProperty Name="AugScore" ColumnName="AugScore" />
+                <ScalarProperty Name="JulScore" ColumnName="JulScore" />
+                <ScalarProperty Name="JunScore" ColumnName="JunScore" />
+                <ScalarProperty Name="MayScore" ColumnName="MayScore" />
+                <ScalarProperty Name="AprScore" ColumnName="AprScore" />
+                <ScalarProperty Name="MarScore" ColumnName="MarScore" />
+                <ScalarProperty Name="FebScore" ColumnName="FebScore" />
+                <ScalarProperty Name="JanScore" ColumnName="JanScore" />
+                <ScalarProperty Name="Dec" ColumnName="Dec" />
+                <ScalarProperty Name="Nov" ColumnName="Nov" />
+                <ScalarProperty Name="Oct" ColumnName="Oct" />
+                <ScalarProperty Name="Sep" ColumnName="Sep" />
+                <ScalarProperty Name="Aug" ColumnName="Aug" />
+                <ScalarProperty Name="Jul" ColumnName="Jul" />
+                <ScalarProperty Name="Jun" ColumnName="Jun" />
+                <ScalarProperty Name="May" ColumnName="May" />
+                <ScalarProperty Name="Apr" ColumnName="Apr" />
+                <ScalarProperty Name="Mar" ColumnName="Mar" />
+                <ScalarProperty Name="Feb" ColumnName="Feb" />
+                <ScalarProperty Name="Jan" ColumnName="Jan" />
+                <ScalarProperty Name="NonEditableByLeader" ColumnName="NonEditableByLeader" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="ResultsEntered" ColumnName="ResultsEntered" />
+                <ScalarProperty Name="NumDecimals" ColumnName="NumDecimals" />
+                <ScalarProperty Name="UnitsMeasuredIn" ColumnName="UnitsMeasuredIn" />
+                <ScalarProperty Name="YearEndCalculation" ColumnName="YearEndCalculation" />
+                <ScalarProperty Name="Rating4End" ColumnName="Rating4End" />
+                <ScalarProperty Name="Rating3End" ColumnName="Rating3End" />
+                <ScalarProperty Name="Rating2End" ColumnName="Rating2End" />
+                <ScalarProperty Name="Rating5Suffix" ColumnName="Rating5Suffix" />
+                <ScalarProperty Name="Rating1Suffix" ColumnName="Rating1Suffix" />
+                <ScalarProperty Name="Rating5" ColumnName="Rating5" />
+                <ScalarProperty Name="Rating4" ColumnName="Rating4" />
+                <ScalarProperty Name="Rating3" ColumnName="Rating3" />
+                <ScalarProperty Name="Rating2" ColumnName="Rating2" />
+                <ScalarProperty Name="Rating1" ColumnName="Rating1" />
+                <ScalarProperty Name="BestRating" ColumnName="BestRating" />
+                <ScalarProperty Name="ResultsMeasured" ColumnName="ResultsMeasured" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Goal" ColumnName="Goal" />
+                <ScalarProperty Name="PillarGoalName" ColumnName="PillarGoalName" />
+                <ScalarProperty Name="GoalName" ColumnName="GoalName" />
+                <ScalarProperty Name="Pillar" ColumnName="Pillar" />
+                <ScalarProperty Name="YearEnding" ColumnName="YearEnding" />
+                <ScalarProperty Name="GoalType" ColumnName="GoalType" />
+                <ScalarProperty Name="GoalID" ColumnName="GoalID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblHOTP_Employees">
+            <EntityTypeMapping TypeName="HOTP_Model.tblHOTP_Employees">
+              <MappingFragment StoreEntitySet="tblHOTP_Employees">
+                <ScalarProperty Name="Evaluations" ColumnName="Evaluations" />
+                <ScalarProperty Name="Admin" ColumnName="Admin" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmpStatus" ColumnName="EmpStatus" />
+                <ScalarProperty Name="Division" ColumnName="Division" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SupervisorID" ColumnName="SupervisorID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblHOTP_ActionSteps">
+            <EntityTypeMapping TypeName="HOTP_Model.tblHOTP_ActionSteps">
+              <MappingFragment StoreEntitySet="tblHOTP_ActionSteps">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="ActionStep" ColumnName="ActionStep" />
+                <ScalarProperty Name="PlanID" ColumnName="PlanID" />
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblHOTP_EmployeeGoals">
+            <EntityTypeMapping TypeName="HOTP_Model.tblHOTP_EmployeeGoals">
+              <MappingFragment StoreEntitySet="tblHOTP_EmployeeGoals">
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="ItemScore" ColumnName="ItemScore" />
+                <ScalarProperty Name="IndNotes" ColumnName="IndNotes" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="GoalID" ColumnName="GoalID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="EmployeeGoalID" ColumnName="EmployeeGoalID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblHOTP_Plan90">
+            <EntityTypeMapping TypeName="HOTP_Model.tblHOTP_Plan90">
+              <MappingFragment StoreEntitySet="tblHOTP_Plan90">
+                <ScalarProperty Name="Goal" ColumnName="Goal" />
+                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+                <ScalarProperty Name="EmployeeGoalID" ColumnName="EmployeeGoalID" />
+                <ScalarProperty Name="PlanID" ColumnName="PlanID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

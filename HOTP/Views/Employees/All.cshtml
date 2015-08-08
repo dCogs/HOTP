@@ -1,0 +1,49 @@
+﻿@model  List<HOTP.Models.tblHOTP_Employees>
+
+@{
+    ViewBag.Title = "All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit All</h2>
+<h4>Employees</h4>
+@using (Html.BeginForm("All", "Employees", FormMethod.Post))
+{
+    <table class="table">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("MyEmps.Index", (@i))
+                    @Html.TextBox("MyEmps[" + (@i) + "].EmployeeID",
+                    Model[i].EmployeeID, new { @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.TextBox("MyEmps[" + (@i) + "].LastName",
+                    Model[i].LastName)
+                </td>
+                <td>
+                    @Html.TextBox("MyEmps[" + (@i) + "].Name",
+                    Model[i].FirstName, new { @readonly = "readonly" })
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.SupervisorName)
+                    </td>*@
+                <td>
+                    @Html.TextBox("MyEmps[" + (@i) + "].Title",
+                    Model[i].Title, new { @readonly = "readonly" })
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td colspan="4">
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

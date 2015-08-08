@@ -1,0 +1,238 @@
+﻿@model List<HOTP.Models.tblHOTP_Goals>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    select {
+        font-size: medium;
+    }
+
+    .noBox {
+        border: none 0px;
+    }
+
+    .weightInput input {
+        width: 35px;
+    }
+
+    .score {
+        width: 35px;
+    }
+    .rating {
+        width: 25px;
+        margin: 0px 0px 0px 0px;
+        padding:0px 0px 0px 0px;
+        background-color: #DCECEF;
+        vertical-align: baseline;
+    }
+    #ratingTable td {
+        border-top:none 0px;
+        margin:0px 0px 0px 0px;
+        padding:0px 0px 0px 0px;
+    }
+    .writeTrue {
+    }
+    .writeFalse, .Org {
+        width: 35px;
+        background-color: #DCECEF;
+    }
+
+    .writeFalse2 {
+        width: 55px;
+        background-color: #DCECEF;
+    }
+
+    .white {
+        background-color: white;
+    }
+
+    .myLabel {
+        font-weight:bold;
+    }
+
+    .Individual {
+        width: 35px;
+    }
+    .ratingNum {
+        font-size:large;
+        font-weight:bold;
+        padding-left:8px;
+        padding-right:4px;
+    }
+</style>
+
+<h2>Organizational Goals</h2>
+<h4>Enter Scores</h4>
+
+@*@using (Html.BeginForm(null, null, FormMethod.Get, new { id = "filterForm" }))
+    {
+        <p>
+            @Html.DropDownList("SelectedKey", "Select a year")
+            &nbsp;&nbsp;
+        </p>
+    }*@
+
+@using (Html.BeginForm("Scores", "OrgGoals", FormMethod.Post))
+{
+    <input type="hidden" id="scoreFrom" value="Scores" />
+    <table class="table">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col-md-8">
+                            @Html.Hidden("MyGoals.Index", (@i))
+                            @Html.Hidden("MyGoals[" + (@i) + "].GoalID", Model[i].GoalID)
+                            <div class="img-rounded" style="font-size:large;background-color:#267e8a; color:white; font-weight:bolder; text-align:left; padding:4px 4px 4px 4px;">
+                                &nbsp;
+                                @Html.DisplayFor(modelItem => Model[i].PillarGoalName)
+                            </div>
+                            <div class=" text-info" style="font-size:medium;">
+                                @Html.DisplayFor(modelItem => Model[i].Goal)
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    Jan<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].JanScore", Model[i].JanScore, new { @class = "score write" + Model[i].Jan })
+                                </div>
+                                <div class="col-md-1">
+                                    Feb<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].FebScore", Model[i].FebScore, new { @class = "score write" + Model[i].Feb })
+                                </div>
+                                <div class="col-md-1">
+                                    Mar<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].MarScore", Model[i].MarScore, new { @class = "score write" + Model[i].Mar })
+                                </div>
+                                <div class="col-md-1">
+                                    Apr<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].AprScore", Model[i].AprScore, new { @class = "score write" + Model[i].Apr })
+                                </div>
+                                <div class="col-md-1">
+                                    May<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].MayScore", Model[i].MayScore, new { @class = "score write" + Model[i].May })
+                                </div>
+                                <div class="col-md-1">
+                                    Jun<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].JunScore", Model[i].JunScore, new { @class = "score write" + Model[i].Jun })
+                                </div>
+                                <div class="col-md-1">
+                                    Jul<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].JulScore", Model[i].JulScore, new { @class = "score write" + Model[i].Jul })
+                                </div>
+                                <div class="col-md-1">
+                                    Aug<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].AugScore", Model[i].AugScore, new { @class = "score write" + Model[i].Aug })
+                                </div>
+                                <div class="col-md-1">
+                                    Sep<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].SepScore", Model[i].SepScore, new { @class = "score write" + Model[i].Sep })
+                                </div>
+                                <div class="col-md-1">
+                                    Oct<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].OctScore", Model[i].OctScore, new { @class = "score write" + Model[i].Oct })
+                                </div>
+                                <div class="col-md-1">
+                                    Nov<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].NovScore", Model[i].NovScore, new { @class = "score write" + Model[i].Nov })
+                                </div>
+                                <div class="col-md-1">
+                                    Dec<br />
+                                    @Html.TextBox("MyGoals[" + (@i) + "].DecScore", Model[i].DecScore, new { @class = "score write" + Model[i].Dec })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="row">
+                                <div class="col-md-6 pull-right">
+                                    @Html.Hidden("MyGoals[" + (@i) + "].BestRating", Model[i].BestRating)
+                                    @Html.Hidden("MyGoals[" + (@i) + "].NumDecimals", Model[i].NumDecimals)
+                                    @Html.Hidden("MyGoals[" + (@i) + "].YearEnding", Model[i].YearEnding)
+                                    Calculation: @Html.TextBox("MyGoals[" + (@i) + "].YearEndCalculation", Model[i].YearEndCalculation, new { @class = "noBox writeFalse2 white myLabel", @readonly = "readonly" })<br />
+                                    Result: @Html.TextBox("MyGoals[" + (@i) + "].Result", Model[i].Result, new { @class = "noBox writeFalse2 white myLabel", @readonly="readonly" })<br />
+                                    Score: @Html.TextBox("MyGoals[" + (@i) + "].Score", Model[i].Score, new { @class = "noBox writeFalse2 white myLabel", @readonly = "readonly" })<br />
+                                </div>
+                                <div class="col-md-6">
+                                    <table id="ratingTable" class="img-rounded pull-right" style="background-color:#DCECEF; width:180px; ">
+                                        <tr>
+                                            <td><span class="ratingNum">5</span>  is</td>
+                                            <td>
+                                                @Html.TextBox("MyGoals[" + (@i) + "].Rating5", Model[i].Rating5, new { @class = "rating noBox writeFalse", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                @Model[i].Rating5Suffix
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="ratingNum">4</span>  is</td>
+                                            <td>
+                                                @Html.TextBox("MyGoals[" + (@i) + "].Rating4", Model[i].Rating4, new { @class = "rating noBox writeFalse", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                to @Model[i].Rating4End
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="ratingNum">3</span>  is</td>
+                                            <td>
+                                                @Html.TextBox("MyGoals[" + (@i) + "].Rating3", Model[i].Rating3, new { @class = "rating noBox writeFalse", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                to @Model[i].Rating3End
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="ratingNum">2</span>  is</td>
+                                            <td>
+                                                @Html.TextBox("MyGoals[" + (@i) + "].Rating2", Model[i].Rating2, new { @class = "rating noBox writeFalse", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                to @Model[i].Rating2End
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="ratingNum">1</span>  is</td>
+                                            <td>
+                                                @Html.TextBox("MyGoals[" + (@i) + "].Rating1", Model[i].Rating1, new { @class = "rating noBox writeFalse", @readonly = "true" })
+                                            </td>
+                                            <td>
+                                                @Model[i].Rating1Suffix
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+        @if (Model.Count > 0)
+        {
+            <tr>
+                <td>
+                    <button type="submit" value="Save" name="save" class="btn btn-primary">
+                        Save
+                    </button>
+                    &nbsp;
+                    @Html.ActionLink("Back to List (don't save)", "Index", new { year = Html.DisplayFor(modelItem => Model[1].YearEnding) })
+                </td>
+            </tr>
+        }
+    </table>
+
+}
+
+<script type="text/javascript">
+
+</script>
+
+<script src="~/Scripts/scoreCalc.js"></script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

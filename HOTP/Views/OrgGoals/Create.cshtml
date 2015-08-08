@@ -1,0 +1,304 @@
+﻿@model HOTP.Models.tblHOTP_Goals
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Organizational Goals</h2>
+<h4>Create New</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" id="scoreFrom" value="org" />
+    
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @*Begin copy*@ 
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.YearEnding, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @*@Html.EditorFor(model => model.YearEnding, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.DropDownList("YearEnding", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.YearEnding, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GoalType, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.GoalType, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @Value = "Organizational" })
+                        @Html.ValidationMessageFor(model => model.GoalType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Pillar, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownList("Pillar", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Pillar, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GoalName, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.GoalName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.GoalName, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.PillarGoalName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Goal, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Goal, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Goal, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.RadioButtonFor(model => model.Status, "Active", new { id = "Status_Active" })
+                        <label for="Status_true">Active</label>&nbsp;
+                        @Html.RadioButtonFor(model => model.Status, "Inactive", new { id = "Status_Inactive" })
+                        <label for="Status_Inactive">Inactive</label>
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ResultsMeasured, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownList("ResultsMeasured", null, htmlAttributes: new { @class = "form-control" })
+                        @*@Html.EditorFor(model => model.ResultsMeasured, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.ResultsMeasured, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.YearEndCalculation, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownList("YearEndCalculation", null, htmlAttributes: new { @class = "form-control" })
+                        @*@Html.EditorFor(model => model.YearEndCalculation, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.YearEndCalculation, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UnitsMeasuredIn, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownList("UnitsMeasuredIn", null, htmlAttributes: new { @class = "form-control" })
+                        @*@Html.EditorFor(model => model.UnitsMeasuredIn, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.UnitsMeasuredIn, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NumDecimals, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.NumDecimals, new { htmlAttributes = new { @class = "form-control ratingCalc" } })
+                        @Html.ValidationMessageFor(model => model.NumDecimals, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BestRating, htmlAttributes: new { @class = "control-label col-md-6 " })
+                    <div class="col-md-6">
+                        @Html.DropDownList("BestRating", null, htmlAttributes: new { @class = "form-control ratingCalc " })
+                        @*@Html.EditorFor(model => model.BestRating, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.BestRating, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rating5, htmlAttributes: new { @class = "control-label col-sm-6 " })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Rating5, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Rating5, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-4 tighter">
+                        @Html.TextBoxFor(model => model.Rating5Suffix, htmlAttributes: new { @class = "noBox ", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rating4, htmlAttributes: new { @class = "control-label col-sm-6 " })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Rating4, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Rating4, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-1 tighter">to</div>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(model => model.Rating4End, htmlAttributes: new { @class = "noBox ", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rating3, htmlAttributes: new { @class = "control-label col-sm-6 " })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Rating3, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Rating3, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-1 tighter">to</div>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(model => model.Rating3End, htmlAttributes: new { @class = "noBox ", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rating2, htmlAttributes: new { @class = "control-label col-sm-6 " })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Rating2, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Rating2, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-1 tighter">to</div>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(model => model.Rating2End, htmlAttributes: new { @class = "noBox ", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rating1, htmlAttributes: new { @class = "control-label col-sm-6 " })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Rating1, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Rating1, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-4 tighter">
+                        @Html.TextBoxFor(model => model.Rating1Suffix, htmlAttributes: new { @class = "noBox ", @readonly = "readonly" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ResultsEntered, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.DropDownList("ResultsEntered", null, htmlAttributes: new { @class = "form-control" })
+                        @*@Html.EditorFor(model => model.ResultsEntered, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.ValidationMessageFor(model => model.ResultsEntered, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    @Html.LabelFor(model => model.EnteredBy, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.EnteredBy, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EnteredBy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NonEditableByLeader, htmlAttributes: new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.NonEditableByLeader)
+                            @Html.ValidationMessageFor(model => model.NonEditableByLeader, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>*@
+
+                <div class="form-group">
+                    <div style="font-size:large;font-weight:bold">Which months are included in the scoring?
+                    &nbsp;<input type="checkbox" id="allMonths" /><label id="allMonthsLabel">&nbsp;All</label>
+                    </div>
+                    <div class="row">
+                        <div class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Jan, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Jan, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </div>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Feb, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Feb, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Mar, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Mar, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Apr, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Apr, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.May, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.May, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Jun, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Jun, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Jul, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Jul, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Aug, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Aug, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Sep, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Sep, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Oct, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Oct, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Nov, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Nov, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                        <span class="checkbox col-lg-2">
+                            @Html.CheckBoxFor(model => model.Dec, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.LabelFor(model => model.Dec, htmlAttributes: new { @class = "control-label col-md-2  " })
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        @*End copy*@
+
+ 
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        ////@*$('@Html.IdFor(model => model.GoalName)').on('change', function () {
+            var pillar = $('@Html.IdFor(model => model.GoalName)').val();
+            var goalName = $('@Html.IdFor(model => model.GoalName)').val();
+            $('@Html.IdFor(model => model.PillarGoalName)').val(pillar + ': ' + goalName);*@
+        //$('#GoalName').on('change', function () {
+        //    var pillar = $('#Pillar').val();
+        //    var goalName = $('#GoalName').val();
+        //    $('#PillarGoalName').val(pillar + ': ' + goalName);
+        //});
+    });
+</script>
+
+<script src="~/Scripts/makeRatings.js"></script>
+
