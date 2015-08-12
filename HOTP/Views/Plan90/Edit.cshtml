@@ -26,6 +26,20 @@
         background-color: yellow;
     }
 
+    .topCurve{
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding: 4px 4px 4px 4px;
+        margin-right: 12px;
+    }
+
+    .bottomCurve{
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 4px 4px 4px 4px;
+        margin-right: 12px;
+    }
+
 </style>
 <h3>90-Day Action Plan for @Model[0].EmployeeName</h3>
 
@@ -54,7 +68,7 @@
 
                 <div class="row" style="margin-bottom:8px;">
                     <div class="col-md-12">
-                        <div class="img-rounded" style="font-size:large;background-color:#267e8a; color:white; font-weight:bolder; text-align:left; padding:4px 4px 4px 8px;">
+                        <div class="topCurve" style="font-size:large;background-color:#267e8a; color:white; font-weight:bolder; text-align:left; padding:4px 4px 4px 8px;">
                             @Html.DisplayFor(model => model[0].Goal.PillarGoalName)
                             &nbsp;|&nbsp;
                             @Html.DisplayFor(model => model[0].Weight)%
@@ -62,7 +76,7 @@
                                 @Html.DisplayFor(model => model[0].Goal.Goal)
                             </div>
                         </div>
-                        <div class="" style="padding:4px 4px 4px 8px; margin-top:4px;background-color:silver">
+                        <div class="bottomCurve" style="padding:4px 4px 4px 8px; margin-top:0px;background-color:silver">
                             @if (Model[0].Goal.Score == 5)
                             {
                                 <span class="highlightScore">5</span>

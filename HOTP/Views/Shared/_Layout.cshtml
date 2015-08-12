@@ -30,7 +30,7 @@
                          && ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeGoals" ? "active" : "")">
                         @Html.ActionLink("Employee Goals", "Index", "EmployeeGoals")
                     </li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Scores"
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "ReportCard"
                          && ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeGoals" ? "active" : "")">
                         @Html.ActionLink("Report Cards", "ReportCard", "EmployeeGoals")
                     </li>

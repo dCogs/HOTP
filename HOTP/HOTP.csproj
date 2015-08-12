@@ -367,6 +367,8 @@
     <Content Include="Views\Plan90\Edit.cshtml" />
     <Content Include="Views\Plan90\Index.cshtml" />
     <Content Include="Views\Plan90\All.cshtml" />
+    <Content Include="Views\EmployeeGoals\Details.cshtml" />
+    <Content Include="Views\Plan90\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

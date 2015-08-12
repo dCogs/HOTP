@@ -43,6 +43,16 @@ namespace HOTP.Controllers
             if (SelectedEmp != null)
             {
                 TempData["SelectedEmp"] = SelectedEmp;
+
+                bool editCapability = false;
+                int supervisorID = (from e in db.tblHOTP_Employees
+                                    where e.EmployeeID == SelectedEmp
+                                    select e.SupervisorID).First();
+                var me = (from e in db.tblHOTP_Employees
+                          where e.Email == User.Identity.Name
+                          select e).First();
+                if (me.Admin || me.EmployeeID == SelectedEmp || me.EmployeeID == supervisorID) editCapability = true;
+
                 var goals = from eg in db.tblHOTP_EmployeeGoals
                             join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
                             from subGoal in goal.DefaultIfEmpty()
@@ -53,7 +63,9 @@ namespace HOTP.Controllers
                                 ItemScore = eg.ItemScore,
                                 EmployeeID = eg.EmployeeID,
                                 EmployeeGoalID = eg.EmployeeGoalID,
-                                Goal = subGoal
+                                Goal = subGoal,
+                                CanEdit = editCapability,
+                                Admin = me.Admin
                             };
                 return View(goals.ToList());
             }
@@ -197,6 +209,52 @@ namespace HOTP.Controllers
         }
 
 
+        public List<GoalFull> GetAllGoals(int? SelectedEmp, string YearEnding)
+        {
+            List<GoalFull> AllGoals = new List<GoalFull>();
+            if (SelectedEmp != null)
+            {
+                TempData["SelectedEmp"] = SelectedEmp;
+
+                var emp = (from e in db.tblHOTP_Employees
+                           where e.EmployeeID == SelectedEmp
+                           select e).First();
+
+                var empGoals = from eg in db.tblHOTP_EmployeeGoals
+                               join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
+                               from subGoal in goal.DefaultIfEmpty()
+                               where eg.EmployeeID == SelectedEmp && subGoal.YearEnding == YearEnding
+                               select eg;
+                foreach (tblHOTP_EmployeeGoals eg in empGoals.ToList())
+                {
+                    PopulatePlan(eg.EmployeeGoalID);
+                }
+
+                foreach (tblHOTP_EmployeeGoals eg in empGoals)
+                {
+                    List<Plan90Full> gPlans = new List<Plan90Full>();
+                    var goalPlans = from plan in db.tblHOTP_Plan90 where plan.EmployeeGoalID == eg.EmployeeGoalID select plan;
+                    foreach (tblHOTP_Plan90 plan in goalPlans)
+                    {
+                        gPlans.Add(new Plan90Full()
+                        {
+                            Plan = plan,
+                            ActionSteps = db.tblHOTP_ActionSteps.Where(a => a.PlanID == plan.PlanID).ToList()
+                        });
+                    }
+                    AllGoals.Add(new GoalFull()
+                    {
+                        EmployeeName = emp.FirstName + " " + emp.LastName,
+                        Goal = db.tblHOTP_Goals.Find(eg.GoalID),
+                        EmployeeGoal = eg,
+                        Plans = gPlans
+                    });
+                }
+            }
+            return AllGoals.ToList();
+        }
+
+
         // GET: Plan90ViewModel/All/5
         public ActionResult All(int? SelectedEmp, string YearEnding)
         {
@@ -224,59 +282,132 @@ namespace HOTP.Controllers
             ViewBag.YearEnding = PopulateCodesDDL("YearEnding", YearEnding);
             ViewBag.PlanStatus = PopulateCodesDDL("PlanStatus");
 
-            List<GoalFull> AllGoals = new List<GoalFull>();
+            return View(GetAllGoals(SelectedEmp, YearEnding));
 
-            if (SelectedEmp != null)
+            //List<GoalFull> AllGoals = new List<GoalFull>();
+
+            //if (SelectedEmp != null)
+            //{
+            //    TempData["SelectedEmp"] = SelectedEmp;
+
+            //    var emp = (from e in db.tblHOTP_Employees
+            //               where e.EmployeeID == SelectedEmp
+            //               select e).First();
+
+            //    var empGoals = from eg in db.tblHOTP_EmployeeGoals
+            //                   join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
+            //                   from subGoal in goal.DefaultIfEmpty()
+            //                   where eg.EmployeeID == SelectedEmp && subGoal.YearEnding == YearEnding
+            //                   select eg;
+            //    foreach (tblHOTP_EmployeeGoals eg in empGoals.ToList())
+            //    {
+            //        PopulatePlan(eg.EmployeeGoalID);
+            //    }
+
+            //    foreach (tblHOTP_EmployeeGoals eg in empGoals)
+            //    {
+            //        List<Plan90Full> gPlans = new List<Plan90Full>();
+            //        var goalPlans = from plan in db.tblHOTP_Plan90 where plan.EmployeeGoalID == eg.EmployeeGoalID select plan;
+            //        foreach (tblHOTP_Plan90 plan in goalPlans)
+            //        {
+            //            gPlans.Add(new Plan90Full()
+            //            {
+            //                Plan = plan,
+            //                ActionSteps = db.tblHOTP_ActionSteps.Where(a => a.PlanID == plan.PlanID).ToList()
+            //            });
+            //        }
+            //        AllGoals.Add(new GoalFull()
+            //        {
+            //            EmployeeName = emp.FirstName + " " + emp.LastName,
+            //            Goal = db.tblHOTP_Goals.Find(eg.GoalID),
+            //            EmployeeGoal = eg,
+            //            Plans = gPlans
+            //        });
+            //    }
+            //}
+            //return View(AllGoals.ToList());
+        }
+
+        // GET: Plan90ViewModel/Report/5
+        public ActionResult Report(int? SelectedEmp, string YearEnding)
+        {
+            if (SelectedEmp == null && TempData["SelectedEmp"] != null)
             {
-                TempData["SelectedEmp"] = SelectedEmp;
-
-                var emp = (from e in db.tblHOTP_Employees
-                           where e.EmployeeID == SelectedEmp
-                           select e).First();
-
-                var empGoals = from eg in db.tblHOTP_EmployeeGoals
-                               join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
-                               from subGoal in goal.DefaultIfEmpty()
-                               where eg.EmployeeID == SelectedEmp && subGoal.YearEnding == YearEnding
-                               select eg;
-                foreach (tblHOTP_EmployeeGoals eg in empGoals)
-                {
-                    PopulatePlan(eg.EmployeeGoalID);
-                }
-
-                foreach (tblHOTP_EmployeeGoals eg in empGoals)
-                {
-                    List<Plan90Full> gPlans = new List<Plan90Full>();
-                    var goalPlans = from plan in db.tblHOTP_Plan90 where plan.EmployeeGoalID == eg.EmployeeGoalID select plan;
-                    foreach (tblHOTP_Plan90 plan in goalPlans)
-                    {
-                        gPlans.Add(new Plan90Full()
-                        {
-                            Plan = plan,
-                            ActionSteps = db.tblHOTP_ActionSteps.Where(a => a.PlanID == plan.PlanID).ToList()
-                        });
-                    }
-
-                    AllGoals.Add(new GoalFull()
-                    {
-                        EmployeeName = emp.FirstName + " " + emp.LastName,
-                        Goal = db.tblHOTP_Goals.Find(eg.GoalID),
-                        EmployeeGoal = eg,
-                        Plans = gPlans
-                    });
-                }
+                SelectedEmp = Convert.ToInt16(TempData["SelectedEmp"]);
             }
-            return View(AllGoals.ToList());
+            var emps =
+              db.tblHOTP_Employees
+                .Where(s => s.Evaluations)
+                .OrderBy(s => s.LastName)
+                .ToList()
+                .Select(s => new
+                {
+                    EmployeeId = s.EmployeeID,
+                    FullName = string.Format("{0}, {1}", s.LastName, s.FirstName)
+                });
+            ViewBag.SelectedEmp = new SelectList(emps, "EmployeeID", "FullName", SelectedEmp);
+
+            if (YearEnding == null && TempData["YearEnding"] != null)
+            {
+                YearEnding = TempData["YearEnding"].ToString();
+            }
+            TempData["YearEnding"] = YearEnding;
+            ViewBag.YearEnding = PopulateCodesDDL("YearEnding", YearEnding);
+            ViewBag.PlanStatus = PopulateCodesDDL("PlanStatus");
+
+            return View(GetAllGoals(SelectedEmp, YearEnding));
+
+            //List<GoalFull> AllGoals = new List<GoalFull>();
+
+            //if (SelectedEmp != null)
+            //{
+            //    TempData["SelectedEmp"] = SelectedEmp;
+
+            //    var emp = (from e in db.tblHOTP_Employees
+            //               where e.EmployeeID == SelectedEmp
+            //               select e).First();
+
+            //    var empGoals = from eg in db.tblHOTP_EmployeeGoals
+            //                   join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
+            //                   from subGoal in goal.DefaultIfEmpty()
+            //                   where eg.EmployeeID == SelectedEmp && subGoal.YearEnding == YearEnding
+            //                   select eg;
+            //    foreach (tblHOTP_EmployeeGoals eg in empGoals.ToList())
+            //    {
+            //        PopulatePlan(eg.EmployeeGoalID);
+            //    }
+
+            //    foreach (tblHOTP_EmployeeGoals eg in empGoals)
+            //    {
+            //        List<Plan90Full> gPlans = new List<Plan90Full>();
+            //        var goalPlans = from plan in db.tblHOTP_Plan90 where plan.EmployeeGoalID == eg.EmployeeGoalID select plan;
+            //        foreach (tblHOTP_Plan90 plan in goalPlans)
+            //        {
+            //            gPlans.Add(new Plan90Full()
+            //            {
+            //                Plan = plan,
+            //                ActionSteps = db.tblHOTP_ActionSteps.Where(a => a.PlanID == plan.PlanID).ToList()
+            //            });
+            //        }
+            //        AllGoals.Add(new GoalFull()
+            //        {
+            //            EmployeeName = emp.FirstName + " " + emp.LastName,
+            //            Goal = db.tblHOTP_Goals.Find(eg.GoalID),
+            //            EmployeeGoal = eg,
+            //            Plans = gPlans
+            //        });
+            //    }
+            //}
+            //return View(AllGoals.ToList());
         }
 
 
-        // POST: Plan90ViewModel/All/5
+        // POST: Plan90ViewModel/All
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult All(List<GoalFull> GoalFull)
-        //public ActionResult Edit([Bind(Include = "PlanID,EmployeeGoalID,Quarter,Goal")] tblHOTP_Plan90 tblHOTP_Plan90)
         {
             if (ModelState.IsValid)
             {
@@ -324,34 +455,6 @@ namespace HOTP.Controllers
         }
 
 
-
-
-        //if (id == null)
-        //{
-        //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //}
-        //PopulatePlan(id);
-        //tblHOTP_EmployeeGoals employeeGoal = db.tblHOTP_EmployeeGoals.Find(id);
-        //tblHOTP_Goals goal = db.tblHOTP_Goals.Find(employeeGoal.GoalID);
-        //tblHOTP_Employees employee = db.tblHOTP_Employees.Find(employeeGoal.EmployeeID);
-
-        //var plans = from p in db.tblHOTP_Plan90
-        //            where p.EmployeeGoalID == id
-        //            select new Plan90ViewModel
-        //            {
-        //                PillarGoalName = goal.PillarGoalName,
-        //                EmployeeGoal = goal.Goal,
-        //                EmployeeGoalID = employeeGoal.EmployeeGoalID,
-        //                Weight = employeeGoal.Weight,
-        //                ItemScore = employeeGoal.ItemScore,
-        //                Plan = p,
-        //                ActionSteps = db.tblHOTP_ActionSteps.Where(a => a.PlanID == p.PlanID).ToList()
-        //            };
-        //ViewBag.PlanStatus = PopulateCodesDDL("PlanStatus");
-        //return View(plans.ToList());
-
-
-
         // GET: Plan90ViewModel/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -378,6 +481,40 @@ namespace HOTP.Controllers
             return RedirectToAction("Index");
         }
 
+
+
+        // POST: Plan90ViewModel/Copy
+        [HttpPost, ActionName("Copy")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Copy(FormCollection formCollection)
+        {
+            foreach (string _formData in formCollection)
+            {
+                ViewData[_formData] = formCollection[_formData];
+            }
+            string copyFrom = Request["copyFrom"].ToString();
+            string copyTo= Request["copyTo"].ToString();
+
+            for (int g = 0; g < 5; g++)
+            {
+                string empGoalID = null;
+                try
+                {
+                    empGoalID = Request["copyGoal[" + g + "]"].ToString();
+                }
+                catch { }
+                if (empGoalID != null)
+                {
+                    int employeeGoalID = Convert.ToInt16(empGoalID);
+                    //var copyFrom = 
+                }
+            }
+
+                return RedirectToAction("Index", "Plan90");
+        }
+
+
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

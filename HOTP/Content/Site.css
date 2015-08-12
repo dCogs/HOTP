@@ -74,12 +74,12 @@ textarea {
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-    background-color: #C97C35;
+    background-color: #934802;
     color: white;
 }
 
     .btn:hover {
-        color: #C97C35;
+        color: #934802;
         background-color: white;
     }
 
@@ -89,7 +89,7 @@ textarea {
 
 a {
     font-size: 14px;
-    color: #C97C35;
+    color: #934802;
     font-weight: bold;
 }
 

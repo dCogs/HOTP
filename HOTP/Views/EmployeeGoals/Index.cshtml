@@ -23,15 +23,24 @@
     </p>
 }
 <div id="theRest">
-    <p>
-        @Html.ActionLink("Create New Individual Goal", "Create") |
-        @Html.ActionLink("Add Organizational Goal", "AddOrg")
-    </p>
+
+    @if (Model != null && Model.Count() > 0) { 
+        if (Model.First().Admin || Model.First().CanEdit)
+        {
+            <p>
+                @Html.ActionLink("Create New Individual Goal", "Create") |
+                @Html.ActionLink("Add Organizational Goal", "AddOrg")
+            </p>
+        }
+    }
+
     @{ int totalWeight = 0;
-       decimal totalItemScore = 0;
+     decimal totalItemScore = 0;
     }
     <table class="table">
         <tr>
+            <th></th>
+            <th></th>
             <th></th>
             <th>
                 Goal
@@ -53,14 +62,19 @@
             totalItemScore += Convert.ToDecimal(item.ItemScore);
             <tr>
                 <td>
-                    @if (item.Goal.GoalType != "Organizational")
+                    @if ((item.Goal.GoalType == "Organizational" && item.Admin) || (item.Goal.GoalType == "Individual" && item.CanEdit))
                     {
                         @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeGoalID })
-                        @Html.Raw(" | ")
                     }
+                </td>
+                <td>
                     @Html.ActionLink("Details", "Details", new { id = item.EmployeeGoalID })
-                        @Html.Raw(" | ")
+                </td>
+                <td>
+                    @if (item.Admin || item.CanEdit)
+                    {
                         @Html.ActionLink("Remove for this Employee", "Delete", new { id = item.EmployeeGoalID })
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Goal.PillarGoalName)
@@ -77,6 +91,8 @@
             </tr>
         }
         <tr style="font-weight:bold">
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

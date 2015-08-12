@@ -43,18 +43,27 @@ namespace HOTP.Controllers
             if (SelectedEmp != null)
             {
                 TempData["SelectedEmp"] = SelectedEmp;
+                bool editCapability = false;
+                int supervisorID = (from e in db.tblHOTP_Employees
+                                    where e.EmployeeID == SelectedEmp
+                                    select e.SupervisorID).First();
+                var me = (from e in db.tblHOTP_Employees
+                          where e.Email == User.Identity.Name
+                          select e).First();
+                if (me.Admin || me.EmployeeID == SelectedEmp || me.EmployeeID == supervisorID) editCapability = true;
                 var goals = from eg in db.tblHOTP_EmployeeGoals
                             join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
                             from subGoal in goal.DefaultIfEmpty()
                             where eg.EmployeeID == SelectedEmp && subGoal.YearEnding == YearEnding
-                            //where subGoal.GoalType=="Individual"
                             select new EvalViewModel
                             {
                                 Weight = eg.Weight,
                                 ItemScore = eg.ItemScore,
                                 EmployeeID = eg.EmployeeID,
                                 EmployeeGoalID = eg.EmployeeGoalID,
-                                Goal = subGoal
+                                Goal = subGoal,
+                                CanEdit = editCapability,
+                                Admin = me.Admin
                             };
                 return View(goals.ToList());
             }
@@ -84,48 +93,9 @@ namespace HOTP.Controllers
             }
             return View(evalViewModel);
 
-            //var empGoal = from eg in db.tblHOTP_EmployeeGoals
-            //         where eg.EmployeeGoalID == id
-            //         join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
-            //         from subgoal in goal.DefaultIfEmpty()
-            //         join e in db.tblHOTP_Employees on eg.EmployeeID equals e.EmployeeID into emp
-            //         from subemp in emp.DefaultIfEmpty()
-            //         select new EvalViewModel { Goal=subgoal, EmployeeGoalID=eg.EmployeeGoalID, EmployeeID=eg.EmployeeID,
-            //             EmployeeName=subemp.LastName, ItemScore=eg.ItemScore, Weight=eg.Weight };
-            //if (empGoal == null)
-            //{
-            //    return HttpNotFound();
-            //}
-
         }
 
 
-        //// GET: EmployeeGoals/Create
-        //public ActionResult Create()
-        //{
-        //    ViewBag.EmployeeID = new SelectList(db.tblHOTP_Employees, "EmployeeID", "FirstName");
-        //    ViewBag.GoalID = new SelectList(db.tblHOTP_Goals, "GoalID", "YearEnding");
-        //    return View();
-        //}
-
-        //// POST: EmployeeGoals/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "EmployeeGoalID,EmployeeID,GoalID,Weight,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Notes")] tblHOTP_EmployeeGoals tblHOTP_EmployeeGoals)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.tblHOTP_EmployeeGoals.Add(tblHOTP_EmployeeGoals);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.EmployeeID = new SelectList(db.tblHOTP_Employees, "EmployeeID", "FirstName", tblHOTP_EmployeeGoals.EmployeeID);
-        //    ViewBag.GoalID = new SelectList(db.tblHOTP_Goals, "GoalID", "YearEnding", tblHOTP_EmployeeGoals.GoalID);
-        //    return View(tblHOTP_EmployeeGoals);
-        //}
 
         // GET: EmployeeGoals/Edit/5
         public ActionResult Edit(int? id)
@@ -137,26 +107,6 @@ namespace HOTP.Controllers
 
             EvalViewModel evalViewModel = GetEvalViewModel(id);
 
-            //tblHOTP_EmployeeGoals tblHOTP_EmployeeGoals = db.tblHOTP_EmployeeGoals.Find(id);
-            //tblHOTP_Goals tblHOTP_Goals = db.tblHOTP_Goals.Find(tblHOTP_EmployeeGoals.GoalID);
-            //tblHOTP_Employees tblHOTP_Employees = db.tblHOTP_Employees.Find(tblHOTP_EmployeeGoals.EmployeeID);
-            //ViewBag.Pillar = PopulateCodesDDL("Pillar", tblHOTP_Goals.Pillar);
-            //ViewBag.YearEnding = PopulateCodesDDL("YearEnding", tblHOTP_Goals.YearEnding);
-            //ViewBag.ResultsMeasured = PopulateCodesDDL("ResultsMeasured", tblHOTP_Goals.ResultsMeasured);
-            //ViewBag.BestRating = PopulateCodesDDL("BestRating", tblHOTP_Goals.BestRating);
-            //ViewBag.YearEndCalculation = PopulateCodesDDL("YearEndCalculation", tblHOTP_Goals.YearEndCalculation);
-            //ViewBag.UnitsMeasuredIn = PopulateCodesDDL("UnitsMeasuredIn", tblHOTP_Goals.UnitsMeasuredIn);
-            //ViewBag.ResultsEntered = PopulateCodesDDL("ResultsEntered", tblHOTP_Goals.ResultsEntered);
-
-            //EvalViewModel evalViewModel = new EvalViewModel
-            //{
-            //    Goal = tblHOTP_Goals,
-            //    EmployeeGoalID = tblHOTP_EmployeeGoals.EmployeeGoalID,
-            //    EmployeeID = tblHOTP_EmployeeGoals.EmployeeID,
-            //    EmployeeName = tblHOTP_Employees.LastName,
-            //    ItemScore = tblHOTP_EmployeeGoals.ItemScore,
-            //    Weight = tblHOTP_EmployeeGoals.Weight
-            //};
             if (evalViewModel == null)
             {
                 return HttpNotFound();
@@ -254,13 +204,6 @@ namespace HOTP.Controllers
                 return HttpNotFound();
             }
             return View(evalViewModel);
-
-            //tblHOTP_EmployeeGoals tblHOTP_EmployeeGoals = db.tblHOTP_EmployeeGoals.Find(id);
-            //if (tblHOTP_EmployeeGoals == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //return View(tblHOTP_EmployeeGoals);
         }
 
 
@@ -443,7 +386,6 @@ namespace HOTP.Controllers
         }
 
 
-
         // GET: EmployeeGoals/Eval
         public ActionResult Eval(int? SelectedEmp)
         {
@@ -560,6 +502,16 @@ namespace HOTP.Controllers
             if (SelectedEmp != null)
             {
                 TempData["SelectedEmp"] = SelectedEmp;
+
+                bool editCapability = false;
+                int supervisorID = (from e in db.tblHOTP_Employees
+                                    where e.EmployeeID == SelectedEmp
+                                    select e.SupervisorID).First();
+                var me = (from e in db.tblHOTP_Employees
+                          where e.Email == User.Identity.Name
+                          select e).First();
+                if (me.Admin || me.EmployeeID == SelectedEmp || me.EmployeeID == supervisorID) editCapability = true;
+
                 var goals = from eg in db.tblHOTP_EmployeeGoals
                             join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
                             from subGoal in goal.DefaultIfEmpty()
@@ -573,7 +525,9 @@ namespace HOTP.Controllers
                                 ItemScore = eg.ItemScore,
                                 EmployeeID = eg.EmployeeID,
                                 EmployeeGoalID = eg.EmployeeGoalID,
-                                Goal = subGoal
+                                Goal = subGoal,
+                                CanEdit = editCapability,
+                                Admin = me.Admin
                             };
                 return View(goals.ToList());
             }

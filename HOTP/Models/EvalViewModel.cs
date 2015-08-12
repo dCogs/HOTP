@@ -14,8 +14,9 @@ namespace HOTP.Models
         public int EmployeeID { get; set; }
         public string EmployeeName { get; set; }
         public int Weight { get; set; }
-
         [Display(Name = "Item Score")]
         public decimal? ItemScore { get; set; }
+        public bool CanEdit { get; set; }
+        public bool Admin { get; set; }
     }
 }

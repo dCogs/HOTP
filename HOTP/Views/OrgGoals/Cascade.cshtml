@@ -11,6 +11,9 @@
      .weightInput input {
         width: 40px;
     }
+     .table td {
+         font-size:12px;
+     }
 </style>
 <h2>Organizational Goals</h2>
 <h4>Assign to Employees</h4>
@@ -58,7 +61,7 @@
 
         <tr>
             <td colspan="4">
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Save" class="btn btn-default" />
                 &nbsp;
                 @Html.ActionLink("Back to List (don't save)", "Index", new { year = Html.DisplayFor(modelItem => Model.Goals[1].YearEnding) })
             </td>

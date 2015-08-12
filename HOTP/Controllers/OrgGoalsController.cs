@@ -223,7 +223,7 @@ namespace HOTP.Controllers
         public ActionResult Cascade()
         {
             var cascadeGoals = new CascadeGoals();
-            cascadeGoals.Employees = (from e in db.tblHOTP_Employees orderby e.LastName select e).ToList();
+            cascadeGoals.Employees = (from e in db.tblHOTP_Employees where e.Evaluations orderby e.LastName select e).ToList();
             cascadeGoals.Goals = (from g in db.tblHOTP_Goals where g.GoalType=="Organizational"
                                   join c in db.tblHOTP_Codes on g.Pillar equals c.Code
                                   orderby c.Sequence
@@ -235,7 +235,7 @@ namespace HOTP.Controllers
         [HttpPost]
         public ActionResult Cascade(List<tblHOTP_Employees> MyEmps)
         {
-            var Employees = (from e in db.tblHOTP_Employees orderby e.LastName select e); //).ToList();
+            var Employees = (from e in db.tblHOTP_Employees where e.Evaluations orderby e.LastName select e); //).ToList();
 
             var Goals = (from g in db.tblHOTP_Goals
                          join c in db.tblHOTP_Codes on g.Pillar equals c.Code

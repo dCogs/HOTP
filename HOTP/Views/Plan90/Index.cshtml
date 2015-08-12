@@ -20,14 +20,24 @@
     </p>
 }
 <div id="theRest">
-    <p>
-        @Html.ActionLink("Edit Plans for All Goals", "All") |
-    </p>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <p>
+            @if (Model.First().Admin || Model.First().CanEdit)
+            {
+                @Html.ActionLink("Edit All", "All")                
+                @:&nbsp;|&nbsp;
+            }
+            @Html.ActionLink("Report All", "Report")
+        </p>
+
+    }
     @{ int totalWeight = 0;
      decimal totalItemScore = 0;
     }
     <table class="table">
         <tr>
+            <th></th>
             <th></th>
             <th>
                 Goal
@@ -49,8 +59,12 @@
             totalItemScore += Convert.ToDecimal(item.ItemScore);
             <tr>
                 <td>
-                    @Html.ActionLink("Edit Plan for This Goal", "Edit", new { id = item.EmployeeGoalID })
-                    @Html.Raw(" | ")
+                    @if ((item.Goal.GoalType == "Organizational" && item.Admin) || (item.Goal.GoalType == "Individual" && item.CanEdit))
+                    {
+                        @Html.ActionLink("Edit Plan for This Goal", "Edit", new { id = item.EmployeeGoalID })
+                    }
+                </td>
+                <td>
                     @Html.ActionLink("Details", "Details", new { id = item.EmployeeGoalID })
                 </td>
                 <td>
