@@ -20,6 +20,8 @@
 
 @using (Html.BeginForm("Cascade", "OrgGoals", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
+    
     <table class="table">
         <tr>
             <th>ID</th>

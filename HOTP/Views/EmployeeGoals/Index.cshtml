@@ -22,9 +22,21 @@
         @Html.DropDownList("YearEnding")
     </p>
 }
+@if (Model == null || Model.Count()==0)
+{
+    if ((ViewBag.CanEdit != null && ViewBag.CanEdit) || (ViewBag.Admin != null && ViewBag.Admin))
+    {
+        <p>
+            @Html.ActionLink("Create New Individual Goals", "Create") |
+            @Html.ActionLink("Add Organizational Goals", "AddOrg")
+        </p>
+    }
+}
+
 <div id="theRest">
 
-    @if (Model != null && Model.Count() > 0) { 
+    @if (Model != null && Model.Count() > 0)
+    {
         if (Model.First().Admin || Model.First().CanEdit)
         {
             <p>

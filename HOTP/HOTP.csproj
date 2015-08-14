@@ -356,10 +356,9 @@
     <Content Include="Views\EmployeeGoals\Edit.cshtml" />
     <Content Include="Views\EmployeeGoals\Index.cshtml" />
     <Content Include="Views\Employees\All.cshtml" />
-    <Content Include="Views\EmployeeGoals\Eval.cshtml" />
     <Content Include="Views\EmployeeGoals\Create.cshtml" />
     <Content Include="Views\OrgGoals\Scores.cshtml" />
-    <Content Include="Views\EmployeeGoals\ReportCard.cshtml" />
+    <Content Include="Views\EmployeeGoals\Eval.cshtml" />
     <Content Include="Views\EmployeeGoals\AddOrg.cshtml" />
     <Content Include="Views\Plan90\Create.cshtml" />
     <Content Include="Views\Plan90\Delete.cshtml" />
@@ -369,6 +368,7 @@
     <Content Include="Views\Plan90\All.cshtml" />
     <Content Include="Views\EmployeeGoals\Details.cshtml" />
     <Content Include="Views\Plan90\Report.cshtml" />
+    <Content Include="Views\Shared\_LayoutNoHeading.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

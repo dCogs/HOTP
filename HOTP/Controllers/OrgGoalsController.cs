@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HOTP.Models;
+using System.Data.Entity.Validation;
 
 namespace HOTP.Controllers
 {
@@ -220,6 +221,7 @@ namespace HOTP.Controllers
         }
 
         // GET: Goals/Cascade
+        [HttpGet]
         public ActionResult Cascade()
         {
             var cascadeGoals = new CascadeGoals();
@@ -233,71 +235,108 @@ namespace HOTP.Controllers
 
         // POST: Goals/Cascade
         [HttpPost]
-        public ActionResult Cascade(List<tblHOTP_Employees> MyEmps)
+        [ValidateAntiForgeryToken]
+        public ActionResult Cascade(FormCollection formCollection)
         {
-            var Employees = (from e in db.tblHOTP_Employees where e.Evaluations orderby e.LastName select e); //).ToList();
-
-            var Goals = (from g in db.tblHOTP_Goals
-                         join c in db.tblHOTP_Codes on g.Pillar equals c.Code
-                         select g);
-            string year = "";
-
-            foreach (tblHOTP_Employees emp in Employees)
+            //if (ModelState.IsValid)
             {
-                foreach (tblHOTP_Goals goal in Goals)
-                { 
-                    year = goal.YearEnding;
-                    try
-                    {
-                        string inputField = "MyGoals_" + emp.EmployeeID + "_" + goal.GoalID + "_Weight";
-                        string myString = Request.Form[inputField];
+                var Employees = (from e in db.tblHOTP_Employees where e.Evaluations orderby e.LastName select e); //).ToList();
 
-                        if (db.tblHOTP_EmployeeGoals.Any(eg => eg.EmployeeID == emp.EmployeeID && eg.GoalID == goal.GoalID))
-                        // tblHOTP_EmployeeGoals already exists
+                var Goals = (from g in db.tblHOTP_Goals
+                             where g.GoalType == "Organizational"
+                             join c in db.tblHOTP_Codes on g.Pillar equals c.Code
+                             select g);
+                string year = "";
+
+                foreach (tblHOTP_Employees emp in Employees)
+                {
+                    foreach (tblHOTP_Goals goal in Goals)
+                    {
+                        year = goal.YearEnding;
+                        try
                         {
-                            if (myString.CompareTo("") == 0)
+                            string inputField = "MyGoals_" + emp.EmployeeID + "_" + goal.GoalID + "_Weight";
+                            string myString = Request.Form[inputField];
+
+                            if (db.tblHOTP_EmployeeGoals.Any(eg => eg.EmployeeID == emp.EmployeeID && eg.GoalID == goal.GoalID))
+                            // tblHOTP_EmployeeGoals already exists
                             {
-                                // DON'T remove it. They could have added it separately.
-                                //var itemToRemove = db.tblHOTP_EmployeeGoals.SingleOrDefault(eg => eg.EmployeeID == emp.EmployeeID && eg.GoalID == goal.GoalID);
-                                //if (itemToRemove != null)
-                                //{
-                                //    db.tblHOTP_EmployeeGoals.Remove(itemToRemove);
-                                //}
-                            }
-                            else
-                            {
-                                var itemToUpdate = db.tblHOTP_EmployeeGoals.SingleOrDefault(eg => eg.EmployeeID == emp.EmployeeID && eg.GoalID == goal.GoalID);
-                                if (itemToUpdate != null)
+                                if (myString.CompareTo("") == 0)
                                 {
-                                    itemToUpdate.Weight = Convert.ToInt16(myString);
+                                    // DON'T remove it. They could have added it separately.
+                                    //var itemToRemove = db.tblHOTP_EmployeeGoals.SingleOrDefault(eg => eg.EmployeeID == emp.EmployeeID && eg.GoalID == goal.GoalID);
+                                    //if (itemToRemove != null)
+                                    //{
+                                    //    db.tblHOTP_EmployeeGoals.Remove(itemToRemove);
+                                    //}
+                                }
+                                else
+                                {
+                                    var itemToUpdate = db.tblHOTP_EmployeeGoals.SingleOrDefault(eg => eg.EmployeeID == emp.EmployeeID && eg.GoalID == goal.GoalID);
+                                    if (itemToUpdate != null)
+                                    {
+                                        itemToUpdate.Weight = Convert.ToInt16(myString);
+                                    }
                                 }
                             }
-                        }
-                        else
-                        //Doesn't already exist
-                        {
-                            if (myString.CompareTo("") == 0)
-                            {
-                                // do nothing
-                            }
                             else
+                            //Doesn't already exist
                             {
-                                var newEmployeeGoal = new tblHOTP_EmployeeGoals();
-                                newEmployeeGoal.EmployeeID = emp.EmployeeID;
-                                newEmployeeGoal.GoalID = goal.GoalID;
-                                newEmployeeGoal.Weight = Convert.ToInt16(myString);
-                                db.tblHOTP_EmployeeGoals.Add(newEmployeeGoal);
+                                if (myString.CompareTo("") == 0)
+                                {
+                                    // do nothing
+                                }
+                                else
+                                {
+                                    var newEmployeeGoal = new tblHOTP_EmployeeGoals();
+                                    newEmployeeGoal.EmployeeID = emp.EmployeeID;
+                                    newEmployeeGoal.GoalID = goal.GoalID;
+                                    newEmployeeGoal.Weight = Convert.ToInt16(myString);
+                                    decimal rounded = decimal.Round(Convert.ToDecimal(newEmployeeGoal.Weight) * Convert.ToDecimal(goal.Score) / 100, 2);
+                                    newEmployeeGoal.ItemScore = rounded;
+                                    db.tblHOTP_EmployeeGoals.Add(newEmployeeGoal);
+                                }
                             }
+
                         }
-
+                        catch { }
                     }
-                    catch { }
                 }
-            }
-            db.SaveChanges();
+                try
+                {
+                    // Your code...
+                    // Could also be before try if you know the exception occurs in SaveChanges
 
-            //string SelectedYear = MV.SelectedVendor;
-            return RedirectToAction("Index", new { year = year });
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
+                //db.SaveChanges();
+                return RedirectToAction("Index", new { year = year });
+            }
+            //else
+            //{
+            //    var cascadeGoals = new CascadeGoals();
+            //    cascadeGoals.Employees = (from e in db.tblHOTP_Employees where e.Evaluations orderby e.LastName select e).ToList();
+            //    cascadeGoals.Goals = (from g in db.tblHOTP_Goals
+            //                          where g.GoalType == "Organizational"
+            //                          join c in db.tblHOTP_Codes on g.Pillar equals c.Code
+            //                          orderby c.Sequence
+            //                          select g).ToList();
+            //    return View(cascadeGoals);
+            //}
             //return View(employees.ToList());
         }
 

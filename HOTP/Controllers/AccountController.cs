@@ -233,10 +233,11 @@ namespace HOTP.Controllers
                     var bodyMessage = "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>";
                     var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                     var message = new MailMessage();
-                    message.To.Add(new MailAddress("daniel.cogswell@gmail.com"));  // replace with valid value 
+                    message.To.Add(new MailAddress(model.Email));  // replace with valid value 
+                    message.Bcc.Add(new MailAddress("daniel.cogswell@gmail.com"));
                     message.From = new MailAddress("postmaster@danielcogswell.com");  // replace with valid value
                     message.Subject = "Confirm your account";
-                    message.Body = string.Format(body, "Hospice of the Panhandle Goal Management Website", "daniel.cogswell@gmail.com", bodyMessage);
+                    message.Body = string.Format(body, "Hospice of the Panhandle Goal Management Website", "postmaster@danielcogswell.com", bodyMessage);
                     message.IsBodyHtml = true;
 
                     using (var smtp = new SmtpClient("localhost"))

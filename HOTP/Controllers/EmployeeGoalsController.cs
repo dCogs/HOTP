@@ -65,6 +65,8 @@ namespace HOTP.Controllers
                                 CanEdit = editCapability,
                                 Admin = me.Admin
                             };
+                ViewBag.CanEdit = editCapability;
+                ViewBag.Admin = me.Admin;
                 return View(goals.ToList());
             }
             else
@@ -387,94 +389,7 @@ namespace HOTP.Controllers
 
 
         // GET: EmployeeGoals/Eval
-        public ActionResult Eval(int? SelectedEmp)
-        {
-            if (SelectedEmp == null && TempData["SelectedEmp"] != null)
-            {
-                SelectedEmp = Convert.ToInt16(TempData["SelectedEmp"]);
-            }
-            var emps =
-              db.tblHOTP_Employees
-                .Where(s => s.Evaluations)
-                .OrderBy(s => s.LastName)
-                .ToList()
-                .Select(s => new
-                {
-                    EmployeeId = s.EmployeeID,
-                    FullName = string.Format("{0}, {1}", s.LastName, s.FirstName)
-                });
-            ViewBag.SelectedEmp = new SelectList(emps, "EmployeeID", "FullName", SelectedEmp);
-            if (SelectedEmp != null)
-            {
-                TempData["SelectedEmp"] = SelectedEmp;
-                var goals = from eg in db.tblHOTP_EmployeeGoals
-                            where eg.EmployeeID == SelectedEmp
-                            join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
-                            from subGoal in goal.DefaultIfEmpty()
-                            join c in db.tblHOTP_Codes on subGoal.Pillar equals c.Code into code
-                            from subCode in code.DefaultIfEmpty()
-                            orderby subCode.Sequence, subGoal.PillarGoalName
-                            select new EvalViewModel
-                            {
-                                Weight = eg.Weight,
-                                ItemScore = eg.ItemScore,
-                                EmployeeID = eg.EmployeeID,
-                                EmployeeGoalID = eg.EmployeeGoalID,
-                                Goal = subGoal
-                            };
-                return View(goals.ToList());
-            }
-            else
-            {
-                var goals = from eg in db.tblHOTP_EmployeeGoals
-                            where eg.EmployeeID == 4321
-                            join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
-                            from subGoal in goal.DefaultIfEmpty()
-                            select new EvalViewModel { Weight = eg.Weight, EmployeeID = eg.EmployeeID, Goal = subGoal };
-                return View(goals.ToList());
-            }
-        }
-
-
-        // POST: Goals/Eval
-        [HttpPost]
-        public ActionResult Eval(List<EvalViewModel> MyGoals)
-        {
-            string year = "";
-            foreach (EvalViewModel eval in MyGoals)
-            {
-                tblHOTP_Goals existingGoal = db.tblHOTP_Goals.Find(eval.Goal.GoalID);
-                if (existingGoal.GoalType == "Individual")
-                {
-                    existingGoal.JanScore = eval.Goal.JanScore;
-                    existingGoal.FebScore = eval.Goal.FebScore;
-                    existingGoal.MarScore = eval.Goal.MarScore;
-                    existingGoal.AprScore = eval.Goal.AprScore;
-                    existingGoal.MayScore = eval.Goal.MayScore;
-                    existingGoal.JunScore = eval.Goal.JunScore;
-                    existingGoal.JulScore = eval.Goal.JulScore;
-                    existingGoal.AugScore = eval.Goal.AugScore;
-                    existingGoal.SepScore = eval.Goal.SepScore;
-                    existingGoal.OctScore = eval.Goal.OctScore;
-                    existingGoal.NovScore = eval.Goal.NovScore;
-                    existingGoal.DecScore = eval.Goal.DecScore;
-                    existingGoal.Result = eval.Goal.Result;
-                    existingGoal.Score = eval.Goal.Score;
-                    year = eval.Goal.YearEnding;
-                    tblHOTP_EmployeeGoals existingEmployeeGoal = db.tblHOTP_EmployeeGoals.Find(eval.EmployeeGoalID); // Where(eg => eg.EmployeeID == eval.EmployeeID && eg.GoalID == eval.Goal.GoalID).First();//.Select();
-                    if (existingGoal.GoalType == "Individual")
-                    {
-                        existingEmployeeGoal.ItemScore = eval.ItemScore;
-                    }
-                }
-            }
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-
-        // GET: EmployeeGoals/ReportCard
-        public ActionResult ReportCard(int? SelectedEmp, string YearEnding)
+        public ActionResult Eval(int? SelectedEmp, string YearEnding)
         {
             if (SelectedEmp == null && TempData["SelectedEmp"] != null)
             {
@@ -543,9 +458,9 @@ namespace HOTP.Controllers
         }
 
 
-        // POST: Goals/ReportCard
+        // POST: Goals/Eval
         [HttpPost]
-        public ActionResult ReportCard(List<EvalViewModel> MyGoals)
+        public ActionResult Eval(List<EvalViewModel> MyGoals)
         {
             string year = "";
             foreach (EvalViewModel eval in MyGoals)

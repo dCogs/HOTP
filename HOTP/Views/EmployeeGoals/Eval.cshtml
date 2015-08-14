@@ -8,7 +8,6 @@
     select {
         font-size: medium;
     }
-
     .noBox {
         border: none 0px;
     }
@@ -18,11 +17,13 @@
     }
 
     .score {
-        width: 35px;
+        width: 55px;
+                font-size:12px;
     }
 
     .rating {
         width: 25px;
+                font-size:12px;
         margin: 2px 0px 0px 0px;
         padding: 0px 0px 0px 0px;
         background-color: #DCECEF;
@@ -30,16 +31,19 @@
     }
 
     #ratingTable td {
+        font-size:13px;
         border-top: none 0px;
         margin: 0px 0px 0px 0px;
         padding: 0px 0px 0px 0px;
     }
 
     .writeTrue {
+        font-size:12px;
     }
 
     .writeFalse, .Org {
-        width: 35px;
+        font-size:12px;
+        width: 45px;
         background-color: #DCECEF;
     }
 
@@ -49,19 +53,21 @@
     }
 
     .white {
+        font-size:12px;
         background-color: white;
     }
 
     .myLabel {
+        font-size:12px;
         font-weight: bold;
     }
 
     .Individual {
-        width: 35px;
+        width: 50px;
     }
 
     .Organizational {
-        width: 35px;
+        width: 40px;
         background-color: #DCECEF;
     }
 
@@ -75,13 +81,15 @@
 
 
 
-<h2>Evaluations</h2>
+<h2>Report Cards</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "filterForm" }))
 {
     <p>
         @Html.DropDownList("SelectedEmp", "Select an employee")
         &nbsp;&nbsp;
+        @Html.DropDownList("YearEnding")
+        &nbsp;&nbsp;&nbsp;<span class="" style="font-size:medium;">Overall score <input type="text" id="overallScore" class="noBox" /></span>
     </p>
 }
 
@@ -90,30 +98,35 @@
 <div id="theRest">
 
 
-    @using (Html.BeginForm("Eval", "EmployeeGoals", FormMethod.Post))
+    @using (Html.BeginForm("Eval", "EmployeeGoals", FormMethod.Post, new { id = "dataForm" }))
     {
         @Html.AntiForgeryToken()
 
         <input type="hidden" id="scoreFrom" value="Eval" />
+
         <table class="table">
             @for (int i = 0; i < Model.Count; i++)
             {
                 <tr>
                     <td>
+                        @if (i == 0)
+                        {
+                            @Html.Hidden("CanEdit", Model[i].CanEdit)
+                        }
+
                         <div class="row">
-                            <div class="col-md-8">
-                                @Html.Hidden("MyGoals.Index", (@i))
+                            <div class="col-md-8">                                
+                                @Html.Hidden("MyGoals.Index", (@i))                                
                                 @Html.Hidden("MyGoals[" + (@i) + "].EmployeeID", Model[i].EmployeeID)
                                 @Html.Hidden("MyGoals[" + (@i) + "].EmployeeGoalID", Model[i].EmployeeGoalID)
                                 @Html.Hidden("MyGoals[" + (@i) + "].Goal.GoalID", Model[i].Goal.GoalID)
-                                <div class="img-rounded" style="font-size:large;background-color:#267e8a; color:white; font-weight:bolder; text-align:left; padding:4px 4px 4px 4px;">
-                                    &nbsp;
+                                <div class="img-rounded" style="font-size:large;background-color:#034f5a; color:white; font-weight:normal; text-align:left; padding:4px 4px 4px 8px;">
                                     @Html.DisplayFor(modelItem => Model[i].Goal.PillarGoalName)
                                     &nbsp;|&nbsp;
                                     @Html.DisplayFor(modelItem => Model[i].Weight)%
-                                </div>
-                                <div class=" text-info" style="font-size:medium;">
-                                    @Html.DisplayFor(modelItem => Model[i].Goal.Goal)
+                                    <div style="font-size:medium;">
+                                        @Html.DisplayFor(modelItem => Model[i].Goal.Goal)
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-1">
@@ -168,7 +181,7 @@
                             </div>
                             <div class="col-md-4 ">
                                 <div class="row">
-                                    <div class="col-md-6 pull-right">
+                                    <div class="col-md-6 pull-right" style="font-size: 13px;">
                                         @Html.Hidden("MyGoals[" + (@i) + "].Goal.BestRating", Model[i].Goal.BestRating)
                                         @Html.Hidden("MyGoals[" + (@i) + "].Goal.NumDecimals", Model[i].Goal.NumDecimals)
                                         @Html.Hidden("MyGoals[" + (@i) + "].Goal.YearEnding", Model[i].Goal.YearEnding)
@@ -177,7 +190,7 @@
                                         Result: @Html.TextBox("MyGoals[" + (@i) + "].Goal.Result", Model[i].Goal.Result, new { @class = "noBox writeFalse2 white myLabel", @readonly = "readonly" })<br />
                                         Score: @Html.TextBox("MyGoals[" + (@i) + "].Goal.Score", Model[i].Goal.Score, new { @class = "noBox writeFalse2 white myLabel", @readonly = "readonly" })<br />
                                         Weight: @Html.TextBox("MyGoals[" + (@i) + "].Weight", Model[i].Weight + "%", new { @class = "noBox writeFalse2 white myLabel", @readonly = "readonly" })<br />
-                                        Item Score: @Html.TextBox("MyGoals[" + (@i) + "].ItemScore", Model[i].ItemScore, new { @class = "noBox writeFalse2 white myLabel", @readonly = "readonly" })<br />
+                                        Item Score: @Html.TextBox("MyGoals[" + (@i) + "].ItemScore", Model[i].ItemScore, new { @class = "noBox writeFalse2 white myLabel itemScore", @readonly = "readonly" })<br />
                                     </div>
                                     <div class="col-md-6">
                                         <table id="ratingTable" class="img-rounded pull-right" style="background-color:#DCECEF; width:180px; ">
@@ -234,7 +247,7 @@
                     </td>
                 </tr>
             }
-            @if (Model.Count > 0)
+            @if (Model.Count > 0 && (Model.First().Admin || Model.First().CanEdit))
             {
                 <tr>
                     <td>
@@ -242,8 +255,7 @@
                             Save
                         </button>
                         &nbsp;
-                        @*@Html.ActionLink("Add Individual Goal", "Create", new { EmployeeID = Html.DisplayFor(modelItem => Model[1].EmployeeID) })*@
-
+                        @Html.ActionLink("Back to List (don't save)", "Index")
                     </td>
                 </tr>
             }
@@ -251,9 +263,6 @@
 
     }
 
-    <div>
-        @Html.ActionLink("Back to List (don't save)", "Index")
-    </div>
 
 </div>
 
@@ -261,11 +270,24 @@
     document.getElementById("SelectedEmp").onchange = function () {
         document.getElementById("filterForm").submit();
     };
+    document.getElementById("YearEnding").onchange = function () {
+        document.getElementById("filterForm").submit();
+    };
     $(document).ready(function () {
+        $("#overallScore").attr('readonly', true);
+        var totalOverall = parseFloat(0.00);
+        $('.itemScore').each(function () {
+            var thisScore = parseFloat($(this).val());
+            totalOverall += thisScore;
+        });
+        $('#overallScore').val(Math.round(totalOverall * 100) / 100);
+        var x = document.getElementById('CanEdit').value;
+        if (x == 'False') {
+            $("#dataForm :input").attr("disabled", true);
+        }
         if ($('#SelectedEmp').val() == "") $("#theRest").hide();
         else $("#theRest").show();
     });
-
 </script>
 
 <script src="~/Scripts/scoreCalc.js"></script>

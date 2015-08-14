@@ -124,6 +124,14 @@
             if ($('#' + itemScorePre + 'ItemScore').length) {                
                 $('#' + itemScorePre + 'ItemScore').val((parseFloat($('#' + itemScorePre + 'Weight').val()) * score / 100));
             }
+
+            var totalOverall = parseFloat(0.00);
+            $('.itemScore').each(function () {
+                var thisScore = parseFloat($(this).val());
+                totalOverall += thisScore;
+            });
+            $('#overallScore').val(Math.round(totalOverall * 100) / 100);
+
         }
     });
 });
