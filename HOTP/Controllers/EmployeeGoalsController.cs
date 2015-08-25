@@ -44,13 +44,14 @@ namespace HOTP.Controllers
             {
                 TempData["SelectedEmp"] = SelectedEmp;
                 bool editCapability = false;
-                int supervisorID = (from e in db.tblHOTP_Employees
-                                    where e.EmployeeID == SelectedEmp
-                                    select e.SupervisorID).First();
+                var emp = (from e in db.tblHOTP_Employees
+                           where e.EmployeeID == SelectedEmp
+                           select e).First();
+                int supervisorID = emp.SupervisorID;
                 var me = (from e in db.tblHOTP_Employees
                           where e.Email == User.Identity.Name
                           select e).First();
-                if (me.Admin || me.EmployeeID == SelectedEmp || me.EmployeeID == supervisorID) editCapability = true;
+                if (me.Admin || ((me.EmployeeID == SelectedEmp || me.EmployeeID == supervisorID) && !emp.LockCurrentFY)) editCapability = true;
                 var goals = from eg in db.tblHOTP_EmployeeGoals
                             join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
                             from subGoal in goal.DefaultIfEmpty()
@@ -63,7 +64,8 @@ namespace HOTP.Controllers
                                 EmployeeGoalID = eg.EmployeeGoalID,
                                 Goal = subGoal,
                                 CanEdit = editCapability,
-                                Admin = me.Admin
+                                Admin = me.Admin,
+                                LockCurrentFY = emp.LockCurrentFY
                             };
                 ViewBag.CanEdit = editCapability;
                 ViewBag.Admin = me.Admin;
@@ -98,7 +100,6 @@ namespace HOTP.Controllers
         }
 
 
-
         // GET: EmployeeGoals/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -127,46 +128,49 @@ namespace HOTP.Controllers
             if (ModelState.IsValid)
             {
                 var goal = db.tblHOTP_Goals.Find(returnedEvalViewModel.Goal.GoalID);
-                goal.YearEnding = returnedEvalViewModel.Goal.YearEnding;
-                goal.GoalType = returnedEvalViewModel.Goal.GoalType;
-                goal.Pillar = returnedEvalViewModel.Goal.Pillar;
-                goal.GoalName = returnedEvalViewModel.Goal.GoalName;
-                goal.PillarGoalName = returnedEvalViewModel.Goal.PillarGoalName;
-                goal.Goal = returnedEvalViewModel.Goal.Goal;
-                goal.Status = returnedEvalViewModel.Goal.Status;
-                goal.ResultsMeasured = returnedEvalViewModel.Goal.ResultsMeasured;
-                goal.BestRating = returnedEvalViewModel.Goal.BestRating;
-                goal.YearEndCalculation = returnedEvalViewModel.Goal.YearEndCalculation;
-                goal.UnitsMeasuredIn = returnedEvalViewModel.Goal.UnitsMeasuredIn;
-                goal.NumDecimals = returnedEvalViewModel.Goal.NumDecimals;
-                goal.ResultsEntered = returnedEvalViewModel.Goal.ResultsEntered;
-                goal.EnteredBy = returnedEvalViewModel.Goal.EnteredBy;
-                goal.NonEditableByLeader = returnedEvalViewModel.Goal.NonEditableByLeader;
-                goal.Rating1 = returnedEvalViewModel.Goal.Rating1;
-                goal.Rating2 = returnedEvalViewModel.Goal.Rating2;
-                goal.Rating3 = returnedEvalViewModel.Goal.Rating3;
-                goal.Rating4 = returnedEvalViewModel.Goal.Rating4;
-                goal.Rating5 = returnedEvalViewModel.Goal.Rating5;
-                goal.Rating1Suffix = returnedEvalViewModel.Goal.Rating1Suffix;
-                goal.Rating2End = returnedEvalViewModel.Goal.Rating2End;
-                goal.Rating3End = returnedEvalViewModel.Goal.Rating3End;
-                goal.Rating4End = returnedEvalViewModel.Goal.Rating4End;
-                goal.Rating5Suffix = returnedEvalViewModel.Goal.Rating5Suffix;
-                goal.Jan = returnedEvalViewModel.Goal.Jan;
-                goal.Feb = returnedEvalViewModel.Goal.Feb;
-                goal.Mar = returnedEvalViewModel.Goal.Mar;
-                goal.Apr = returnedEvalViewModel.Goal.Apr;
-                goal.May = returnedEvalViewModel.Goal.May;
-                goal.Jun = returnedEvalViewModel.Goal.Jun;
-                goal.Jul = returnedEvalViewModel.Goal.Jul;
-                goal.Aug = returnedEvalViewModel.Goal.Aug;
-                goal.Sep = returnedEvalViewModel.Goal.Sep;
-                goal.Oct = returnedEvalViewModel.Goal.Oct;
-                goal.Nov = returnedEvalViewModel.Goal.Nov;
-                goal.Dec = returnedEvalViewModel.Goal.Dec;
+                if (returnedEvalViewModel.Goal.GoalType == "Individual")
+                {
+                    goal.YearEnding = returnedEvalViewModel.Goal.YearEnding;
+                    goal.GoalType = returnedEvalViewModel.Goal.GoalType;
+                    goal.Pillar = returnedEvalViewModel.Goal.Pillar;
+                    goal.GoalName = returnedEvalViewModel.Goal.GoalName;
+                    goal.PillarGoalName = returnedEvalViewModel.Goal.PillarGoalName;
+                    goal.Goal = returnedEvalViewModel.Goal.Goal;
+                    goal.Status = returnedEvalViewModel.Goal.Status;
+                    goal.ResultsMeasured = returnedEvalViewModel.Goal.ResultsMeasured;
+                    goal.BestRating = returnedEvalViewModel.Goal.BestRating;
+                    goal.YearEndCalculation = returnedEvalViewModel.Goal.YearEndCalculation;
+                    goal.UnitsMeasuredIn = returnedEvalViewModel.Goal.UnitsMeasuredIn;
+                    goal.NumDecimals = returnedEvalViewModel.Goal.NumDecimals;
+                    goal.ResultsEntered = returnedEvalViewModel.Goal.ResultsEntered;
+                    goal.EnteredBy = returnedEvalViewModel.Goal.EnteredBy;
+                    goal.NonEditableByLeader = returnedEvalViewModel.Goal.NonEditableByLeader;
+                    goal.Rating1 = returnedEvalViewModel.Goal.Rating1;
+                    goal.Rating2 = returnedEvalViewModel.Goal.Rating2;
+                    goal.Rating3 = returnedEvalViewModel.Goal.Rating3;
+                    goal.Rating4 = returnedEvalViewModel.Goal.Rating4;
+                    goal.Rating5 = returnedEvalViewModel.Goal.Rating5;
+                    goal.Rating1Suffix = returnedEvalViewModel.Goal.Rating1Suffix;
+                    goal.Rating2End = returnedEvalViewModel.Goal.Rating2End;
+                    goal.Rating3End = returnedEvalViewModel.Goal.Rating3End;
+                    goal.Rating4End = returnedEvalViewModel.Goal.Rating4End;
+                    goal.Rating5Suffix = returnedEvalViewModel.Goal.Rating5Suffix;
+                    goal.Jan = returnedEvalViewModel.Goal.Jan;
+                    goal.Feb = returnedEvalViewModel.Goal.Feb;
+                    goal.Mar = returnedEvalViewModel.Goal.Mar;
+                    goal.Apr = returnedEvalViewModel.Goal.Apr;
+                    goal.May = returnedEvalViewModel.Goal.May;
+                    goal.Jun = returnedEvalViewModel.Goal.Jun;
+                    goal.Jul = returnedEvalViewModel.Goal.Jul;
+                    goal.Aug = returnedEvalViewModel.Goal.Aug;
+                    goal.Sep = returnedEvalViewModel.Goal.Sep;
+                    goal.Oct = returnedEvalViewModel.Goal.Oct;
+                    goal.Nov = returnedEvalViewModel.Goal.Nov;
+                    goal.Dec = returnedEvalViewModel.Goal.Dec;
+                }
                 tblHOTP_EmployeeGoals existing_EmployeeGoals = db.tblHOTP_EmployeeGoals.Find(returnedEvalViewModel.EmployeeGoalID);
                 existing_EmployeeGoals.Weight = returnedEvalViewModel.Weight;
-                //existing_EmployeeGoals.ItemScore = returnedEvalViewModel.ItemScore;
+                existing_EmployeeGoals.ItemScore = Math.Round(Convert.ToDecimal(returnedEvalViewModel.Weight * goal.Score) / 100, 2);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -276,16 +280,6 @@ namespace HOTP.Controllers
                 return View(evalViewModel);
             }
             return View("index");
-            //ViewBag.Pillar = PopulateCodesDDL("Pillar");
-            //ViewBag.YearEnding = PopulateCodesDDL("YearEnding");
-            //ViewBag.ResultsMeasured = PopulateCodesDDL("ResultsMeasured");
-            //ViewBag.BestRating = PopulateCodesDDL("BestRating");
-            //ViewBag.YearEndCalculation = PopulateCodesDDL("YearEndCalculation");
-            //ViewBag.UnitsMeasuredIn = PopulateCodesDDL("UnitsMeasuredIn");
-            //ViewBag.ResultsEntered = PopulateCodesDDL("ResultsEntered");
-            //ViewBag.EmployeeID = selectedEmp;
-            //ViewBag.EmployeeName = empName;
-            //return View(evalViewModel);
         }
 
 
@@ -353,20 +347,6 @@ namespace HOTP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //if (ModelState.IsValid)
-            //{
-            //    db.tblHOTP_Goals.Add(tblHOTP_Goals);
-            //    db.SaveChanges();
-            //    int goalID = tblHOTP_Goals.GoalID;
-            //    var newEmployeeGoal = new tblHOTP_EmployeeGoals();
-            //    string employeeID = Request["EmployeeID"];
-            //    newEmployeeGoal.GoalID = goalID;
-            //    newEmployeeGoal.EmployeeID = Convert.ToInt16(employeeID);
-            //    newEmployeeGoal.Weight = Convert.ToInt16(Request["Weight"]); // Convert.ToInt16(myString);
-            //    db.tblHOTP_EmployeeGoals.Add(newEmployeeGoal);
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
             ViewBag.Pillar = PopulateCodesDDL("Pillar");
             ViewBag.YearEnding = PopulateCodesDDL("YearEnding");
             ViewBag.ResultsMeasured = PopulateCodesDDL("ResultsMeasured");
@@ -432,7 +412,7 @@ namespace HOTP.Controllers
                             from subGoal in goal.DefaultIfEmpty()
                             join c in db.tblHOTP_Codes on subGoal.Pillar equals c.Code into code
                             from subCode in code.DefaultIfEmpty()
-                            where eg.EmployeeID == SelectedEmp && subGoal.YearEnding==YearEnding
+                            where eg.EmployeeID == SelectedEmp && subGoal.YearEnding == YearEnding
                             orderby subCode.Sequence, subGoal.PillarGoalName
                             select new EvalViewModel
                             {
@@ -460,6 +440,7 @@ namespace HOTP.Controllers
 
         // POST: Goals/Eval
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Eval(List<EvalViewModel> MyGoals)
         {
             string year = "";
@@ -491,7 +472,7 @@ namespace HOTP.Controllers
                 }
             }
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Eval");
         }
 
 
@@ -523,9 +504,6 @@ namespace HOTP.Controllers
             }
             return (evalViewModel);
         }
-
-
-
 
 
         // GET: Goals/AddOrg
@@ -591,6 +569,148 @@ namespace HOTP.Controllers
             }
 
             return View(addOrg);
+        }
+
+
+        public ActionResult LockUnlock(int? SelectedEmp, string YearEnding)
+        {
+            if (SelectedEmp == null && TempData["SelectedEmp"] != null)
+            {
+                SelectedEmp = Convert.ToInt16(TempData["SelectedEmp"]);
+            }
+            if (YearEnding == null && TempData["YearEnding"] != null)
+            {
+                YearEnding = TempData["YearEnding"].ToString();
+            }
+            TempData["YearEnding"] = YearEnding;
+            if (SelectedEmp != null)
+            {
+                tblHOTP_Employees emp = (from e in db.tblHOTP_Employees
+                                         where e.EmployeeID == SelectedEmp
+                                         select e).First();
+                if (emp.LockCurrentFY) emp.LockCurrentFY = false;
+                else emp.LockCurrentFY = true;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // GET: EmployeeGoals/MakeOrg/5
+        public ActionResult MakeOrg(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EvalViewModel evalViewModel = GetEvalViewModel(id);
+            if (evalViewModel == null)
+            {
+                return HttpNotFound();
+            }
+            var orgGoals =
+              db.tblHOTP_Goals
+                .Where(g => g.GoalType == "Organizational" && g.YearEnding == evalViewModel.Goal.YearEnding)
+                .OrderBy(g => g.PillarGoalName)
+                .ToList()
+                .Select(g => new
+                {
+                    GoalID = g.GoalID,
+                    PillarGoalName = g.PillarGoalName
+                });
+            MakeOrg makeOrg = new MakeOrg
+            {
+                Eval = evalViewModel,
+                OrgGoals = new SelectList(orgGoals, "GoalID", "PillarGoalName")
+            };
+            return View(makeOrg);
+        }
+
+        // POST: EmployeeGoals/MakeOrg/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MakeOrg(FormCollection formCollection)
+        {
+            if (ModelState.IsValid)
+            {
+                //foreach (string _formData in formCollection)
+                //{
+                //    ViewData[_formData] = formCollection[_formData];
+                //}
+                string employeeGoalID = Request["Eval.EmployeeGoalID"].ToString();
+                string newGoalID = Request["OrgGoals"].ToString();
+                //var goal = db.tblHOTP_Goals.Find(returnedEvalViewModel.Goal.GoalID);
+                tblHOTP_EmployeeGoals existing_EmployeeGoals = db.tblHOTP_EmployeeGoals.Find(Convert.ToInt16(employeeGoalID));
+                existing_EmployeeGoals.GoalID = Convert.ToInt16(newGoalID);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+        // GET: EmployeeGoals/EvalReport
+        public ActionResult EvalReport(int? SelectedEmp, string YearEnding)
+        {
+            if (SelectedEmp == null && TempData["SelectedEmp"] != null)
+            {
+                SelectedEmp = Convert.ToInt16(TempData["SelectedEmp"]);
+            }
+            var emps =
+              db.tblHOTP_Employees
+                .Where(s => s.Evaluations)
+                .OrderBy(s => s.LastName)
+                .ToList()
+                .Select(s => new
+                {
+                    EmployeeId = s.EmployeeID,
+                    FullName = string.Format("{0}, {1}", s.LastName, s.FirstName)
+                });
+            ViewBag.SelectedEmp = new SelectList(emps, "EmployeeID", "FullName", SelectedEmp);
+            if (YearEnding == null && TempData["YearEnding"] != null)
+            {
+                YearEnding = TempData["YearEnding"].ToString();
+            }
+            TempData["YearEnding"] = YearEnding;
+            TempData["SelectedEmp"] = SelectedEmp;
+            //if (SelectedEmp != null)
+            //{
+            bool editCapability = false;
+            var emp = (from e in db.tblHOTP_Employees
+                       where e.EmployeeID == SelectedEmp
+                       select e).First();
+            int supervisorID = emp.SupervisorID;
+            var me = (from e in db.tblHOTP_Employees
+                      where e.Email == User.Identity.Name
+                      select e).First();
+            if (me.Admin || me.EmployeeID == SelectedEmp || me.EmployeeID == supervisorID) editCapability = true;
+            ViewBag.EmpName = emp.FirstName + " " + emp.LastName;
+            var goals = from eg in db.tblHOTP_EmployeeGoals
+                        join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
+                        from subGoal in goal.DefaultIfEmpty()
+                        join c in db.tblHOTP_Codes on subGoal.Pillar equals c.Code into code
+                        from subCode in code.DefaultIfEmpty()
+                        where eg.EmployeeID == SelectedEmp && subGoal.YearEnding == YearEnding
+                        orderby subCode.Sequence, subGoal.PillarGoalName
+                        select new EvalViewModel
+                        {
+                            Weight = eg.Weight,
+                            ItemScore = eg.ItemScore,
+                            EmployeeID = eg.EmployeeID,
+                            EmployeeGoalID = eg.EmployeeGoalID,
+                            Goal = subGoal,
+                            CanEdit = editCapability,
+                            Admin = me.Admin
+                        };
+            return View(goals.ToList());
+            //}
+            //else
+            //{
+            //    var goals = from eg in db.tblHOTP_EmployeeGoals
+            //                where eg.EmployeeID == 4321
+            //                join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
+            //                from subGoal in goal.DefaultIfEmpty()
+            //                select new EvalViewModel { Weight = eg.Weight, EmployeeID = eg.EmployeeID, Goal = subGoal };
+            //    return View(goals.ToList());
+            //}
         }
 
 

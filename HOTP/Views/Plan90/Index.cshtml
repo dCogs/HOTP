@@ -26,9 +26,9 @@
             @if (Model.First().Admin || Model.First().CanEdit)
             {
                 @Html.ActionLink("Edit All", "All")                
-                @:&nbsp;|&nbsp;
+                @:&nbsp;|&nbsp; 
             }
-            @Html.ActionLink("Report All", "Report", null, new { target = "_blank" } )
+            @Html.ActionLink("Report All", "Report", "Plan90", new { target = "_self" } )
         </p>
 
     }
@@ -59,9 +59,9 @@
             totalItemScore += Convert.ToDecimal(item.ItemScore);
             <tr>
                 <td>
-                    @if ((item.Goal.GoalType == "Organizational" && item.Admin) || (item.Goal.GoalType == "Individual" && item.CanEdit))
+                    @if (item.Admin || item.CanEdit)
                     {
-                        @Html.ActionLink("Edit Plan for This Goal", "Edit", new { id = item.EmployeeGoalID })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeGoalID })
                     }
                 </td>
                 <td>
@@ -85,6 +85,7 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
             <td>
                 @totalWeight%
             </td>
@@ -99,9 +100,11 @@
 
 <script>
     document.getElementById("SelectedEmp").onchange = function () {
+        $('#loadingImage').toggle();
         document.getElementById("filterForm").submit();
     };
     document.getElementById("YearEnding").onchange = function () {
+        $('#loadingImage').toggle();
         document.getElementById("filterForm").submit();
     };
     $(document).ready(function () {

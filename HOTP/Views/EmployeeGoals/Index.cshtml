@@ -22,7 +22,7 @@
         @Html.DropDownList("YearEnding")
     </p>
 }
-@if (Model == null || Model.Count()==0)
+@if (Model == null || Model.Count() == 0)
 {
     if ((ViewBag.CanEdit != null && ViewBag.CanEdit) || (ViewBag.Admin != null && ViewBag.Admin))
     {
@@ -42,6 +42,19 @@
             <p>
                 @Html.ActionLink("Create New Individual Goal", "Create") |
                 @Html.ActionLink("Add Organizational Goal", "AddOrg")
+                @if (ViewBag.Admin != null && ViewBag.Admin)
+                {
+                    @:&nbsp;|&nbsp;
+                    if (Model.First().LockCurrentFY)
+                    {
+                        @Html.ActionLink("Unlock Individual Goals", "LockUnlock")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Lock Individual Goals (Admin can still edit)", "LockUnlock")
+                    }
+                }
+
             </p>
         }
     }
@@ -51,6 +64,7 @@
     }
     <table class="table">
         <tr>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
@@ -74,6 +88,12 @@
             totalItemScore += Convert.ToDecimal(item.ItemScore);
             <tr>
                 <td>
+                    @if (item.Admin && item.Goal.GoalType == "Individual")
+                    {
+                        @Html.ActionLink("Reassign as org goal", "MakeOrg", new { id = item.EmployeeGoalID })
+                    }
+                </td>
+                <td>
                     @if ((item.Goal.GoalType == "Organizational" && item.Admin) || (item.Goal.GoalType == "Individual" && item.CanEdit))
                     {
                         @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeGoalID })
@@ -85,7 +105,7 @@
                 <td>
                     @if (item.Admin || item.CanEdit)
                     {
-                        @Html.ActionLink("Remove for this Employee", "Delete", new { id = item.EmployeeGoalID })
+                        @Html.ActionLink("Remove", "Delete", new { id = item.EmployeeGoalID })
                     }
                 </td>
                 <td>
@@ -108,6 +128,7 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
             <td>
                 @totalWeight%
             </td>
@@ -122,9 +143,11 @@
 
 <script>
     document.getElementById("SelectedEmp").onchange = function () {
+        $('#loadingImage').toggle();
         document.getElementById("filterForm").submit();
     };
     document.getElementById("YearEnding").onchange = function () {
+        $('#loadingImage').toggle();
         document.getElementById("filterForm").submit();
     };
 
@@ -132,4 +155,14 @@
         if ($('#SelectedEmp').val() == "") $("#theRest").hide();
         else $("#theRest").show();
     });
+
+    //$("a").click(function (e) {
+    //    $('#loadingImage').toggle();
+    //});
+
+    //$("form").submit(function (e) {
+    //    $('#loadingImage').toggle();
+    //});
+
+
 </script>

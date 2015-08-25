@@ -1,12 +1,12 @@
 ﻿body {
-    padding-top: 10px;
+    padding-top: 0px;
     padding-bottom: 10px;
     font-size: 12px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    margin-top: 104px;
+    margin-top: 0px;
     padding-left: 0px;
     padding-right: 0px;
 }
@@ -74,12 +74,13 @@ textarea {
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
-    background-color: #934802;
+    /*background-color: #934802;*/
+    background-color: #428bca;
     color: white;
 }
 
     .btn:hover {
-        color: #934802;
+        color: #428bca;  /*#934802;*/
         background-color: white;
     }
 
@@ -89,7 +90,7 @@ textarea {
 
 a {
     font-size: 14px;
-    color: #934802;
+    /*color: #934802;*/
     font-weight: bold;
 }
 
@@ -97,6 +98,9 @@ a {
     font-size: medium;
 }
 
+.table th {
+    font-size: medium;
+}
 select {
     font-size: medium;
     border: 1px solid lightgray;

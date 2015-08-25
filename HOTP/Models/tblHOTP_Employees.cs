@@ -30,6 +30,7 @@ namespace HOTP.Models
         public string Email { get; set; }
         public bool Admin { get; set; }
         public bool Evaluations { get; set; }
+        public bool LockCurrentFY { get; set; }
     
         public virtual ICollection<tblHOTP_EmployeeGoals> tblHOTP_EmployeeGoals { get; set; }
     }

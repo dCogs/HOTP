@@ -1,0 +1,308 @@
+﻿@model List<HOTP.Models.GoalFull>
+@{
+    ViewBag.Title = "Report";    
+    Layout = "~/Views/Shared/_LayoutNoHeading.cshtml";
+}
+
+<style>
+    body {
+        /*width: 800pt;*/
+    }
+    #theRest {
+        font-size:10pt;
+    }
+    .body-content {
+        margin-top: 0pt;
+        padding-left: 0pt;
+        padding-right: 0pt;
+        
+    }
+
+    .noBoxStop {
+        border: none;
+    }
+
+    .noShow {
+        display: none;
+    }
+
+    .nav-tabs > li > a {
+        font-size: 12pt;
+        color:lightgray;
+    }
+
+    .highlightScore {
+        background-color: yellow;
+    }
+
+    .topCurve {
+        border-top-left-radius: 0pt;
+        border-top-right-radius: 0pt;
+        padding: 4pt 4pt 4pt 8pt;
+        margin-right: 12pt;
+        font-size:14pt;
+        background-color:#51a1ad; 
+        color:white; 
+        font-weight:normal; 
+        text-align:left; 
+    }
+
+    .bottomCurve {
+        border-bottom-left-radius: 0pt;
+        border-bottom-right-radius: 0pt;
+        padding: 4pt 4pt 4pt 4pt;
+        margin-right: 12pt;
+        font-size:10pt;
+        margin-top:0pt;background-color:cornsilk;
+    }
+
+    .actionStepsTable td {
+        padding:4pt 4pt 4pt 4pt;
+        border:solid thin lightgray;
+    }
+
+    .nav-pills > li.active > a {
+        background-color: white;
+        color: black;
+    }
+
+
+</style>
+<div class="body-content">
+
+    @*<h4>90-Day Action Plan for @Model[0].EmployeeName<span class="pull-right" style="font-size:small">@DateTime.Now</span></h4>*@
+
+    <div id="theRest">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "displayForm" }))
+        {
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#quarter1" class="quarterTabs">Quarter 1</a></li>
+                <li class="quarterTabs"><a data-toggle="tab" href="#quarter2" class="quarterTabs">Quarter 2</a></li>
+                <li class="quarterTabs"><a data-toggle="tab" href="#quarter3" class="quarterTabs">Quarter 3</a></li>
+                <li class="quarterTabs"><a data-toggle="tab" href="#quarter4" class="quarterTabs">Quarter 4</a></li>
+            </ul>
+
+            <div class="tab-content" id="tab-content" style="border:1pt solid lightgray; border-top:none; padding:8pt 12pt 8pt 12pt; ">
+
+                @for (int q = 1; q < 5; q++)
+                {
+                    string quarterID = "quarter" + q;
+                    string quarterClass = "tab-pane fade";
+                    if (q == 1) { quarterClass += " in active"; };
+
+                    <div id="@quarterID" class="@quarterClass">
+
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            bool pillarDisplayed = false;
+                            int p = 0;
+                            foreach (HOTP.Models.Plan90Full plan in Model[i].Plans)
+                            {
+                                if (plan.Plan.Quarter == q)
+                                {
+                                    if (!pillarDisplayed)
+                                    {
+                                        pillarDisplayed = true;
+
+                                        <div class="" style="margin-bottom:8pt;">
+                                            <div class="">
+                                                <div class="topCurve" >
+                                                    @Html.DisplayFor(model => model[i].Goal.PillarGoalName)
+                                                    &nbsp;|&nbsp;
+                                                    @Html.DisplayFor(model => model[i].EmployeeGoal.Weight)%
+                                                    <div>
+                                                        @Html.DisplayFor(model => model[i].Goal.Goal)
+                                                    </div>
+                                                </div>
+                                                <div class="bottomCurve">
+                                                    @if (Model[i].Goal.Score == 5)
+                                                    {
+                                                        <span class="highlightScore">5</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>5</span>
+                                                    }
+                                                    =@Html.DisplayFor(model => model[i].Goal.Rating5) to @Html.DisplayFor(model => model[i].Goal.Rating5Suffix)
+                                                    &nbsp;&bull;&nbsp;
+                                                    @if (Model[i].Goal.Score == 4)
+                                                    {
+                                                        <span class="highlightScore">4</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>4</span>
+                                                    }
+                                                    = @Html.DisplayFor(model => model[i].Goal.Rating4) to @Html.DisplayFor(model => model[i].Goal.Rating4End)
+                                                    &nbsp;&bull;&nbsp;
+                                                    @if (Model[i].Goal.Score == 3)
+                                                    {
+                                                        <span class="highlightScore">3</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>3</span>
+                                                    }
+                                                    = @Html.DisplayFor(model => model[i].Goal.Rating3) to @Html.DisplayFor(model => model[i].Goal.Rating3End)
+                                                    &nbsp;&bull;&nbsp;
+                                                    @if (Model[i].Goal.Score == 2)
+                                                    {
+                                                        <span class="highlightScore">2</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>2</span>
+                                                    }
+                                                    = @Html.DisplayFor(model => model[i].Goal.Rating2) to @Html.DisplayFor(model => model[i].Goal.Rating2End)
+                                                    &nbsp;&bull;&nbsp;
+                                                    @if (Model[i].Goal.Score == 1)
+                                                    {
+                                                        <span class="highlightScore">1</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>1</span>
+                                                    }
+                                                    = @Html.DisplayFor(model => model[i].Goal.Rating1) to @Html.DisplayFor(model => model[i].Goal.Rating1Suffix)
+                                                    &nbsp;&bull;&nbsp;
+                                                    Result is @Html.DisplayFor(model => model[i].Goal.Result) using scoring method: @Html.DisplayFor(model => model[i].Goal.YearEndCalculation)
+                                                    <br />
+                                                    @if (Model[i].Goal.JanScore != null)
+                                                    {
+                                                        @:Jan:@Html.DisplayFor(model => model[i].Goal.JanScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.FebScore != null)
+                                                    {
+                                                        @:Feb:@Html.DisplayFor(model => model[i].Goal.FebScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.MarScore != null)
+                                                    {
+                                                        @:Mar:@Html.DisplayFor(model => model[i].Goal.MarScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.AprScore != null)
+                                                    {
+                                                        @:Apr:@Html.DisplayFor(model => model[i].Goal.AprScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.MayScore != null)
+                                                    {
+                                                        @:May:@Html.DisplayFor(model => model[i].Goal.MayScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.JunScore != null)
+                                                    {
+                                                        @:Jun:@Html.DisplayFor(model => model[i].Goal.JunScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.JulScore != null)
+                                                    {
+                                                        @:Jul:@Html.DisplayFor(model => model[i].Goal.JulScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.AugScore != null)
+                                                    {
+                                                        @:Aug:@Html.DisplayFor(model => model[i].Goal.AugScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.SepScore != null)
+                                                    {
+                                                        @:Sep:@Html.DisplayFor(model => model[i].Goal.SepScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.OctScore != null)
+                                                    {
+                                                        @:Oct:@Html.DisplayFor(model => model[i].Goal.OctScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.NovScore != null)
+                                                    {
+                                                        @:Nov:@Html.DisplayFor(model => model[i].Goal.NovScore)&nbsp;&bull;&nbsp;
+                                            }
+                                                    @if (Model[i].Goal.DecScore != null)
+                                                    {
+                                                        @:Dec:@Html.DisplayFor(model => model[i].Goal.DecScore)
+                                            }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    string planID = plan.Plan.PlanID.ToString();
+                                    string tableID = "actionSteps_" + i + "_p" + p;
+                                    string addActionID = "addAction_" + i + "_p" + p + "__" + planID;
+                                    string nextActionID = "nextAction_" + i + "_p" + p;
+
+                                    <div>
+                                        <div class="">
+                                            <div class="col-md-1">
+                                                @Html.LabelFor(model => plan.Plan.Goal, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-md-10">
+                                                @Html.DisplayFor(model => plan.Plan.Goal)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:12pt;">
+                                        <table id="@tableID" name="@tableID" class="actionStepsTable" style="width:90%">
+                                            <thead>
+                                                <tr>
+                                                    <th width="40%">Action Step</th>
+                                                    <th width="40%">Result</th>
+                                                    <th width="15%">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{int actionNum = 0;}
+                                                @foreach (HOTP.Models.tblHOTP_ActionSteps actionStep in plan.ActionSteps)
+                                                {
+                                                    <tr>
+                                                        <td class="">
+                                                            @Html.DisplayFor(model => actionStep.ActionStep)
+                                                                                                                    </td>
+                                                        <td>
+                                                            @Html.DisplayFor(model => actionStep.Result)
+                                                        </td>
+                                                        <td valign="top">
+                                                            @Html.DisplayFor(model => actionStep.Status)
+                                                            @{actionNum += 1;}
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" id="@nextActionID" value="@actionNum" />
+                                        <br /><br />
+                                    </div>
+
+                                }
+                                p += 1;
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#displayForm :input").attr("disabled", true);
+        $(".noBoxStop").attr('tabindex', -1);
+    });
+</script>
+
+<script>
+    //document.getElementById("SelectedEmp").onchange = function () {
+    //    document.getElementById("filterForm").submit();
+    //};
+    //document.getElementById("YearEnding").onchange = function () {
+    //    document.getElementById("filterForm").submit();
+    //};
+
+    //$(document).ready(function () {
+    //    if ($('#SelectedEmp').val() == "") $("#theRest").hide();
+    //    else $("#theRest").show();
+    //});
+</script>
+

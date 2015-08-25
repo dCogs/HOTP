@@ -27,9 +27,9 @@ namespace HOTP.Models
     
         public virtual DbSet<tblHOTP_Codes> tblHOTP_Codes { get; set; }
         public virtual DbSet<tblHOTP_Goals> tblHOTP_Goals { get; set; }
-        public virtual DbSet<tblHOTP_Employees> tblHOTP_Employees { get; set; }
         public virtual DbSet<tblHOTP_ActionSteps> tblHOTP_ActionSteps { get; set; }
-        public virtual DbSet<tblHOTP_EmployeeGoals> tblHOTP_EmployeeGoals { get; set; }
         public virtual DbSet<tblHOTP_Plan90> tblHOTP_Plan90 { get; set; }
+        public virtual DbSet<tblHOTP_EmployeeGoals> tblHOTP_EmployeeGoals { get; set; }
+        public virtual DbSet<tblHOTP_Employees> tblHOTP_Employees { get; set; }
     }
 }

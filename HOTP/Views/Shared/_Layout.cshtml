@@ -9,12 +9,12 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:#034f5a; height:118px;">
+    <div class="navbar-inverse" style="background-color:#034f5a; height:104px;"> @*navbar-fixed-top*@
         <div class="container">
             <div class="navbar-header">
                 <div class="img-rounded" style="background-color:white;margin: 10px 12px 10px -12px;padding:8px 8px 8px 8px">
                     &nbsp;
-                    <img src="~/Content/Images/logo.png" />
+                    <img src="~/Content/Images/logo66h.png" />
                 </div>
             </div>
             <div class="pull-right">
@@ -30,10 +30,6 @@
                          && ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeGoals" ? "active" : "")">
                         @Html.ActionLink("Employee Goals", "Index", "EmployeeGoals")
                     </li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Eval"
-                         && ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeGoals" ? "active" : "")">
-                        @Html.ActionLink("Annual Evaluations", "Eval", "EmployeeGoals")
-                    </li>
                     @*<li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Eval"
                          && ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeGoals" ? "active" : "")">
                         @Html.ActionLink("Evaluations", "Eval", "EmployeeGoals")
@@ -41,6 +37,10 @@
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index"
                             && ViewContext.RouteData.Values["Controller"].ToString() == "Plan90" ? "active" : "")">
                         @Html.ActionLink("90-Day Plans", "Index", "Plan90")
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Eval"
+                         && ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeGoals" ? "active" : "")">
+                        @Html.ActionLink("Annual Evaluations", "Eval", "EmployeeGoals")
                     </li>
                     @if (HOTPHelpers.Helpers.MyHTMLHelpers.AdminRole(User.Identity.Name))
                     {
@@ -73,7 +73,8 @@
         </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" style="margin-top:0px;">
+        <div id="loadingImage" style="display: none; position:fixed; left:500px; top:300px; z-index:9999; "><img src="~/Content/Images/ajax-loader.gif" alt="Updating..." /></div>
         @RenderBody()
         <hr />
         <footer>
@@ -84,5 +85,16 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("form").submit(function (e) {
+            $('#loadingImage').toggle();
+        });
+        $("a").click(function (e) {
+            $('#loadingImage').toggle();
+        });
+    });
+    </script>
 </body>
 </html>

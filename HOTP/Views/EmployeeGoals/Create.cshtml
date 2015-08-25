@@ -4,6 +4,17 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .tighter {
+        padding: 0px -0px 0px 0px;
+        margin: 0px -8px 0px -4px;
+        width: 15px;
+    }
+
+    .control-label {
+        margin-left: -12px;
+    }
+</style>
 
 <h2>Individual Goal</h2>
 <h4>@Html.Display("EmployeeName")</h4>
@@ -226,53 +237,53 @@
                     <div class="row">
                         <div class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Jan, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Jan, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Jan, htmlAttributes: new { @class = "control-label col-md-1" })
                         </div>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Feb, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Feb, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Feb, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Mar, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Mar, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Mar, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Apr, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Apr, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Apr, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.May, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.May, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.May, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Jun, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Jun, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Jun, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                     </div>
                     <div class="row">
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Jul, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Jul, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Jul, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Aug, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Aug, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Aug, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Sep, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Sep, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Sep, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Oct, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Oct, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Oct, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Nov, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Nov, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Nov, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
                             @Html.CheckBoxFor(model => model.Goal.Dec, htmlAttributes: new { @class = " monthCheck " })
-                            @Html.LabelFor(model => model.Goal.Dec, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.Goal.Dec, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                     </div>
 

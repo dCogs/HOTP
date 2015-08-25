@@ -8,6 +8,7 @@
     select {
         font-size: medium;
     }
+
     .noBox {
         border: none 0px;
     }
@@ -18,12 +19,12 @@
 
     .score {
         width: 55px;
-                font-size:12px;
+        font-size: 12px;
     }
 
     .rating {
         width: 25px;
-                font-size:12px;
+        font-size: 12px;
         margin: 2px 0px 0px 0px;
         padding: 0px 0px 0px 0px;
         background-color: #DCECEF;
@@ -31,18 +32,18 @@
     }
 
     #ratingTable td {
-        font-size:13px;
+        font-size: 13px;
         border-top: none 0px;
         margin: 0px 0px 0px 0px;
         padding: 0px 0px 0px 0px;
     }
 
     .writeTrue {
-        font-size:12px;
+        font-size: 12px;
     }
 
     .writeFalse, .Org {
-        font-size:12px;
+        font-size: 12px;
         width: 45px;
         background-color: #DCECEF;
     }
@@ -53,17 +54,18 @@
     }
 
     .white {
-        font-size:12px;
+        font-size: 12px;
         background-color: white;
     }
 
     .myLabel {
-        font-size:12px;
+        font-size: 12px;
         font-weight: bold;
     }
 
     .Individual {
         width: 50px;
+        background-color: lemonchiffon;
     }
 
     .Organizational {
@@ -81,15 +83,37 @@
 
 
 
-<h2>Report Cards</h2>
+<h2>Annual Evaluation</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { id = "filterForm" }))
 {
+    @Html.AntiForgeryToken()
     <p>
+        @if (Model != null && Model.Count() > 0)
+        {
+            @Html.ActionLink("Report", "EvalReport", null, new { target = "_self" })
+            @:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        }
         @Html.DropDownList("SelectedEmp", "Select an employee")
         &nbsp;&nbsp;
         @Html.DropDownList("YearEnding")
-        &nbsp;&nbsp;&nbsp;<span class="" style="font-size:medium;">Overall score <input type="text" id="overallScore" class="noBox" /></span>
+        @if (Model != null && Model.Count() > 0)
+        {
+            <span class="" style="font-size:medium;">
+                &nbsp;&nbsp;&nbsp;
+                @if (Model[0].CanEdit)
+                {
+                    @:[Edit]
+                }
+                else
+                {
+                    @:[Read Only]
+                }
+                &nbsp;&nbsp;&nbsp;
+                Overall score <input type="text" id="overallScore" class="noBox" />
+            </span>
+        }
+
     </p>
 }
 
@@ -115,12 +139,12 @@
                         }
 
                         <div class="row">
-                            <div class="col-md-8">                                
-                                @Html.Hidden("MyGoals.Index", (@i))                                
+                            <div class="col-md-8">
+                                @Html.Hidden("MyGoals.Index", (@i))
                                 @Html.Hidden("MyGoals[" + (@i) + "].EmployeeID", Model[i].EmployeeID)
                                 @Html.Hidden("MyGoals[" + (@i) + "].EmployeeGoalID", Model[i].EmployeeGoalID)
                                 @Html.Hidden("MyGoals[" + (@i) + "].Goal.GoalID", Model[i].Goal.GoalID)
-                                <div class="img-rounded" style="font-size:large;background-color:#034f5a; color:white; font-weight:normal; text-align:left; padding:4px 4px 4px 8px;">
+                                <div class="img-rounded" style="font-size:large;background-color:#51a1ad; color:white; font-weight:normal; text-align:left; padding:4px 4px 4px 8px;">
                                     @Html.DisplayFor(modelItem => Model[i].Goal.PillarGoalName)
                                     &nbsp;|&nbsp;
                                     @Html.DisplayFor(modelItem => Model[i].Weight)%
@@ -255,7 +279,7 @@
                             Save
                         </button>
                         &nbsp;
-                        @Html.ActionLink("Back to List (don't save)", "Index")
+                        @*@Html.ActionLink("Back to List (don't save)", "Index")*@
                     </td>
                 </tr>
             }
@@ -268,9 +292,11 @@
 
 <script>
     document.getElementById("SelectedEmp").onchange = function () {
+        $('#loadingImage').toggle();
         document.getElementById("filterForm").submit();
     };
     document.getElementById("YearEnding").onchange = function () {
+        $('#loadingImage').toggle();
         document.getElementById("filterForm").submit();
     };
     $(document).ready(function () {

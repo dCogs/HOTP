@@ -22,12 +22,12 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+                                        
     <input type="hidden" id="scoreFrom" value="ind" />
 
     <div class="form-horizontal">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = " text-danger" })
         @Html.HiddenFor(model => model.Goal.GoalID)
         @Html.HiddenFor(model => model.EmployeeGoalID)
         @Html.Hidden("EmployeeID")
@@ -37,7 +37,7 @@
                 @Html.Label("Weight:", htmlAttributes: new { @class = "control-label col-md-1" })
                 <div class="col-md-1">
                     @Html.TextBox("Weight", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Weight, "", new { @class =  " text-danger" })
                 </div>
             </div>
         </div>
@@ -52,32 +52,32 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.YearEnding, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.DropDownListFor(model => model.Goal.YearEnding, ViewBag.YearEnding as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control ratingCalc " })
-                        @Html.ValidationMessageFor(model => model.Goal.YearEnding, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Goal.YearEnding, ViewBag.YearEnding as IEnumerable<SelectListItem>, htmlAttributes: new { @class = Model.Goal.GoalType + " form-control ratingCalc " })
+                        @Html.ValidationMessageFor(model => model.Goal.YearEnding, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.GoalType, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.TextBoxFor(model => model.Goal.GoalType, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @Value = "Individual" })
-                        @Html.ValidationMessageFor(model => model.Goal.GoalType, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Goal.GoalType, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Goal.GoalType, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.Pillar, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.DropDownListFor(model => model.Goal.Pillar, ViewBag.Pillar as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control ratingCalc " })
-                        @Html.ValidationMessageFor(model => model.Goal.Pillar, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Goal.Pillar, ViewBag.Pillar as IEnumerable<SelectListItem>, htmlAttributes: new { @class = Model.Goal.GoalType + " form-control ratingCalc " })
+                        @Html.ValidationMessageFor(model => model.Goal.Pillar, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.GoalName, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.EditorFor(model => model.Goal.GoalName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Goal.GoalName, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.GoalName, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control" } })
+                        @Html.ValidationMessageFor(model => model.Goal.GoalName, "", new { @class = Model.Goal.GoalType + " text-danger" })
                         @Html.HiddenFor(model => model.Goal.PillarGoalName)
                     </div>
                 </div>
@@ -85,8 +85,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.Goal, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.EditorFor(model => model.Goal.Goal, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Goal.Goal, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.Goal, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control" } })
+                        @Html.ValidationMessageFor(model => model.Goal.Goal, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
@@ -97,39 +97,39 @@
                         <label for="Status_true">Active</label>&nbsp;
                         @Html.RadioButtonFor(model => model.Goal.Status, "Inactive", new { id = "Status_Inactive" })
                         <label for="Status_Inactive">Inactive</label>
-                        @Html.ValidationMessageFor(model => model.Goal.Status, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Goal.Status, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.ResultsMeasured, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.DropDownListFor(model => model.Goal.ResultsMeasured, ViewBag.ResultsMeasured as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control ratingCalc " })
-                        @Html.ValidationMessageFor(model => model.Goal.ResultsMeasured, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Goal.ResultsMeasured, ViewBag.ResultsMeasured as IEnumerable<SelectListItem>, htmlAttributes: new { @class = Model.Goal.GoalType + " form-control ratingCalc " })
+                        @Html.ValidationMessageFor(model => model.Goal.ResultsMeasured, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.YearEndCalculation, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.DropDownListFor(model => model.Goal.YearEndCalculation, ViewBag.YearEndCalculation as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control ratingCalc " })
-                        @Html.ValidationMessageFor(model => model.Goal.YearEndCalculation, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Goal.YearEndCalculation, ViewBag.YearEndCalculation as IEnumerable<SelectListItem>, htmlAttributes: new { @class = Model.Goal.GoalType + " form-control ratingCalc " })
+                        @Html.ValidationMessageFor(model => model.Goal.YearEndCalculation, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.UnitsMeasuredIn, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.DropDownListFor(model => model.Goal.UnitsMeasuredIn, ViewBag.UnitsMeasuredIn as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control ratingCalc " })
-                        @Html.ValidationMessageFor(model => model.Goal.UnitsMeasuredIn, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Goal.UnitsMeasuredIn, ViewBag.UnitsMeasuredIn as IEnumerable<SelectListItem>, htmlAttributes: new { @class = Model.Goal.GoalType + " form-control ratingCalc " })
+                        @Html.ValidationMessageFor(model => model.Goal.UnitsMeasuredIn, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.NumDecimals, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.EditorFor(model => model.Goal.NumDecimals, new { htmlAttributes = new { @class = "form-control ratingCalc" } })
-                        @Html.ValidationMessageFor(model => model.Goal.NumDecimals, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.NumDecimals, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control ratingCalc" } })
+                        @Html.ValidationMessageFor(model => model.Goal.NumDecimals, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
@@ -140,16 +140,16 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.BestRating, htmlAttributes: new { @class = "control-label col-md-6 " })
                     <div class="col-md-6">
-                        @Html.DropDownListFor(model => model.Goal.BestRating, ViewBag.BestRating as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control ratingCalc " })
-                        @Html.ValidationMessageFor(model => model.Goal.BestRating, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Goal.BestRating, ViewBag.BestRating as IEnumerable<SelectListItem>, htmlAttributes: new { @class = Model.Goal.GoalType + " form-control ratingCalc " })
+                        @Html.ValidationMessageFor(model => model.Goal.BestRating, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.Rating5, htmlAttributes: new { @class = "control-label col-sm-6 " })
                     <div class="col-sm-2">
-                        @Html.EditorFor(model => model.Goal.Rating5, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
-                        @Html.ValidationMessageFor(model => model.Goal.Rating5, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.Rating5, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Goal.Rating5, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                     <div class="col-sm-4 tighter">
                         @Html.TextBoxFor(model => model.Goal.Rating5Suffix, htmlAttributes: new { @class = "noBox ", @readonly = "readonly" })
@@ -159,8 +159,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.Rating4, htmlAttributes: new { @class = "control-label col-sm-6 " })
                     <div class="col-sm-2">
-                        @Html.EditorFor(model => model.Goal.Rating4, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
-                        @Html.ValidationMessageFor(model => model.Goal.Rating4, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.Rating4, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Goal.Rating4, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                     <div class="col-sm-1 tighter">to</div>
                     <div class="col-sm-3">
@@ -171,8 +171,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.Rating3, htmlAttributes: new { @class = "control-label col-sm-6 " })
                     <div class="col-sm-2">
-                        @Html.EditorFor(model => model.Goal.Rating3, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
-                        @Html.ValidationMessageFor(model => model.Goal.Rating3, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.Rating3, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Goal.Rating3, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                     <div class="col-sm-1 tighter">to</div>
                     <div class="col-sm-3">
@@ -183,8 +183,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.Rating2, htmlAttributes: new { @class = "control-label col-sm-6 " })
                     <div class="col-sm-2">
-                        @Html.EditorFor(model => model.Goal.Rating2, new { htmlAttributes = new { @class = "form-control ratingCalc " } })
-                        @Html.ValidationMessageFor(model => model.Goal.Rating2, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.Rating2, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control ratingCalc " } })
+                        @Html.ValidationMessageFor(model => model.Goal.Rating2, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                     <div class="col-sm-1 tighter">to</div>
                     <div class="col-sm-3">
@@ -195,8 +195,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.Rating1, htmlAttributes: new { @class = "control-label col-sm-6 " })
                     <div class="col-sm-2">
-                        @Html.EditorFor(model => model.Goal.Rating1, new { htmlAttributes = new { @class = "form-control ratingCalc ", @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model.Goal.Rating1, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.Rating1, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control ratingCalc ", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Goal.Rating1, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                     <div class="col-sm-4 tighter">
                         @Html.TextBoxFor(model => model.Goal.Rating1Suffix, htmlAttributes: new { @class = "noBox ", @readonly = "readonly" })
@@ -207,16 +207,16 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Goal.ResultsEntered, htmlAttributes: new { @class = "control-label col-md-6" })
                     <div class="col-md-6">
-                        @Html.DropDownListFor(model => model.Goal.ResultsEntered, ViewBag.ResultsEntered as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control ratingCalc " })
-                        @Html.ValidationMessageFor(model => model.Goal.ResultsEntered, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Goal.ResultsEntered, ViewBag.ResultsEntered as IEnumerable<SelectListItem>, htmlAttributes: new { @class = Model.Goal.GoalType + " form-control ratingCalc " })
+                        @Html.ValidationMessageFor(model => model.Goal.ResultsEntered, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
                 @*<div class="form-group">
                     @Html.LabelFor(model => model.Goal.EnteredBy, htmlAttributes: new { @class = "control-label col-md-6" })
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.Goal.EnteredBy, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Goal.EnteredBy, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Goal.EnteredBy, new { htmlAttributes = new { @class = Model.Goal.GoalType + " form-control" } })
+                        @Html.ValidationMessageFor(model => model.Goal.EnteredBy, "", new { @class = Model.Goal.GoalType + " text-danger" })
                     </div>
                 </div>
 
@@ -225,7 +225,7 @@
                     <div class="col-md-6">
                         <div class="checkbox">
                             @Html.EditorFor(model => model.Goal.NonEditableByLeader)
-                            @Html.ValidationMessageFor(model => model.Goal.NonEditableByLeader, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.Goal.NonEditableByLeader, "", new { @class = Model.Goal.GoalType + " text-danger" })
                         </div>
                     </div>
                 </div>*@
@@ -237,53 +237,53 @@
                     </div>
                     <div class="row">
                         <div class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Jan, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Jan, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Jan, htmlAttributes: new { @class = "control-label col-md-1" })
                         </div>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Feb, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Feb, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Feb, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Mar, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Mar, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Mar, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Apr, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Apr, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Apr, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.May, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.May, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.May, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Jun, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Jun, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Jun, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                     </div>
                     <div class="row">
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Jul, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Jul, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Jul, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Aug, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Aug, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Aug, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Sep, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Sep, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Sep, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Oct, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Oct, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Oct, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Nov, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Nov, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Nov, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                         <span class="checkbox col-lg-2">
-                            @Html.CheckBoxFor(model => model.Goal.Dec, htmlAttributes: new { @class = " monthCheck " })
+                            @Html.CheckBoxFor(model => model.Goal.Dec, htmlAttributes: new { @class = Model.Goal.GoalType + " monthCheck " })
                             @Html.LabelFor(model => model.Goal.Dec, htmlAttributes: new { @class = "control-label col-md-1" })
                         </span>
                     </div>
@@ -316,6 +316,18 @@
                 event.preventDefault();
             }
         });
+
+        $(".Organizational").attr('readonly', true);
+        $(".Organizational").attr('tabindex', -1);
+        $(".Organizational:checkbox").attr('disabled', 'disabled');
+        $(".Organizational:radio").attr('disabled', 'disabled');
+        //$(".Organizational").rules("remove");
+
+        //$("form").submit(function (e) {
+        //    $('#loadingImage').toggle();
+        //});
+
+
     });
 </script>
 <script src="~/Scripts/makeRatings.js"></script>

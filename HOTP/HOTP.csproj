@@ -41,12 +41,28 @@
     <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\iTextSharp.5.5.6\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.6\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcRazorToPdf">
+      <HintPath>..\packages\MvcRazorToPdf.1.0.2\lib\40\MvcRazorToPdf.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
     <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorPDF">
+      <HintPath>..\packages\RazorPDF.1.0.0\lib\net45\RazorPDF.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa">
+      <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -199,6 +215,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddOrg.cs" />
     <Compile Include="Models\CascadeGoals.cs" />
+    <Compile Include="Models\MakeOrg.cs" />
     <Compile Include="Models\GoalFull.cs" />
     <Compile Include="Models\Plan90Full.cs" />
     <Compile Include="Models\Plan90.cs" />
@@ -248,12 +265,15 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\logo66h.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\HOTP.edmx">
@@ -273,6 +293,7 @@
       <DependentUpon>HOTP.edmx</DependentUpon>
       <LastGenOutput>HOTP.cs</LastGenOutput>
     </Content>
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="connections.config">
       <SubType>Designer</SubType>
     </None>
@@ -362,13 +383,18 @@
     <Content Include="Views\EmployeeGoals\AddOrg.cshtml" />
     <Content Include="Views\Plan90\Create.cshtml" />
     <Content Include="Views\Plan90\Delete.cshtml" />
-    <Content Include="Views\Plan90\Details.cshtml" />
+    <Content Include="Views\Plan90\Details_keep.cshtml" />
     <Content Include="Views\Plan90\Edit.cshtml" />
     <Content Include="Views\Plan90\Index.cshtml" />
     <Content Include="Views\Plan90\All.cshtml" />
     <Content Include="Views\EmployeeGoals\Details.cshtml" />
     <Content Include="Views\Plan90\Report.cshtml" />
     <Content Include="Views\Shared\_LayoutNoHeading.cshtml" />
+    <Content Include="Views\Plan90\ReportQuarter.cshtml" />
+    <Content Include="Views\EmployeeGoals\MakeOrg.cshtml" />
+    <Content Include="Views\EmployeeGoals\EvalReport.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Plan90\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

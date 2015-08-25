@@ -26,18 +26,26 @@
         background-color: yellow;
     }
 
-    .topCurve{
+    .topCurve {
         border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        padding: 4px 4px 4px 4px;
+        border-top-right-radius: 5px;        
         margin-right: 12px;
+        font-size:large;
+        background-color:#51a1ad; 
+        color:white; 
+        font-weight:normal; 
+        text-align:left; 
+        padding:4px 4px 4px 8px;
     }
 
-    .bottomCurve{
+    .bottomCurve {
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
-        padding: 4px 4px 4px 4px;
         margin-right: 12px;
+        font-size:14px;
+        padding:4px 4px 4px 8px; 
+        margin-top:0px;
+        background-color: cornsilk;
     }
 
 </style>
@@ -68,7 +76,7 @@
 
                 <div class="row" style="margin-bottom:8px;">
                     <div class="col-md-12">
-                        <div class="topCurve" style="font-size:large;background-color:#034f5a; color:white; font-weight:bolder; text-align:left; padding:4px 4px 4px 8px;">
+                        <div class="topCurve">
                             @Html.DisplayFor(model => model[0].Goal.PillarGoalName)
                             &nbsp;|&nbsp;
                             @Html.DisplayFor(model => model[0].Weight)%
@@ -76,7 +84,7 @@
                                 @Html.DisplayFor(model => model[0].Goal.Goal)
                             </div>
                         </div>
-                        <div class="bottomCurve" style="padding:4px 4px 4px 8px; margin-top:0px;background-color:cornsilk">
+                        <div class="bottomCurve">
                             @if (Model[0].Goal.Score == 5)
                             {
                                 <span class="highlightScore">5</span>
@@ -86,7 +94,7 @@
                                 <span>5</span>
                             }
                             =@Html.DisplayFor(model => model[0].Goal.Rating5) to @Html.DisplayFor(model => model[0].Goal.Rating5Suffix)
-                            &nbsp;&nbsp;&nbsp;
+                            &nbsp;&bull;&nbsp;
                             @if (Model[0].Goal.Score == 4)
                             {
                                 <span class="highlightScore">4</span>
@@ -96,7 +104,7 @@
                                 <span>4</span>
                             }
                             = @Html.DisplayFor(model => model[0].Goal.Rating4) to @Html.DisplayFor(model => model[0].Goal.Rating4End)
-                            &nbsp;&nbsp;&nbsp;
+                            &nbsp;&bull;&nbsp;
                             @if (Model[0].Goal.Score == 3)
                             {
                                 <span class="highlightScore">3</span>
@@ -106,7 +114,7 @@
                                 <span>3</span>
                             }
                             = @Html.DisplayFor(model => model[0].Goal.Rating3) to @Html.DisplayFor(model => model[0].Goal.Rating3End)
-                            &nbsp;&nbsp;&nbsp;
+                            &nbsp;&bull;&nbsp;
                             @if (Model[0].Goal.Score == 2)
                             {
                                 <span class="highlightScore">2</span>
@@ -116,7 +124,7 @@
                                 <span>2</span>
                             }
                             = @Html.DisplayFor(model => model[0].Goal.Rating2) to @Html.DisplayFor(model => model[0].Goal.Rating2End)
-                            &nbsp;&nbsp;&nbsp;
+                            &nbsp;&bull;&nbsp;
                             @if (Model[0].Goal.Score == 1)
                             {
                                 <span class="highlightScore">1</span>
@@ -126,52 +134,52 @@
                                 <span>1</span>
                             }
                             = @Html.DisplayFor(model => model[0].Goal.Rating1) to @Html.DisplayFor(model => model[0].Goal.Rating1Suffix)
-                            &nbsp;&nbsp;&nbsp;
+                            &nbsp;&bull;&nbsp;
                             Result is @Html.DisplayFor(model => model[0].Goal.Result) using scoring method: @Html.DisplayFor(model => model[0].Goal.YearEndCalculation)
                             <br />
                             @if (Model[0].Goal.JanScore != null)
                             {
-                                @:Jan:@Html.DisplayFor(model => model[0].Goal.JanScore)&nbsp;&nbsp;&nbsp;
+                                @:Jan:@Html.DisplayFor(model => model[0].Goal.JanScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.FebScore != null)
                             {
-                                @:Feb:@Html.DisplayFor(model => model[0].Goal.FebScore)&nbsp;&nbsp;&nbsp;
+                                @:Feb:@Html.DisplayFor(model => model[0].Goal.FebScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.MarScore != null)
                             {
-                                @:Mar:@Html.DisplayFor(model => model[0].Goal.MarScore)&nbsp;&nbsp;&nbsp;
+                                @:Mar:@Html.DisplayFor(model => model[0].Goal.MarScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.AprScore != null)
                             {
-                                @:Apr:@Html.DisplayFor(model => model[0].Goal.AprScore)&nbsp;&nbsp;&nbsp;
+                                @:Apr:@Html.DisplayFor(model => model[0].Goal.AprScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.MayScore != null)
                             {
-                                @:May:@Html.DisplayFor(model => model[0].Goal.MayScore)&nbsp;&nbsp;&nbsp;
+                                @:May:@Html.DisplayFor(model => model[0].Goal.MayScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.JunScore != null)
                             {
-                                @:Jun:@Html.DisplayFor(model => model[0].Goal.JunScore)&nbsp;&nbsp;&nbsp;
+                                @:Jun:@Html.DisplayFor(model => model[0].Goal.JunScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.JulScore != null)
                             {
-                                @:Jul:@Html.DisplayFor(model => model[0].Goal.JulScore)&nbsp;&nbsp;&nbsp;
+                                @:Jul:@Html.DisplayFor(model => model[0].Goal.JulScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.AugScore != null)
                             {
-                                @:Aug:@Html.DisplayFor(model => model[0].Goal.AugScore)&nbsp;&nbsp;&nbsp;
+                                @:Aug:@Html.DisplayFor(model => model[0].Goal.AugScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.SepScore != null)
                             {
-                                @:Sep:@Html.DisplayFor(model => model[0].Goal.SepScore)&nbsp;&nbsp;&nbsp;
+                                @:Sep:@Html.DisplayFor(model => model[0].Goal.SepScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.OctScore != null)
                             {
-                                @:Oct:@Html.DisplayFor(model => model[0].Goal.OctScore)&nbsp;&nbsp;&nbsp;
+                                @:Oct:@Html.DisplayFor(model => model[0].Goal.OctScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.NovScore != null)
                             {
-                                @:Nov:@Html.DisplayFor(model => model[0].Goal.NovScore)&nbsp;&nbsp;&nbsp;
+                                @:Nov:@Html.DisplayFor(model => model[0].Goal.NovScore)&nbsp;&bull;&nbsp;
                                             }
                             @if (Model[0].Goal.DecScore != null)
                             {
@@ -302,6 +310,11 @@
             $('#' + tableID).find('tbody:last').append(insert);
             $('#nextActionID' + planID).val(Number(newActionID) + 1);
         });
+
+        $("a").click(function (e) {
+            $('#loadingImage').toggle();
+        });
+
     });
 
 </script>

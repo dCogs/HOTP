@@ -7,11 +7,11 @@
       <Diagram DiagramId="5deeb18b750e4d9baf3a4488bb5d9bb6" Name="Diagram1" ZoomLevel="40">
         <EntityTypeShape EntityType="HOTP_Model.tblHOTP_Codes" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="HOTP_Model.tblHOTP_Goals" Width="1.5" PointX="3.375" PointY="14.5" />
-        <EntityTypeShape EntityType="HOTP_Model.tblHOTP_Employees" Width="1.5" PointX="3.375" PointY="9.75" />
         <EntityTypeShape EntityType="HOTP_Model.tblHOTP_ActionSteps" Width="1.5" PointX="10.125" PointY="16.75" />
-        <EntityTypeShape EntityType="HOTP_Model.tblHOTP_EmployeeGoals" Width="1.5" PointX="5.625" PointY="16.25" />
         <EntityTypeShape EntityType="HOTP_Model.tblHOTP_Plan90" Width="1.5" PointX="7.875" PointY="16.75" />
         <AssociationConnector Association="HOTP_Model.FK_tblHOTP_ActionSteps_tblHOTP_Plan90" />
+        <EntityTypeShape EntityType="HOTP_Model.tblHOTP_EmployeeGoals" Width="1.5" PointX="5.625" PointY="10.25" />
+        <EntityTypeShape EntityType="HOTP_Model.tblHOTP_Employees" Width="1.5" PointX="3.375" PointY="10.125" />
         <AssociationConnector Association="HOTP_Model.FK_tblHOTP_EmployeeGoals_tblHOTP_EmployeeGoals" />
         <AssociationConnector Association="HOTP_Model.FK_tblHOTP_EmployeeGoals_tblHOTP_Goals" />
         <AssociationConnector Association="HOTP_Model.FK_tblHOTP_Plan90_tblHOTP_EmployeeGoals" />

@@ -18,5 +18,6 @@ namespace HOTP.Models
         public decimal? ItemScore { get; set; }
         public bool CanEdit { get; set; }
         public bool Admin { get; set; }
+        public bool LockCurrentFY { get; set; }
     }
 }
