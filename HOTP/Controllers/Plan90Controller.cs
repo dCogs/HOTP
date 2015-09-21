@@ -248,7 +248,10 @@ namespace HOTP.Controllers
                 var empGoals = from eg in db.tblHOTP_EmployeeGoals
                                join g in db.tblHOTP_Goals on eg.GoalID equals g.GoalID into goal
                                from subGoal in goal.DefaultIfEmpty()
+                               join c in db.tblHOTP_Codes on subGoal.Pillar equals c.Code into code
+                               from subCode in code.DefaultIfEmpty()
                                where eg.EmployeeID == SelectedEmp && subGoal.YearEnding == YearEnding
+                               orderby subCode.Sequence, subGoal.PillarGoalName
                                select eg;
                 foreach (tblHOTP_EmployeeGoals eg in empGoals.ToList())
                 {
@@ -316,7 +319,7 @@ namespace HOTP.Controllers
             if (SelectedEmp == null && TempData["SelectedEmp"] != null)
             {
                 SelectedEmp = Convert.ToInt16(TempData["SelectedEmp"]);
-            }            
+            }
             var emps =
               db.tblHOTP_Employees
                 .Where(s => s.Evaluations)
@@ -435,12 +438,12 @@ namespace HOTP.Controllers
             return View(GetAllGoals(SelectedEmp, YearEnding));
         }
 
-//        public ActionResult DownloadViewPDF()
-//{
-//var model = new GeneratePDFModel();
-////Code to get content
-//return new Rotativa.ViewAsPdf("GeneratePDF", model){FileName = "TestViewAsPdf.pdf"}
-//}
+        //        public ActionResult DownloadViewPDF()
+        //{
+        //var model = new GeneratePDFModel();
+        ////Code to get content
+        //return new Rotativa.ViewAsPdf("GeneratePDF", model){FileName = "TestViewAsPdf.pdf"}
+        //}
 
         //public ActionResult DownloadActionAsPDF()
         //{
@@ -456,12 +459,12 @@ namespace HOTP.Controllers
         //    return View(model);
         //}
 
-//        public ActionResult DownloadPartialViewPDF()
-//        {
-//            var model = new GeneratePDFModel();
-//            //Code to get content
-//            return new Rotativa.PartialViewAsPdf("_PartialViewTest", model) { FileName = "TestPartialViewAsPdf.pdf" };
-//        }
+        //        public ActionResult DownloadPartialViewPDF()
+        //        {
+        //            var model = new GeneratePDFModel();
+        //            //Code to get content
+        //            return new Rotativa.PartialViewAsPdf("_PartialViewTest", model) { FileName = "TestPartialViewAsPdf.pdf" };
+        //        }
 
         public ActionResult UrlAsPDF()
         {
@@ -612,6 +615,52 @@ namespace HOTP.Controllers
             }
             return RedirectToAction("Index", "Plan90");
         }
+
+
+        // POST: Plan90ViewModel/Copy1Quarter
+        [HttpPost, ActionName("Copy1Quarter")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Copy1Quarter()
+        {
+            //foreach (string _formData in formCollection)
+            //{
+            //    ViewData[_formData] = formCollection[_formData];
+            //}
+            string EmployeeGoalID = Request["EmployeeGoalID"].ToString();
+            string copyFrom = Request["copyFrom"].ToString();
+            string copyTo = Request["copyTo"].ToString();
+            int copyFromInt = Convert.ToInt16(copyFrom);
+            int copyToInt = Convert.ToInt16(copyTo);
+            int employeeGoalID = Convert.ToInt16(EmployeeGoalID);
+
+            for (int g = 0; g < 5; g++)
+            {
+                tblHOTP_Plan90 fromPlan = db.tblHOTP_Plan90.Where(p => p.EmployeeGoalID == employeeGoalID && p.Quarter == copyFromInt).First();
+                tblHOTP_Plan90 toPlan = db.tblHOTP_Plan90.Where(p => p.EmployeeGoalID == employeeGoalID && p.Quarter == copyToInt).First();
+                toPlan.Goal = fromPlan.Goal;
+
+                var toSteps = from step in db.tblHOTP_ActionSteps where step.PlanID == toPlan.PlanID select step;
+                foreach (tblHOTP_ActionSteps step in toSteps)
+                {
+                    db.tblHOTP_ActionSteps.Remove(step);
+                }
+
+                var fromSteps = from step in db.tblHOTP_ActionSteps where step.PlanID == fromPlan.PlanID select step;
+                foreach (tblHOTP_ActionSteps step in fromSteps)
+                {
+                    tblHOTP_ActionSteps newActionStep = new tblHOTP_ActionSteps();
+                    newActionStep.PlanID = toPlan.PlanID;
+                    newActionStep.ActionStep = step.ActionStep;
+                    newActionStep.Result = step.Result;
+                    newActionStep.Status = step.Status;
+                    db.tblHOTP_ActionSteps.Add(newActionStep);
+                }
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Plan90");
+        }
+
+
 
 
 

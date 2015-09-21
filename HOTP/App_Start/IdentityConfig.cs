@@ -20,13 +20,13 @@ namespace HOTP
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            //var mailMessage = new System.Net.Mail.MailMessage("postmaster@danielcogswell.com ",
+            //var mailMessage = new System.Net.Mail.MailMessage("postmaster@hospiceotpgoals.org ",
             //    message.Destination,
             //    message.Subject,
             //    message.Body
             //    );
             ////Send the Message
-            //SmtpClient client = new SmtpClient("smtp.danielcogswell.com");
+            //SmtpClient client = new SmtpClient("smtp.hospiceotporg.org");
             //client.SendMailAsync(mailMessage);
             //return Task.FromResult(true);
             return Task.FromResult(0);

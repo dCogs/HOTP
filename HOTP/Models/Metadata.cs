@@ -54,6 +54,7 @@ namespace HOTP.Models
 
         [Display(Name = "Goal Name")]
         [Required]
+        [StringLength(50)]
         public string GoalName { get; set; }
 
         [Display(Name = "Goal Template Name")]

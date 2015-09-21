@@ -94,7 +94,11 @@
                     }
                 </td>
                 <td>
-                    @if ((item.Goal.GoalType == "Organizational" && item.Admin) || (item.Goal.GoalType == "Individual" && item.CanEdit))
+                    @if ((item.Goal.GoalType == "Organizational" && (item.Admin || item.CanEdit)))
+                    {
+                        @Html.ActionLink("Edit Weight", "Edit", new { id = item.EmployeeGoalID })
+                    }
+                    @if ((item.Goal.GoalType == "Individual" && item.CanEdit))
                     {
                         @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeGoalID })
                     }

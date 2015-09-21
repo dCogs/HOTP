@@ -218,6 +218,16 @@ namespace HOTP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var plans = from p in db.tblHOTP_Plan90 where p.EmployeeGoalID == id select p; 
+            foreach (tblHOTP_Plan90 plan in plans)
+            {
+                var steps = from s in db.tblHOTP_ActionSteps where s.PlanID == plan.PlanID select s;
+                foreach (tblHOTP_ActionSteps step in steps)
+                {
+                    db.tblHOTP_ActionSteps.Remove(step);
+                }
+                db.tblHOTP_Plan90.Remove(plan);
+            };
             tblHOTP_EmployeeGoals tblHOTP_EmployeeGoals = db.tblHOTP_EmployeeGoals.Find(id);
             db.tblHOTP_EmployeeGoals.Remove(tblHOTP_EmployeeGoals);
             db.SaveChanges();
@@ -507,12 +517,18 @@ namespace HOTP.Controllers
 
 
         // GET: Goals/AddOrg
-        public ActionResult AddOrg(int? SelectedEmp)
+        public ActionResult AddOrg(int? SelectedEmp, string YearEnding)
         {
             if (SelectedEmp == null && TempData["SelectedEmp"] != null)
             {
                 SelectedEmp = Convert.ToInt16(TempData["SelectedEmp"]);
             }
+            if (YearEnding == null && TempData["YearEnding"] != null)
+            {
+                YearEnding = TempData["YearEnding"].ToString();
+            }
+            TempData["YearEnding"] = YearEnding;
+
             string empName = (db.tblHOTP_Employees.Where(e => e.EmployeeID == SelectedEmp).Select(e => e.FirstName + " " + e.LastName)).First();
             var emps =
               db.tblHOTP_Employees
@@ -532,8 +548,9 @@ namespace HOTP.Controllers
                 addOrg.EmpName = empName;
                 addOrg.Weight = 0;
                 addOrg.EmployeeID = Convert.ToInt16(SelectedEmp);
+                var subselect = (from eg in db.tblHOTP_EmployeeGoals where eg.EmployeeID== SelectedEmp select eg.GoalID).ToList();
                 var goalQuery = db.tblHOTP_Goals
-                                .Where(g => g.GoalType == "Organizational")
+                                .Where(g => g.GoalType == "Organizational" && g.YearEnding == YearEnding && !subselect.Contains(g.GoalID))
                                 .OrderBy(g => g.YearEnding)
                                 .Select(g => new
                                 {
@@ -556,15 +573,18 @@ namespace HOTP.Controllers
         {
             if (ModelState.IsValid)
             {
-                tblHOTP_EmployeeGoals newEmployeeGoals = new tblHOTP_EmployeeGoals();
-                newEmployeeGoals.GoalID = addOrg.GoalID;
-                newEmployeeGoals.EmployeeID = addOrg.EmployeeID;
-                newEmployeeGoals.Weight = addOrg.Weight;
-                int? score = (db.tblHOTP_Goals.Where(g => g.GoalID == addOrg.GoalID).Select(g => g.Score)).First();
-                decimal rounded = decimal.Round(Convert.ToDecimal(newEmployeeGoals.Weight) * Convert.ToDecimal(score) / 100, 2);
-                newEmployeeGoals.ItemScore = rounded;
-                db.tblHOTP_EmployeeGoals.Add(newEmployeeGoals);
-                db.SaveChanges();
+                if (addOrg.GoalID > 0)
+                {
+                    tblHOTP_EmployeeGoals newEmployeeGoals = new tblHOTP_EmployeeGoals();
+                    newEmployeeGoals.GoalID = addOrg.GoalID;
+                    newEmployeeGoals.EmployeeID = addOrg.EmployeeID;
+                    newEmployeeGoals.Weight = addOrg.Weight;
+                    int? score = (db.tblHOTP_Goals.Where(g => g.GoalID == addOrg.GoalID).Select(g => g.Score)).First();
+                    decimal rounded = decimal.Round(Convert.ToDecimal(newEmployeeGoals.Weight) * Convert.ToDecimal(score) / 100, 2);
+                    newEmployeeGoals.ItemScore = rounded;
+                    db.tblHOTP_EmployeeGoals.Add(newEmployeeGoals);
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -607,20 +627,31 @@ namespace HOTP.Controllers
             {
                 return HttpNotFound();
             }
-            var orgGoals =
-              db.tblHOTP_Goals
-                .Where(g => g.GoalType == "Organizational" && g.YearEnding == evalViewModel.Goal.YearEnding)
-                .OrderBy(g => g.PillarGoalName)
-                .ToList()
-                .Select(g => new
-                {
-                    GoalID = g.GoalID,
-                    PillarGoalName = g.PillarGoalName
-                });
+            tblHOTP_EmployeeGoals employeeGoal = (from eg in db.tblHOTP_EmployeeGoals where eg.EmployeeGoalID == id select eg).First();
+            tblHOTP_Goals goal = (from g in db.tblHOTP_Goals where g.GoalID == employeeGoal.GoalID select g).First();
+            var subselect = (from eg in db.tblHOTP_EmployeeGoals where eg.EmployeeID == employeeGoal.EmployeeID select eg.GoalID).ToList();
+            var orgGoals = db.tblHOTP_Goals
+                            .Where(g => g.GoalType == "Organizational" && g.YearEnding == goal.YearEnding && !subselect.Contains(g.GoalID))
+                            .OrderBy(g => g.YearEnding)
+                            .Select(g => new
+                            {
+                                GoalId = g.GoalID,
+                                GoalDisplayText = g.YearEnding + " " + g.PillarGoalName
+                            });
+            //var orgGoals =
+            //  db.tblHOTP_Goals
+            //    .Where(g => g.GoalType == "Organizational" && g.YearEnding == evalViewModel.Goal.YearEnding)
+            //    .OrderBy(g => g.PillarGoalName)
+            //    .ToList()
+            //    .Select(g => new
+            //    {
+            //        GoalID = g.GoalID,
+            //        PillarGoalName = g.PillarGoalName
+            //    });
             MakeOrg makeOrg = new MakeOrg
             {
                 Eval = evalViewModel,
-                OrgGoals = new SelectList(orgGoals, "GoalID", "PillarGoalName")
+                OrgGoals = new SelectList(orgGoals, "GoalID", "GoalDisplayText")
             };
             return View(makeOrg);
         }
@@ -636,12 +667,19 @@ namespace HOTP.Controllers
                 //{
                 //    ViewData[_formData] = formCollection[_formData];
                 //}
-                string employeeGoalID = Request["Eval.EmployeeGoalID"].ToString();
-                string newGoalID = Request["OrgGoals"].ToString();
-                //var goal = db.tblHOTP_Goals.Find(returnedEvalViewModel.Goal.GoalID);
-                tblHOTP_EmployeeGoals existing_EmployeeGoals = db.tblHOTP_EmployeeGoals.Find(Convert.ToInt16(employeeGoalID));
-                existing_EmployeeGoals.GoalID = Convert.ToInt16(newGoalID);
-                db.SaveChanges();
+                string employeeGoalID = null;
+                string newGoalID = null;
+                try { 
+                    employeeGoalID = Request["Eval.EmployeeGoalID"].ToString();
+                    newGoalID = Request["OrgGoals"].ToString();
+                }
+                catch { };
+                if (newGoalID != null)
+                {
+                    tblHOTP_EmployeeGoals existing_EmployeeGoals = db.tblHOTP_EmployeeGoals.Find(Convert.ToInt16(employeeGoalID));
+                    existing_EmployeeGoals.GoalID = Convert.ToInt16(newGoalID);
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");

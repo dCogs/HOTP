@@ -1,33 +1,10 @@
-﻿@{
-    ViewBag.Title = "Oops!";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@model Exception
-@{
-
-}
-<h1 class="text-danger">Oops! an error occurs</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-@if (Model != null)
-{
-    @Html.ValueFor(model => model.Message)
-    
-    //var bodyMessage = "Error in HospiceOTP";
-    //string CookieName = "HOTPgoals";
-    //HttpCookie myCookie = HttpContext.Current.Request.Cookies[CookieName];
-    //var body = "<p>From: " + myCookie.Values["FirstName"] + " " + myCookie.Values["LastName"];
-    //var message = new System.Net.Mail.MailMessage();
-    //message.To.Add(new System.Net.Mail.MailAddress("daniel.cogswell@gmail.com"));  // replace with valid value 
-    //message.From = new System.Net.Mail.MailAddress("postmaster@danielcogswell.com");  // replace with valid value
-    //message.Subject = "Confirm your account";
-    //message.Body = string.Format(body, "Hospice of the Panhandle Goal Management Website", "postmaster@danielcogswell.com", bodyMessage);
-    //message.IsBodyHtml = true;
-
-    //using (var smtp = new System.Net.Mail.SmtpClient("localhost"))
-    //{
-    //    smtp.Send(message);
-    //}
-   
-    
-}
-
+﻿<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+    <h3>Unexpected error!</h3>
+    <h4>Please try operation again. If error persists, <a href="mailto:daniel.cogswell@gmail.com">contact the Administrator.</a></h4>
+</body>
+</html>

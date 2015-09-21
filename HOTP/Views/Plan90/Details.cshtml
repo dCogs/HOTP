@@ -179,38 +179,38 @@
 
                     </div>
                 </div>
-
-                @*<div class="img-rounded" style="font-size:large;background-color:#034f5a; color:white; font-weight:bolder; text-align:left; padding:4px 4px 4px 4px;">
-                        &nbsp;
-                        @Html.DisplayFor(model => model[0].PillarGoalName, Model[0].PillarGoalName)
-                        &nbsp;|&nbsp;
-                        @Html.DisplayFor(model => model[0].Weight, Model[0].Weight)%
-                    </div>
-                    <div class=" text-info" style="font-size:medium;">
-                        <b>Goal Description:</b>
-                        @Html.DisplayFor(model => model[0].EmployeeGoal, Model[0].EmployeeGoal)
-                    </div>*@
             </div>
         </div>
+                            int month = System.DateTime.Now.Month;
+                            int activeQuarter = 1;
+                            string q1c = "quarterTabs";
+                            string q2c = "quarterTabs";
+                            string q3c = "quarterTabs";
+                            string q4c = "quarterTabs";
+                            if (month > 9) { q4c = "active"; activeQuarter = 4; }
+                            else if (month > 6) { q3c = "active"; activeQuarter = 3; }
+                            else if (month > 3) { q2c = "active"; activeQuarter = 2; }
+                            else { q1c = "active"; }
 
         <ul class="nav nav-tabs" style="font-size:16px;">
-            <li class="active"><a data-toggle="tab" href="#quarter0">Quarter 1</a></li>
-            <li><a data-toggle="tab" href="#quarter1">Quarter 2</a></li>
-            <li><a data-toggle="tab" href="#quarter2">Quarter 3</a></li>
-            <li><a data-toggle="tab" href="#quarter3">Quarter 4</a></li>
+            <li class="@q1c"><a data-toggle="tab" href="#quarter1">Quarter 1</a></li>
+            <li class="@q2c"><a data-toggle="tab" href="#quarter2">Quarter 2</a></li>
+            <li class="@q3c"><a data-toggle="tab" href="#quarter3">Quarter 3</a></li>
+            <li class="@q4c"><a data-toggle="tab" href="#quarter4">Quarter 4</a></li>
         </ul>
 
         <div class="tab-content" style="border:1px solid lightgray; border-top:none; padding:8px 8px 8px 8px">
 
             @for (int i = 0; i < Model.Count; i++)
             {
-                string quarterID = "quarter" + i;
+                int thisQ = i + 1;
+                string quarterID = "quarter" + thisQ;
                 string planID = Model[i].Plan.PlanID.ToString();
                 string tableID = "actionSteps_" + i;
                 string addActionID = "addAction_" + i;
                 string quarterClass = "tab-pane fade";
                 string nextActionID = "nextActionID" + i;
-                if (i == 0) { quarterClass += " in active"; };
+                if (thisQ == activeQuarter) { quarterClass += " in active"; };
                 <div id="@quarterID" class="@quarterClass">
                     <div>
                         @Html.Hidden("MyPlans[" + (@i) + "].Plan.PlanID", Model[i].Plan.PlanID, new { })

@@ -26,13 +26,21 @@
         if (numDecimals == 2) sub = .01, div = 100;
         if (numDecimals == 3) sub = .001, div = 1000;
 
-        var rating1 = Math.round(parseFloat($('#' + pref + 'Rating1').val()) * div) / div;
-        var rating2 = Math.round(parseFloat($('#' + pref + 'Rating2').val()) * div) / div;
-        var rating3 = Math.round(parseFloat($('#' + pref + 'Rating3').val()) * div) / div;
-        var rating4 = Math.round(parseFloat($('#' + pref + 'Rating4').val()) * div) / div;
-        var rating5 = Math.round(parseFloat($('#' + pref + 'Rating5').val()) * div) / div;
+        var rating1 = 0;
+        var rating2 = 0;
+        var rating3 = 0;
+        var rating4 = 0;
+        var rating5 = 0;
+        rating1 = Math.round(parseFloat($('#' + pref + 'Rating1').val()) * div) / div;
+        rating2 = Math.round(parseFloat($('#' + pref + 'Rating2').val()) * div) / div;
+        rating3 = Math.round(parseFloat($('#' + pref + 'Rating3').val()) * div) / div;
+        rating4 = Math.round(parseFloat($('#' + pref + 'Rating4').val()) * div) / div;
+        rating5 = Math.round(parseFloat($('#' + pref + 'Rating5').val()) * div) / div;
         var ratingsArray = [rating2, rating3, rating4, rating5];
-        ratingsArray.sort();
+        // you are sorting a string array, so use a function to convert higher numbers to the end. (100 > 99, but "100" < "99") 
+        // see http://www.w3schools.com/jsref/jsref_sort.asp
+        ratingsArray.sort(function (a, b) { return a - b });
+
         if (bestRating == "Higher is better") {
             $('#' + pref + 'Rating5Suffix').val("and above");
             $('#' + pref + 'Rating1Suffix').val("and below");

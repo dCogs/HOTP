@@ -5,117 +5,120 @@
     Layout = "~/Views/Shared/_LayoutNoHeading.cshtml";
 }
 <style>
-        #theRest {
-            font-size: 10px;
-        }
+    #theRest {
+        font-size: 10px;
+    }
 
-        .body-content {
-            margin-top: 0px;
-            padding-left: 0px;
-            padding-right: 0px;
-        }
+    .body-content {
+        margin-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
 
-        select {
-            font-size: medium;
-        }
+    select {
+        font-size: medium;
+    }
 
-        .noBox {
-            border: none 0px;
-        }
+    .noBox {
+        border: none 0px;
+    }
 
-        .weightInput input {
-            width: 35px;
-        }
+    .weightInput input {
+        width: 35px;
+    }
 
-        .score {
-            width: 55px;
-            font-size: 12px;
-        }
+    .score {
+        width: 55px;
+        font-size: 12px;
+    }
 
-        .rating {
-            width: 25px;
-            font-size: 12px;
-            margin: 2px 0px 0px 0px;
-            padding: 0px 0px 0px 0px;
-            background-color: #DCECEF;
-            vertical-align: baseline;
-        }
+    .rating {
+        width: 25px;
+        font-size: 12px;
+        margin: 2px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+        background-color: #DCECEF;
+        vertical-align: baseline;
+    }
 
-        #ratingTable td {
-            font-size: 13px;
-            border-top: none 0px;
-            margin: 0px 0px 0px 0px;
-            padding: 0px 0px 0px 0px;
-        }
+    #ratingTable td {
+        font-size: 13px;
+        border-top: none 0px;
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+    }
 
-        .writeTrue {
-            font-size: 12px;
-        }
+    .writeTrue {
+        font-size: 12px;
+    }
 
-        .writeFalse, .Org {
-            font-size: 12px;
-            width: 45px;
-            background-color: #DCECEF;
-        }
+    .writeFalse, .Org {
+        font-size: 12px;
+        width: 45px;
+        background-color: #DCECEF;
+    }
 
-        .writeFalse2 {
-            width: 55px;
-            background-color: #DCECEF;
-        }
+    .writeFalse2 {
+        width: 55px;
+        background-color: #DCECEF;
+    }
 
-        .white {
-            font-size: 12px;
-            background-color: white;
-        }
+    .white {
+        font-size: 12px;
+        background-color: white;
+    }
 
-        .myLabel {
-            font-size: 12px;
-            font-weight: bold;
-        }
+    .myLabel {
+        font-size: 12px;
+        font-weight: bold;
+    }
 
-        .Individual {
-            width: 50px;
-            background-color: lemonchiffon;
-        }
+    .Individual {
+        width: 50px;
+        background-color: lemonchiffon;
+    }
 
-        .Organizational {
-            width: 40px;
-            background-color: #DCECEF;
-        }
+    .Organizational {
+        width: 40px;
+        background-color: #DCECEF;
+    }
 
-        .ratingNum {
-            font-size: large;
-            font-weight: bold;
-            padding-left: 8px;
-            padding-right: 4px;
-        }
+    .ratingNum {
+        font-size: large;
+        font-weight: bold;
+        padding-left: 8px;
+        padding-right: 4px;
+    }
 
-        .topCurve {
-            border-top-left-radius: 0px;
-            border-top-right-radius: 0px;
-            padding: 4px 4px 4px 8px;
-            margin-right: 12px;
-            font-size: 13px;
-            background-color: #51a1ad;
-            color: white;
-            font-weight: normal;
-            text-align: left;
-        }
+    .topCurve {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        padding: 4px 4px 4px 8px;
+        margin-right: 12px;
+        font-size: 13px;
+        background-color: #51a1ad;
+        color: white;
+        font-weight: normal;
+        text-align: left;
+    }
 
-        .bottomCurve {
-            border-bottom-left-radius: 0px;
-            border-bottom-right-radius: 0px;
-            padding: 4px 4px 4px 8px;
-            margin-right: 12px;
-            font-size: 11px;
-            margin-top: 0px;
-            background-color: cornsilk;
-        }
+    .bottomCurve {
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        padding: 4px 4px 4px 8px;
+        margin-right: 12px;
+        font-size: 11px;
+        margin-top: 0px;
+        background-color: cornsilk;
+    }
 
-        @@media print
-    {
-        #rptOptions
-        {
+    .highlightScore {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    @@media print {
+        #rptOptions {
             display: none !important;
         }
     }
@@ -155,132 +158,162 @@
                             @Html.Hidden("CanEdit", Model[i].CanEdit)
                         }
 
-                        <div class="row">
-                            <div class="col-md-12" style="border:solid thin 1px;">
-                                @Html.Hidden("MyGoals.Index", (@i))
-                                @Html.Hidden("MyGoals[" + (@i) + "].EmployeeID", Model[i].EmployeeID)
-                                @Html.Hidden("MyGoals[" + (@i) + "].EmployeeGoalID", Model[i].EmployeeGoalID)
-                                @Html.Hidden("MyGoals[" + (@i) + "].Goal.GoalID", Model[i].Goal.GoalID)
-                                <div class="topCurve">
-                                    @Html.DisplayFor(modelItem => Model[i].Goal.PillarGoalName)
-                                    &nbsp;|&nbsp;
-                                    @Html.DisplayFor(modelItem => Model[i].Weight)%
-                                    &nbsp;|&nbsp;
-                                    Result is @Html.DisplayFor(model => model[i].Goal.Result) using '@Html.DisplayFor(model => model[i].Goal.YearEndCalculation)' scoring method
-                                    &nbsp;|&nbsp;
-                                    Score: @Html.DisplayFor(model => model[i].Goal.Score)
-                                    &nbsp;|&nbsp;
-                                    Weighted Score:
-                                    @Html.TextBox("MyGoals[" + (@i) + "].ItemScore", Model[i].ItemScore, new { @class = "noBox writeFalse2 myLabel itemScore", @readonly = "readonly" })
-                                    @*@Html.DisplayFor(model => model[i].ItemScore)*@
-                                    <div>
-                                        @Html.DisplayFor(modelItem => Model[i].Goal.Goal)
-                                    </div>
-                                </div>
-                                <div class="bottomCurve">
-                                    @if (Model[i].Goal.Score == 5)
-                                    {
-                                        <span class="highlightScore">5</span>
-                                    }
-                                    else
-                                    {
-                                        <span>5</span>
-                                    }
-                                    =@Html.DisplayFor(model => model[i].Goal.Rating5) to @Html.DisplayFor(model => model[i].Goal.Rating5Suffix)
-                                    &nbsp;&bull;&nbsp;
-                                    @if (Model[i].Goal.Score == 4)
-                                    {
-                                        <span class="highlightScore">4</span>
-                                    }
-                                    else
-                                    {
-                                        <span>4</span>
-                                    }
-                                    = @Html.DisplayFor(model => model[i].Goal.Rating4) to @Html.DisplayFor(model => model[i].Goal.Rating4End)
-                                    &nbsp;&bull;&nbsp;
-                                    @if (Model[i].Goal.Score == 3)
-                                    {
-                                        <span class="highlightScore">3</span>
-                                    }
-                                    else
-                                    {
-                                        <span>3</span>
-                                    }
-                                    = @Html.DisplayFor(model => model[i].Goal.Rating3) to @Html.DisplayFor(model => model[i].Goal.Rating3End)
-                                    &nbsp;&bull;&nbsp;
-                                    @if (Model[i].Goal.Score == 2)
-                                    {
-                                        <span class="highlightScore">2</span>
-                                    }
-                                    else
-                                    {
-                                        <span>2</span>
-                                    }
-                                    = @Html.DisplayFor(model => model[i].Goal.Rating2) to @Html.DisplayFor(model => model[i].Goal.Rating2End)
-                                    &nbsp;&bull;&nbsp;
-                                    @if (Model[i].Goal.Score == 1)
-                                    {
-                                        <span class="highlightScore">1</span>
-                                    }
-                                    else
-                                    {
-                                        <span>1</span>
-                                    }
-                                    = @Html.DisplayFor(model => model[i].Goal.Rating1) to @Html.DisplayFor(model => model[i].Goal.Rating1Suffix)
-                                    <br />
-                                    @if (Model[i].Goal.JanScore != null)
-                                    {
-                                        @:Jan:@Html.DisplayFor(model => model[i].Goal.JanScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.FebScore != null)
-                                    {
-                                        @:Feb:@Html.DisplayFor(model => model[i].Goal.FebScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.MarScore != null)
-                                    {
-                                        @:Mar:@Html.DisplayFor(model => model[i].Goal.MarScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.AprScore != null)
-                                    {
-                                        @:Apr:@Html.DisplayFor(model => model[i].Goal.AprScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.MayScore != null)
-                                    {
-                                        @:May:@Html.DisplayFor(model => model[i].Goal.MayScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.JunScore != null)
-                                    {
-                                        @:Jun:@Html.DisplayFor(model => model[i].Goal.JunScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.JulScore != null)
-                                    {
-                                        @:Jul:@Html.DisplayFor(model => model[i].Goal.JulScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.AugScore != null)
-                                    {
-                                        @:Aug:@Html.DisplayFor(model => model[i].Goal.AugScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.SepScore != null)
-                                    {
-                                        @:Sep:@Html.DisplayFor(model => model[i].Goal.SepScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.OctScore != null)
-                                    {
-                                        @:Oct:@Html.DisplayFor(model => model[i].Goal.OctScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.NovScore != null)
-                                    {
-                                        @:Nov:@Html.DisplayFor(model => model[i].Goal.NovScore)&nbsp;&bull;&nbsp;
-                                            }
-                                    @if (Model[i].Goal.DecScore != null)
-                                    {
-                                        @:Dec:@Html.DisplayFor(model => model[i].Goal.DecScore)
-                                            }
-                                </div>
-
-
+                        @Html.Hidden("MyGoals.Index", (@i))
+                        @Html.Hidden("MyGoals[" + (@i) + "].EmployeeID", Model[i].EmployeeID)
+                        @Html.Hidden("MyGoals[" + (@i) + "].EmployeeGoalID", Model[i].EmployeeGoalID)
+                        @Html.Hidden("MyGoals[" + (@i) + "].Goal.GoalID", Model[i].Goal.GoalID)
+                        <div style="font-size:medium">
+                            <strong>
+                                @Html.DisplayFor(modelItem => Model[i].Goal.PillarGoalName)
+                            </strong>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @Html.DisplayFor(modelItem => Model[i].Weight)%
+                        </div>
+                        <div style="font-size:small;margin-top:8px;">
+                            Result is @Html.DisplayFor(model => model[i].Goal.Result) using '@Html.DisplayFor(model => model[i].Goal.YearEndCalculation)' scoring method
+                            <br />
+                            Score:@Html.DisplayFor(model => model[i].Goal.Score)
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Weighted Score:
+                            @Html.TextBox("MyGoals[" + (@i) + "].ItemScore", Model[i].ItemScore, new { @class = "noBox writeFalse2 myLabel itemScore", @readonly = "readonly" })
+                            <div style="margin-top:8px;">
+                                Goal:
+                                @Html.DisplayFor(modelItem => Model[i].Goal.Goal)
                             </div>
                         </div>
+                        <div style="font-size:small;margin-top:8px;">
+                            @if (Model[i].Goal.JanScore != null)
+                            {
+                                @:Jan:@Html.DisplayFor(model => model[i].Goal.JanScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.FebScore != null)
+                            {
+                                @:Feb:@Html.DisplayFor(model => model[i].Goal.FebScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.MarScore != null)
+                            {
+                                @:Mar:@Html.DisplayFor(model => model[i].Goal.MarScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.AprScore != null)
+                            {
+                                @:Apr:@Html.DisplayFor(model => model[i].Goal.AprScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.MayScore != null)
+                            {
+                                @:May:@Html.DisplayFor(model => model[i].Goal.MayScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.JunScore != null)
+                            {
+                                @:Jun:@Html.DisplayFor(model => model[i].Goal.JunScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.JulScore != null)
+                            {
+                                @:Jul:@Html.DisplayFor(model => model[i].Goal.JulScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.AugScore != null)
+                            {
+                                @:Aug:@Html.DisplayFor(model => model[i].Goal.AugScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.SepScore != null)
+                            {
+                                @:Sep:@Html.DisplayFor(model => model[i].Goal.SepScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.OctScore != null)
+                            {
+                                @:Oct:@Html.DisplayFor(model => model[i].Goal.OctScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.NovScore != null)
+                            {
+                                @:Nov:@Html.DisplayFor(model => model[i].Goal.NovScore)&nbsp;&nbsp;&nbsp;&nbsp;
+                                            }
+                            @if (Model[i].Goal.DecScore != null)
+                            {
+                                @:Dec:@Html.DisplayFor(model => model[i].Goal.DecScore)
+                                }
+                        </div>
+                    </td>
+                    <td style="width:30%">
+                        <div style="font-size:small">
+                            @if (Model[i].Goal.Score == 5)
+                            {
+                                <span class="highlightScore">
+                                    5
+                                    =@Html.DisplayFor(model => model[i].Goal.Rating5) to @Html.DisplayFor(model => model[i].Goal.Rating5Suffix)
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    5
+                                    =@Html.DisplayFor(model => model[i].Goal.Rating5) to @Html.DisplayFor(model => model[i].Goal.Rating5Suffix)
+                                </span>
+                            }
+                            <br />
+                            @if (Model[i].Goal.Score == 4)
+                            {
+                                <span class="highlightScore">
+                                    4
+                                    = @Html.DisplayFor(model => model[i].Goal.Rating4) to @Html.DisplayFor(model => model[i].Goal.Rating4End)
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    4
+                                    = @Html.DisplayFor(model => model[i].Goal.Rating4) to @Html.DisplayFor(model => model[i].Goal.Rating4End)
+                                </span>
+                            }
+
+                            <br />
+                            @if (Model[i].Goal.Score == 3)
+                            {
+                                <span class="highlightScore">
+                                    3
+                                    = @Html.DisplayFor(model => model[i].Goal.Rating3) to @Html.DisplayFor(model => model[i].Goal.Rating3End)
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    3
+                                    = @Html.DisplayFor(model => model[i].Goal.Rating3) to @Html.DisplayFor(model => model[i].Goal.Rating3End)
+                                </span>
+                            }
+
+                            <br />
+                            @if (Model[i].Goal.Score == 2)
+                            {
+                                <span class="highlightScore">
+                                    2
+                                    = @Html.DisplayFor(model => model[i].Goal.Rating2) to @Html.DisplayFor(model => model[i].Goal.Rating2End)
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    2
+                                    = @Html.DisplayFor(model => model[i].Goal.Rating2) to @Html.DisplayFor(model => model[i].Goal.Rating2End)
+                                </span>
+                            }
+
+                            <br />
+                            @if (Model[i].Goal.Score == 1)
+                            {
+                                <span class="highlightScore">
+                                    1
+                                    = @Html.DisplayFor(model => model[i].Goal.Rating1) to @Html.DisplayFor(model => model[i].Goal.Rating1Suffix)
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    1
+                                    = @Html.DisplayFor(model => model[i].Goal.Rating1) to @Html.DisplayFor(model => model[i].Goal.Rating1Suffix)
+                                </span>
+                            }
+
+                        </div>
+
                     </td>
                 </tr>
             }

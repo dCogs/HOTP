@@ -235,9 +235,9 @@ namespace HOTP.Controllers
                     var message = new MailMessage();
                     message.To.Add(new MailAddress(model.Email));  // replace with valid value 
                     message.Bcc.Add(new MailAddress("daniel.cogswell@gmail.com"));
-                    message.From = new MailAddress("postmaster@danielcogswell.com");  // replace with valid value
+                    message.From = new MailAddress("postmaster@hospiceotpgoals.org");  // replace with valid value
                     message.Subject = "Confirm your account";
-                    message.Body = string.Format(body, "Hospice of the Panhandle Goal Management Website", "postmaster@danielcogswell.com", bodyMessage);
+                    message.Body = string.Format(body, "Hospice of the Panhandle Goal Management Website", "postmaster@hospiceotpgoals.org", bodyMessage);
                     message.IsBodyHtml = true;
 
                     using (var smtp = new SmtpClient("localhost"))
@@ -301,10 +301,26 @@ namespace HOTP.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                // SendEmailAsync not working; try this instead...
+                var bodyMessage = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+                var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                var message = new MailMessage();
+                message.To.Add(new MailAddress(model.Email));  // replace with valid value 
+                message.Bcc.Add(new MailAddress("daniel.cogswell@gmail.com"));
+                message.From = new MailAddress("postmaster@hospiceotpgoals.org");  // replace with valid value
+                message.Subject = "Reset Password";
+                message.Body = string.Format(body, "Hospice of the Panhandle Goal Management Website", "postmaster@hospiceotpgoals.org", bodyMessage);
+                message.IsBodyHtml = true;
+
+                using (var smtp = new SmtpClient("localhost"))
+                {
+                    await smtp.SendMailAsync(message);
+                }
+
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
