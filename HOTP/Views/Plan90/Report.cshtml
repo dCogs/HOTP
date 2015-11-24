@@ -6,7 +6,7 @@
 
 <style>
     #theRest {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .body-content {
@@ -50,7 +50,7 @@
         border-bottom-right-radius: 0px;
         padding: 4px 4px 4px 4px;
         margin-right: 12px;
-        font-size: 10px;
+        font-size: 12px;
         margin-top: 0px;
         background-color: cornsilk;
     }
@@ -78,7 +78,9 @@
 </div>
 <div class="container">
 
-    <h4>90-Day Action Plan for @Model[0].EmployeeName<span class="pull-right" style="font-size:small">@DateTime.Now</span></h4>
+    <h4>
+    @Html.DisplayFor(model => model[0].Goal.YearEnding)
+    90-Day Action Plan for @Model[0].EmployeeName<span class="pull-right" style="font-size:small">@DateTime.Now</span></h4>
 
     <div id="theRest">
 
@@ -277,7 +279,7 @@
 
                                     <div>
                                         <div class="row">
-                                            <div class="col-md-1">
+                                            <div class="col-md-2">
                                                 @Html.LabelFor(model => plan.Plan.Goal, htmlAttributes: new { @class = "control-label " })
                                             </div>
                                             <div class="col-md-10">

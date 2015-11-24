@@ -42,8 +42,13 @@ namespace HOTP.Controllers
         public ActionResult Error()
         {
             return View();
-            //return RedirectToAction("Error", "Home");
         }
+
+        public ActionResult Error404()
+        {
+            return View();
+        }
+
 
     }
 }
